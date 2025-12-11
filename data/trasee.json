@@ -1,25 +1,18 @@
-const hikingContainer = document.getElementById('hiking-column');
-data.hiking.forEach(traseu => {
-  const div = document.createElement('div');
-  div.className = 'traseu';
-  div.innerHTML = `
-    <h3>${traseu.name}</h3>
-    <p>Difficulty: ${traseu.difficulty}</p>
-    <img src="${traseu.photo}" alt="${traseu.name}">
-    <a href="${traseu.gpx}" download>Download GPX</a>
-  `;
-  hikingContainer.appendChild(div);
-});
-
-const motorcycleContainer = document.getElementById('motorcycle-column');
-data.motorcycle.forEach(traseu => {
-  const div = document.createElement('div');
-  div.className = 'traseu';
-  div.innerHTML = `
-    <h3>${traseu.name}</h3>
-    <p>Difficulty: ${traseu.difficulty}</p>
-    <img src="${traseu.photo}" alt="${traseu.name}">
-    <a href="${traseu.gpx}" download>Download GPX</a>
-  `;
-  motorcycleContainer.appendChild(div);
-});
+{
+  "hiking": [
+    {
+      "name": "Sulferberg Trail",
+      "difficulty": "Medium",
+      "photo": "images/petru_ioana.jpeg",
+      "gpx": "hiking/sulferberg.gpx"
+    }
+  ],
+  "motorcycle": [
+    {
+      "name": "Sunday Ride",
+      "difficulty": "Easy",
+      "photo": "images/motorcycle.jpeg",
+      "gpx": "motorcycle/sunday_ride.gpx"
+    }
+  ]
+} 
