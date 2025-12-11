@@ -22,7 +22,7 @@
     }
 
     .banner-img {
-      width: 12%;
+      width: 10%;
       height: auto;
       object-fit: cover;
       border-radius: 50%;
@@ -30,11 +30,11 @@
     }
 
     .banner-img.left {
-      margin-right: 10px;
+      margin-right: 20px;
     }
 
     .banner-img.right {
-      margin-left: 10px;
+      margin-left: 20px;
     }
 
     .banner-text {
@@ -44,17 +44,17 @@
 
     .banner-text h1 {
       margin: 5px 0;
-      font-size: 3.8rem;
+      font-size: 4rem;
     }
 
     .banner-text h2 {
       margin: 0;
-      font-size: 2.4rem;
+      font-size: 2.6rem;
     }
 
     .banner-text p {
       margin: 0;
-      font-size: 1.8rem;
+      font-size: 2rem;
     }
 
     /* Trasee */
@@ -74,47 +74,42 @@
     .column h2 {
       text-align: center;
       margin-bottom: 10px;
+      font-size: 2rem;
     }
 
-   .traseu {
-  display: flex;
-  background: #222;
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  align-items: center;
-  gap: 15px;
-}
+    .traseu {
+      display: flex;
+      background: #222;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      align-items: center;
+      gap: 15px;
+    }
 
-.traseu-info {
-  flex: 1;
-}
+    .traseu-info {
+      flex: 1;
+    }
 
-.traseu-info h3 {
-  margin: 0 0 5px 0;
-  font-size: 1.5rem;
-}
+    .traseu-info h3 {
+      margin: 0 0 5px 0;
+      font-size: 1.5rem;
+    }
 
-.traseu-info p {
-  margin: 3px 0;
-}
+    .traseu-info p {
+      margin: 3px 0;
+    }
 
-.traseu-info a {
-  color: #0af;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.traseu img {
-  width: 25%; /* ~20% mai mare decât banner (care e 12%) */
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-
-    .traseu a {
+    .traseu-info a {
       color: #0af;
       text-decoration: none;
+      font-weight: bold;
+    }
+
+    .traseu img {
+      width: 25%;
+      border-radius: 10px;
+      object-fit: cover;
     }
   </style>
 </head>
@@ -148,41 +143,45 @@
         return res.json();
       })
       .then(data => {
- // Hiking
-const hikingContainer = document.getElementById('hiking-column');
-data.hiking.forEach(traseu => {
-  const div = document.createElement('div');
-  div.className = 'traseu';
-  div.innerHTML = `
-    <div class="traseu-info">
-      <h3>${traseu.name}</h3>
-      <p><a href="${traseu.gpx}" download>Download GPX here</a></p>
-      <p>Distance: ${traseu.km || 'N/A'} km</p>
-      <p>Difficulty: ${traseu.difficulty}</p>
-    </div>
-    <img src="${traseu.photo}" alt="${traseu.name}">
-  `;
-  hikingContainer.appendChild(div);
-});
 
-// Motorcycle
-const motorcycleContainer = document.getElementById('motorcycle-column');
-data.motorcycle.forEach(traseu => {
-  const div = document.createElement('div');
-  div.className = 'traseu';
-  div.innerHTML = `
-    <div class="traseu-info">
-      <h3>${traseu.name}</h3>
-      <p><a href="${traseu.gpx}" download>Download GPX here</a></p>
-      <p>Distance: ${traseu.km || 'N/A'} km</p>
-      <p>Difficulty: ${traseu.difficulty}</p>
-    </div>
-    <img src="${traseu.photo}" alt="${traseu.name}">
-  `;
-  motorcycleContainer.appendChild(div);
-});
+        // Hiking
+        const hikingContainer = document.getElementById('hiking-column');
+        data.hiking.forEach(traseu => {
+          const div = document.createElement('div');
+          div.className = 'traseu';
+          div.innerHTML = `
+            <div class="traseu-info">
+              <h3>${traseu.name}</h3>
+              <p><a href="${traseu.gpx}" download>Download GPX here</a></p>
+              <p>Distance: ${traseu.km || 'N/A'} km</p>
+              <p>Difficulty: ${traseu.difficulty}</p>
+            </div>
+            <img src="${traseu.photo}" alt="${traseu.name}">
+          `;
+          hikingContainer.appendChild(div);
+        });
 
+        // Motorcycle
+        const motorcycleContainer = document.getElementById('motorcycle-column');
+        data.motorcycle.forEach(traseu => {
+          const div = document.createElement('div');
+          div.className = 'traseu';
+          div.innerHTML = `
+            <div class="traseu-info">
+              <h3>${traseu.name}</h3>
+              <p><a href="${traseu.gpx}" download>Download GPX here</a></p>
+              <p>Distance: ${traseu.km || 'N/A'} km</p>
+              <p>Difficulty: ${traseu.difficulty}</p>
+            </div>
+            <img src="${traseu.photo}" alt="${traseu.name}">
+          `;
+          motorcycleContainer.appendChild(div);
+        });
+
+      })
+      .catch(err => console.error(err));
   </script>
 
 </body>
 </html>
+
