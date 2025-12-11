@@ -13,8 +13,8 @@
       "name": "Sunday Ride",
       "km": 45,
       "difficulty": "Easy",
-      "photo": "images_json/sunday_ride.jpeg",
-      "gpx": "motorcycle/sunday_ride.gpx"
+      "photo": "images_json/honda.jpeg",
+      "gpx": "motorcycle/justtotest.gpx"
     }
   ]
 }
