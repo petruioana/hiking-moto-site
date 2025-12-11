@@ -4,7 +4,7 @@
       "name": "Sulferberg Trail",
       "km": 12,
       "difficulty": "Medium",
-      "photo": "images/petru_ioana.jpeg",
+      "photo": "images_json/sulferberg.jpeg",
       "gpx": "hiking/sulferberg.gpx"
     }
   ],
@@ -13,7 +13,7 @@
       "name": "Sunday Ride",
       "km": 45,
       "difficulty": "Easy",
-      "photo": "images/motorcycle.jpeg",
+      "photo": "images_json/sunday_ride.jpeg",
       "gpx": "motorcycle/sunday_ride.gpx"
     }
   ]
