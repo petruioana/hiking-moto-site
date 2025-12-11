@@ -2,7 +2,7 @@
   "hiking": [
     {
       "name": "Sulferberg Trail",
-      "km": 12,
+      "km": 7.21,
       "difficulty": "Medium",
       "photo": "images_json/poza1.jpeg",
       "gpx": "hiking/traseu1.gpx"
