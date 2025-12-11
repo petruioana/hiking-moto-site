@@ -10,6 +10,17 @@
         "name": "Sulferberg Parking",
         "coords": "50.797510,2.746212"
       }
+    },
+    {
+      "name": "Alpine Path",
+      "km": 10,
+      "difficulty": "Hard",
+      "photo": "images_json/poza2.jpg",
+      "gpx": "hiking/traseu2.gpx",
+      "trailhead": {
+        "name": "Alpine Parking",
+        "coords": "47.67890, 11.56789"
+      }
     }
   ],
   "motorcycle": [
