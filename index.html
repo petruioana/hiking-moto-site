@@ -1,134 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Hiking and Motorcycling with Petru & Ioana</title>
-<style>
-body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f2f2f2; color:#333; }
-
-/* Banner */
-.banner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 300px; /* 60% din 500px inițial */
-  background-color: #000; /* negru */
-  color: #fff; /* text alb */
-}
-
-.banner-img {
-  width: 20%; /* pozele puțin mai mici */
-  height: 100%;
-  object-fit: cover;
-}
-
-.banner-text {
-  text-align: center;
-  margin: 0 20px;
-  flex: 1;
-}
-
-.banner-text h1 {
-  font-size: 3em;
-  margin: 0.2em 0;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-}
-
-.banner-text h2 {
-  font-size: 2em;
-  margin: 0.2em 0;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-}
-
-.banner-text p {
-  font-size: 1.5em;
-  margin: 0.2em 0;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-}
-
-/* Container secțiuni */
-.routes-container {
-  display: flex;
-  gap: 20px;
-  width: 90%;
-  max-width: 1200px;
-  margin: 20px auto;
-  align-items: flex-start;
-}
-
-/* Fiecare secțiune ocupă jumătate */
-.routes-container .section {
-  flex: 1;
-  background:white;
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 0 8px rgba(0,0,0,0.2);
-}
-
-.routes-container h2 { color:#333; margin-top:0; }
-.routes-container h3 { margin-bottom:5px; }
-.traseu-img { width:100%; border-radius:10px; margin-bottom:10px; }
-a { color:#0077cc; text-decoration:none; }
-a:hover { text-decoration:underline; }
-
-/* Responsive mobil */
-@media (max-width: 768px) {
-  .routes-container {
-    flex-direction: column;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Hiking and Motorcycling with Petru & Ioana</title>
+  <style>
+    body { margin: 0; font-family: sans-serif; background-color: #111; color: #fff; }
+    .banner { display: flex; align-items: center; justify-content: center; height: 300px; background-color: #000; }
+    .banner-img { width: 20%; height: 100%; object-fit: cover; }
+    .banner-text { flex: 1; text-align: center; margin: 0 20px; }
+    .trasee { display: flex; justify-content: space-between; padding: 20px; }
+    .traseu { width: 45%; background: #222; padding: 10px; border-radius: 10px; }
+    .traseu img { width: 100%; border-radius: 5px; }
+  </style>
 </head>
 <body>
 
-<!-- Banner -->
-<header class="banner">
-  <img src="images/petru_ioana.jpg" alt="petru_ioana" class="banner-img">
-  <div class="banner-text">
-    <h2>Welcome to</h2>
-    <h1>Hiking and Motorcycling with Petru & Ioana</h1>
-    <p>Discover hiking trails and moto routes</p>
-  </div>
-  <img src="images/motorcycle.jpg" alt="motorcycle" class="banner-img">
-</header>
+  <!-- Banner -->
+  <header class="banner">
+    <img src="images/petru_ioana.jpeg" alt="Petru & Ioana" class="banner-img">
+    <div class="banner-text">
+      <h2>Welcome to</h2>
+      <h1>Hiking and Motorcycling with Petru & Ioana</h1>
+      <p>Discover hiking trails and moto routes</p>
+    </div>
+    <img src="images/motorcycle.jpeg" alt="Motorcycle" class="banner-img">
+  </header>
 
-<!-- Secțiuni pe 2 coloane -->
-<div class="routes-container">
-  <div class="section" id="hiking-routes">
-    <h2>Hiking Routes</h2>
-  </div>
+  <!-- Trasee -->
+  <section class="trasee" id="trasee">
+    <!-- Traseele vor fi încărcate aici din JSON -->
+  </section>
 
-  <div class="section" id="moto-routes">
-    <h2>Motorcycle Trips</h2>
-  </div>
-</div>
+  <script>
+    fetch('data/trasee.json')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('trasee');
 
-<!-- JS pentru JSON -->
-<script>
-fetch('trasee.json')
-.then(response => response.json())
-.then(data => {
-  const hikingDiv = document.getElementById('hiking-routes');
-  const motoDiv = document.getElementById('moto-routes');
-  
-  data.forEach(traseu => {
-    const div = document.createElement('div');
-    let iconHTML = traseu.icon;
-    if(traseu.tip === 'moto' && iconHTML.endsWith('.png')){
-        iconHTML = `<img src="${traseu.icon}" alt="Chopper" style="width:20px; vertical-align:middle;">`;
-    }
-    div.innerHTML = `
-      <h3>${iconHTML} ${traseu.nume}</h3>
-      <p>Dificultate: ${traseu.dificultate}</p>
-      <img src="${traseu.poza}" alt="${traseu.nume}" class="traseu-img">
-      <p><a href="${traseu.gpx}" download>Download GPX</a></p>
-    `;
-    if(traseu.tip === 'hiking') hikingDiv.appendChild(div);
-    else if(traseu.tip === 'moto') motoDiv.appendChild(div);
-  });
-});
-</script>
+        // Hiking
+        data.hiking.forEach(traseu => {
+          const div = document.createElement('div');
+          div.className = 'traseu';
+          div.innerHTML = `
+            <h3>${traseu.name}</h3>
+            <p>Difficulty: ${traseu.difficulty}</p>
+            <img src="${traseu.photo}" alt="${traseu.name}">
+            <a href="${traseu.gpx}" download>Download GPX</a>
+          `;
+          container.appendChild(div);
+        });
+
+        // Motorcycle
+        data.motorcycle.forEach(traseu => {
+          const div = document.createElement('div');
+          div.className = 'traseu';
+          div.innerHTML = `
+            <h3>${traseu.name}</h3>
+            <p>Difficulty: ${traseu.difficulty}</p>
+            <img src="${traseu.photo}" alt="${traseu.name}">
+            <a href="${traseu.gpx}" download>Download GPX</a>
+          `;
+          container.appendChild(div);
+        });
+      });
+  </script>
 
 </body>
 </html>
+
