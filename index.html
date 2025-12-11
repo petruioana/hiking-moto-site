@@ -27,6 +27,7 @@
       object-fit: cover;
       border-radius: 50%;
       border: 4px solid #000;
+      transition: transform 0.3s ease;
     }
 
     .banner-img.left {
@@ -44,8 +45,7 @@
 
     .banner-text h1 {
       margin: 5px 0;
-      font-size: 2.5rem;
-      line-height: 1.2;
+      font-size: 2.5rem; /* ajustat mai mic */
     }
 
     .banner-text h2 {
@@ -55,7 +55,7 @@
 
     .banner-text p {
       margin: 0;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
     }
 
     /* Trasee */
@@ -107,63 +107,29 @@
       font-weight: bold;
     }
 
+    /* Imagini trasee cu zoom */
     .traseu img {
       width: 25%;
       border-radius: 10px;
       object-fit: cover;
+      transition: transform 0.3s ease;
+      cursor: pointer;
     }
 
-    /* Mobile responsive */
-    @media (max-width: 600px) {
-      .banner {
-        flex-direction: column;
-        height: auto;
-        padding: 10px;
-      }
+    .traseu img:hover {
+      transform: scale(1.5);
+      z-index: 10;
+      position: relative;
+    }
 
-      .banner-img {
-        width: 30%;
-        margin: 5px 0;
-        transform: none;
-      }
+    .traseu img.zoomed {
+      transform: scale(2);
+      z-index: 10;
+      position: relative;
+    }
 
-      .banner-text {
-        flex: 1 0 auto;
-        width: 100%;
-        text-align: center;
-      }
-
-      .banner-text h1 {
-        font-size: 1.8rem;
-      }
-
-      .banner-text h2 {
-        font-size: 1.4rem;
-      }
-
-      .banner-text p {
-        font-size: 1rem;
-      }
-
-      .trasee {
-        flex-direction: column;
-        padding: 10px;
-        gap: 10px;
-      }
-
-      .column {
-        width: 100%;
-      }
-
-      .traseu {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .traseu img {
-        width: 100%;
-        margin-top: 10px;
-      }
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -171,13 +137,13 @@
 
   <!-- Banner -->
   <header class="banner">
-    <img src="images/petru_ioana.jpeg" alt="Petru & Ioana" class="banner-img left">
+    <img src="images/petru_ioana.jpg" alt="Petru & Ioana" class="banner-img left">
     <div class="banner-text">
       <h2>Welcome to</h2>
       <h1>Hiking and Motorcycling with Petru & Ioana</h1>
       <p>Discover hiking trails and moto routes</p>
     </div>
-    <img src="images/motorcycle.jpeg" alt="Motorcycle" class="banner-img right">
+    <img src="images/motorcycle.jpg" alt="Motorcycle" class="banner-img right">
   </header>
 
   <!-- Trasee -->
@@ -191,51 +157,57 @@
   </section>
 
   <script>
+    // Incarcare trasee din JSON
     fetch('./data/trasee.json')
       .then(res => {
         if (!res.ok) throw new Error("Failed to load JSON");
         return res.json();
       })
       .then(data => {
+        // Hiking
+        const hikingContainer = document.getElementById('hiking-column');
+        data.hiking.forEach(traseu => {
+          const div = document.createElement('div');
+          div.className = 'traseu';
+          div.innerHTML = `
+            <div class="traseu-info">
+              <h3>${traseu.name}</h3>
+              <p><a href="${traseu.gpx}" download>Download GPX here</a></p>
+              <p>Distance: ${traseu.km || 'N/A'} km</p>
+              <p>Difficulty: ${traseu.difficulty}</p>
+              ${traseu.trailhead ? `<p>Trailhead: ${traseu.trailhead.name}</p>
+              <p>Coords: ${traseu.trailhead.coords}</p>` : ''}
+            </div>
+            <img src="${traseu.photo}" alt="${traseu.name}">
+          `;
+          hikingContainer.appendChild(div);
+        });
 
-       // Hiking
-const hikingContainer = document.getElementById('hiking-column');
-data.hiking.forEach(traseu => {
-  const div = document.createElement('div');
-  div.className = 'traseu';
-  div.innerHTML = `
-    <div class="traseu-info">
-      <h3>${traseu.name}</h3>
-      <p><a href="${traseu.gpx}" download>Download GPX here</a></p>
-      <p>Distance: ${traseu.km || 'N/A'} km</p>
-      <p>Difficulty: ${traseu.difficulty}</p>
-      ${traseu.trailhead ? `<p>Trailhead: ${traseu.trailhead.name}</p>
-      <p>Coords: ${traseu.trailhead.coords}</p>` : ''}
-    </div>
-    <img src="${traseu.photo}" alt="${traseu.name}">
-  `;
-  hikingContainer.appendChild(div);
-});
+        // Motorcycle
+        const motorcycleContainer = document.getElementById('motorcycle-column');
+        data.motorcycle.forEach(traseu => {
+          const div = document.createElement('div');
+          div.className = 'traseu';
+          div.innerHTML = `
+            <div class="traseu-info">
+              <h3>${traseu.name}</h3>
+              <p><a href="${traseu.gpx}" download>Download GPX here</a></p>
+              <p>Distance: ${traseu.km || 'N/A'} km</p>
+              <p>Difficulty: ${traseu.difficulty}</p>
+              ${traseu.trailhead ? `<p>Start Point: ${traseu.trailhead.name}</p>
+              <p>Coords: ${traseu.trailhead.coords}</p>` : ''}
+            </div>
+            <img src="${traseu.photo}" alt="${traseu.name}">
+          `;
+          motorcycleContainer.appendChild(div);
+        });
 
-// Motorcycle
-const motorcycleContainer = document.getElementById('motorcycle-column');
-data.motorcycle.forEach(traseu => {
-  const div = document.createElement('div');
-  div.className = 'traseu';
-  div.innerHTML = `
-    <div class="traseu-info">
-      <h3>${traseu.name}</h3>
-      <p><a href="${traseu.gpx}" download>Download GPX here</a></p>
-      <p>Distance: ${traseu.km || 'N/A'} km</p>
-      <p>Difficulty: ${traseu.difficulty}</p>
-      ${traseu.trailhead ? `<p>Start Point: ${traseu.trailhead.name}</p>
-      <p>Coords: ${traseu.trailhead.coords}</p>` : ''}
-    </div>
-    <img src="${traseu.photo}" alt="${traseu.name}">
-  `;
-  motorcycleContainer.appendChild(div);
-});
-
+        // Zoom la click
+        document.querySelectorAll('.traseu img').forEach(img => {
+          img.addEventListener('click', () => {
+            img.classList.toggle('zoomed');
+          });
+        });
       })
       .catch(err => console.error(err));
   </script>
