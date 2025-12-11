@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Hiking and Motorcycling with Petru & Ioana</title>
 <style>
-body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f2f2f2; }
+body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f2f2f2; color:#333; }
 
 /* Banner */
 .banner {
@@ -12,14 +12,40 @@ body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f2f2f2; 
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 500px;
-  background-color: #f2f2f2;
+  height: 300px; /* 60% din 500px inițial */
+  background-color: #000; /* negru */
+  color: #fff; /* text alb */
 }
-.banner-img { width:25%; height:100%; object-fit:cover; }
-.banner-text { text-align:center; margin:0 20px; flex:1; }
-.banner-text h1 { font-size:2.5em; margin:0.2em 0; }
-.banner-text h2 { font-size:1.5em; margin:0.2em 0; }
-.banner-text p { font-size:1.2em; margin:0.2em 0; }
+
+.banner-img {
+  width: 20%; /* pozele puțin mai mici */
+  height: 100%;
+  object-fit: cover;
+}
+
+.banner-text {
+  text-align: center;
+  margin: 0 20px;
+  flex: 1;
+}
+
+.banner-text h1 {
+  font-size: 3em;
+  margin: 0.2em 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.banner-text h2 {
+  font-size: 2em;
+  margin: 0.2em 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.banner-text p {
+  font-size: 1.5em;
+  margin: 0.2em 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
 
 /* Container secțiuni */
 .routes-container {
@@ -88,8 +114,12 @@ fetch('trasee.json')
   
   data.forEach(traseu => {
     const div = document.createElement('div');
+    let iconHTML = traseu.icon;
+    if(traseu.tip === 'moto' && iconHTML.endsWith('.png')){
+        iconHTML = `<img src="${traseu.icon}" alt="Chopper" style="width:20px; vertical-align:middle;">`;
+    }
     div.innerHTML = `
-      <h3>${traseu.nume}</h3>
+      <h3>${iconHTML} ${traseu.nume}</h3>
       <p>Dificultate: ${traseu.dificultate}</p>
       <img src="${traseu.poza}" alt="${traseu.nume}" class="traseu-img">
       <p><a href="${traseu.gpx}" download>Download GPX</a></p>
