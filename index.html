@@ -44,7 +44,7 @@
     .site-header .hero-content{
       display:flex;
       align-items:center;
-      gap:32px;
+      gap:40px;
     }
     .site-header .title {
       text-align:center;
@@ -221,8 +221,10 @@
     }
     .upcoming-item .actions{
       display:flex;
-      gap:8px;
+      flex-direction:column;
+      gap:6px;
       flex-shrink:0;
+      width:110px;
     }
     .btn {
       padding:6px 8px;
@@ -236,6 +238,10 @@
       text-align:center;
       display:inline-block;
       min-width:110px;
+      box-sizing:border-box;
+    }
+    .upcoming-item .actions .btn {
+      width:100%;
     }
     .btn.primary{
       background:var(--accent);
@@ -312,9 +318,9 @@
         <img src="images/petru_ioana.jpeg" alt="Petru and Ioana" loading="lazy" />
       </div>
       <div class="title">
-        <h1>Hiking and Motorcycle with</h1>
-        <h2>Petru &amp; Ioana</h2>
-        <div class="subtitle">Discover hiking trails and motorcycle routes</div>
+        <h1>GPX Routes — by Petru &amp; Ioana</h1>
+        <h2>Hiking Trails &amp; Motorcycle Rides</h2>
+        <div class="subtitle">Pick a route, explore the map, and download GPX for free.</div>
       </div>
       <div class="hero-photo right">
         <img src="images/motorcycle.jpeg" alt="Motorcycle" loading="lazy" />
