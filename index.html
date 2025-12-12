@@ -418,7 +418,31 @@
         margin-top: 8px;
       }
       .layout { margin-top:0; height:auto; }
-    }
+    }/* Buttons at bottom of route cards */
+.route-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* push buttons to bottom */
+}
+
+.route-card .meta {
+  flex: none; /* data stays at top */
+}
+
+.route-card .route-buttons {
+  display: flex;
+  justify-content: center; /* center buttons horizontally */
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.upcoming-item .actions {
+  flex-direction: row; /* horizontal buttons */
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 6px;
+}
   </style>
 </head>
 <body>
@@ -650,36 +674,56 @@
       name.textContent = u.name || 'Route';
       row.appendChild(name);
 
-      const actions = document.createElement('div');
-      actions.className = 'actions';
+      const btnContainer = document.createElement('div');
+btnContainer.className = 'actions'; // reused class for upcoming items
 
-      const showBtn = document.createElement('button');
-      showBtn.className = 'btn';
-      showBtn.textContent = 'Show';
-      showBtn.disabled = !u.gpx;
-      showBtn.title = u.gpx ? 'Show this GPX on the map' : 'No GPX available';
-      showBtn.addEventListener('click', ()=> {
-        if(!u.gpx){ alert('No GPX available for this route'); return; }
-        loadAndShowGPX(u.gpx);
-      });
-      actions.appendChild(showBtn);
+// Show button
+const showBtn = document.createElement('button');
+showBtn.className = 'btn';
+showBtn.textContent = 'Show';
+showBtn.disabled = !u.gpx;
+showBtn.title = u.gpx ? 'Show this GPX on the map' : 'No GPX available';
+showBtn.addEventListener('click', ()=> {
+  if(!u.gpx){ alert('No GPX available for this route'); return; }
+  loadAndShowGPX(u.gpx);
+});
+btnContainer.appendChild(showBtn);
 
-      const dlBtn = document.createElement('a');
-      dlBtn.className = 'btn primary';
-      dlBtn.textContent = 'Download GPX';
-      dlBtn.setAttribute('download','');
-      if(u.gpx){
-        dlBtn.href = u.gpx;
-      }else{
-        dlBtn.href = 'javascript:void(0)';
-        dlBtn.setAttribute('aria-disabled','true');
-        dlBtn.style.opacity = '0.5';
-        dlBtn.style.pointerEvents = 'none';
-      }
-      actions.appendChild(dlBtn);
+// Parking button
+if(u.trailhead && u.trailhead.coords){
+  const btnPark = document.createElement('button');
+  btnPark.className = 'btn';
+  btnPark.textContent = 'Parking';
+  btnPark.title = 'Show parking point on map';
+  btnPark.addEventListener('click', ()=> {
+    addParkingPoint(u.trailhead.coords, u.trailhead.name || u.name);
+  });
+  btnContainer.appendChild(btnPark);
+} else {
+  const btnPark = document.createElement('button');
+  btnPark.className = 'btn';
+  btnPark.textContent = 'Parking';
+  btnPark.disabled = true;
+  btnContainer.appendChild(btnPark);
+}
 
-      row.appendChild(actions);
-      container.appendChild(row);
+// Download button
+const dlBtn = document.createElement('a');
+dlBtn.className = 'btn primary';
+dlBtn.textContent = 'Download GPX';
+dlBtn.setAttribute('download','');
+if(u.gpx){
+  dlBtn.href = u.gpx;
+} else {
+  dlBtn.href = 'javascript:void(0)';
+  dlBtn.setAttribute('aria-disabled','true');
+  dlBtn.style.opacity = '0.5';
+  dlBtn.style.pointerEvents = 'none';
+}
+btnContainer.appendChild(dlBtn);
+
+row.appendChild(btnContainer); // buttons at bottom
+      
     });
   }
 
@@ -713,55 +757,58 @@
       <div class="muted">${escapeHtml(km)} ${difficulty ? ' • ' + escapeHtml(difficulty) : ''}</div>
     </div>`;
 
-    const right = document.createElement('div');
-    right.className = 'right';
+card.appendChild(meta); // keep data on top
 
-    // show button
-    const btnShow = document.createElement('button');
-    btnShow.className = 'btn';
-    btnShow.textContent = 'Show GPX';
-    btnShow.disabled = !gpx;
-    btnShow.title = gpx ? 'Show this GPX on the map' : 'No GPX available';
-    btnShow.addEventListener('click', ()=> {
-      if(!gpx){ alert('No GPX available for this route'); return; }
-      loadAndShowGPX(gpx);
+// Create bottom button container
+const btnContainer = document.createElement('div');
+btnContainer.className = 'route-buttons';
+
+// Show GPX button
+const btnShow = document.createElement('button');
+btnShow.className = 'btn';
+btnShow.textContent = 'Show';
+btnShow.disabled = !gpx;
+btnShow.title = gpx ? 'Show this GPX on the map' : 'No GPX available';
+btnShow.addEventListener('click', ()=> {
+  if(!gpx){ alert('No GPX available for this route'); return; }
+  loadAndShowGPX(gpx);
+});
+btnContainer.appendChild(btnShow);
+
+// Parking button (if applicable)
+if(kind !== 'motorcycle'){
+  const btnPark = document.createElement('button');
+  btnPark.className = 'btn';
+  btnPark.textContent = 'Parking';
+  btnPark.title = 'Show parking point on map';
+  if(traseu.trailhead && traseu.trailhead.coords){
+    btnPark.addEventListener('click', ()=> {
+      addParkingPoint(traseu.trailhead.coords, traseu.trailhead.name || name);
     });
-    right.appendChild(btnShow);
+  } else {
+    btnPark.disabled = true; // leave empty space if no parking
+  }
+  btnContainer.appendChild(btnPark);
+}
 
-    if(kind !== 'motorcycle'){
-      const btnPark = document.createElement('button');
-      btnPark.className = 'btn';
-      btnPark.textContent = 'Parking';
-      btnPark.title = 'Show parking point on map';
-      if(traseu.trailhead && traseu.trailhead.coords){
-        btnPark.addEventListener('click', ()=> {
-          addParkingPoint(traseu.trailhead.coords, traseu.trailhead.name || name);
-        });
-      } else {
-        btnPark.disabled = true;
-      }
-      right.appendChild(btnPark);
-    }
+// Download button
+const downloadBtn = document.createElement('a');
+downloadBtn.className = 'btn primary';
+downloadBtn.textContent = 'Download GPX';
+downloadBtn.setAttribute('download', '');
+if(gpx){
+  downloadBtn.href = gpx;
+  downloadBtn.title = 'Download this GPX file';
+} else {
+  downloadBtn.href = 'javascript:void(0)';
+  downloadBtn.setAttribute('aria-disabled','true');
+  downloadBtn.style.opacity = '0.5';
+  downloadBtn.style.pointerEvents = 'none';
+  downloadBtn.title = 'No GPX available';
+}
+btnContainer.appendChild(downloadBtn);
 
-    // download button
-    const downloadBtn = document.createElement('a');
-    downloadBtn.className = 'btn primary';
-    downloadBtn.textContent = 'Download GPX';
-    downloadBtn.setAttribute('download', '');
-    if(gpx){
-      downloadBtn.href = gpx;
-      downloadBtn.title = 'Download this GPX file';
-    } else {
-      downloadBtn.href = 'javascript:void(0)';
-      downloadBtn.setAttribute('aria-disabled','true');
-      downloadBtn.style.opacity = '0.5';
-      downloadBtn.style.pointerEvents = 'none';
-      downloadBtn.title = 'No GPX available';
-    }
-    right.appendChild(downloadBtn);
-
-    meta.appendChild(right);
-    card.appendChild(meta);
+card.appendChild(btnContainer); // append buttons at the bottom
 
     // extra area for any detailed lines
     const details = document.createElement('div');
