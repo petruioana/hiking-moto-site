@@ -11,18 +11,18 @@
       "name": "Rochehaut",
       "km": 15.14,
       "difficulty": "Medium-Hard",
-      "gpx": "hiking/bouillon.gpx",
+      "gpx": "hiking/buillon.gpx",
       "trailhead": { "name": "Rocheaut", "coords": "49.839902, 5.000091" }
     }
   ],
 
   "hiking_upcoming": [
-    { "name": "New Hill Trail", "gpx": "hiking/Test1.gpx" }
+    { "name": "New Hill Trail", "gpx": "hiking/newhill.gpx" }
   ],
 
   "motorcycle": [
     {
-      "name": "Sunday Ride Test",
+      "name": "Sunday Ride",
       "km": 45,
       "difficulty": "Easy",
       "gpx": "motorcycle/justtotest.gpx",
@@ -30,6 +30,5 @@
     }
   ],
 
-  "motorcycle_upcoming": [
-  { "name": "test", "gpx": "motoupcoming_gpx/Test1.gpx" }
+  "motorcycle_upcoming": []
 }
