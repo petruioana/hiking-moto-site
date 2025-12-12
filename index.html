@@ -38,7 +38,7 @@
       font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
-      overflow:auto; /* Allow desktop scrolling */
+      overflow:hidden; /* Prevent main page scrolling */
     }
     .app {
       display: grid;
@@ -319,6 +319,14 @@
       box-sizing:border-box;
       box-shadow:var(--shadow-sm);
     }
+
+    /* Smaller buttons for hiking column */
+    #hiking-panel .btn {
+      padding:6px 10px;
+      font-size:12px;
+      min-width:90px;
+      border-radius:6px;
+    }
     .btn:hover:not(:disabled) {
       background:var(--frame);
       border-color:var(--border);
@@ -391,6 +399,28 @@
       color:var(--text);
       transform:translateY(-1px);
       box-shadow:var(--shadow-md);
+    }
+
+    /* Custom scrollbar styling - black background */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #000000;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #555;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #777;
+    }
+    ::-webkit-scrollbar-button {
+      background: #333;
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar-button:hover {
+      background: #555;
     }
 
     /* responsive */
