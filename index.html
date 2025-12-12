@@ -1,216 +1,496 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Hiking and Motorcycling with Petru & Ioana</title>
+  <meta charset="utf-8" />
+  <title>Hiking & Motorcycling — Petru & Ioana</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #111;
-      color: #fff;
+    :root{
+      --bg:#0f0f0f;
+      --card:#181818;
+      --muted:#999;
+      --accent:#e74c3c; /* red for GPX */
+      --frame:#2b2b2b;
+      --border:#444;
+      --text:#fff;
+    }
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,Helvetica,sans-serif}
+    .app {
+      display: grid;
+      grid-template-columns: 360px 1fr 360px;
+      gap: 18px;
+      padding: 18px;
+      box-sizing: border-box;
+      height: 100vh;
+      align-items: start;
     }
 
-    /* Banner */
-    .banner {
+    /* Banner (top, spans all columns) */
+    header.site-header{
+      position:fixed;
+      left:0;right:0;top:0;
+      height:86px;
+      background:linear-gradient(180deg,#000 0%, #0b0b0b 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-bottom:1px solid var(--border);
+      z-index:800;
+      padding:10px 20px;
+      box-sizing:border-box;
+    }
+    .site-header .title {
+      text-align:center;
+      line-height:1;
+    }
+    .site-header h1{margin:0;font-size:20px;font-weight:700;letter-spacing:0.2px}
+    .site-header h2{margin:4px 0 0;font-size:15px;font-weight:500;color:var(--muted)}
+
+    /* container under header */
+    .layout {
+      margin-top: 106px; /* header height + gap */
+      height: calc(100vh - 106px);
+      display: grid;
+      grid-template-columns: 360px 1fr 360px;
+      gap: 18px;
+      padding: 0 18px 18px;
+      box-sizing: border-box;
+    }
+
+    /* Column cards */
+    .panel {
+      background: linear-gradient(180deg,var(--card), #141414);
+      border: 1px solid var(--frame);
+      border-radius: 8px;
+      padding: 12px;
+      box-sizing: border-box;
+      height: 100%;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 300px;
-      background-color: #000;
-      padding: 0 20px;
+      flex-direction: column;
+      gap: 12px;
+      overflow: hidden;
     }
 
-    .banner-img {
-      width: 10%;
-      height: auto;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 4px solid #000;
-      transition: transform 0.3s ease;
+    .panel h3 { margin:0; font-size:18px; display:flex; justify-content:space-between; align-items:center; }
+
+    .search {
+      display:flex;
+      gap:8px;
+      margin-top:8px;
+    }
+    .search input {
+      flex:1;
+      padding:8px 10px;
+      border-radius:6px;
+      border:1px solid var(--border);
+      background:#0c0c0c;
+      color:var(--text);
+      outline:none;
+    }
+    .search button {
+      padding:8px 10px;
+      border-radius:6px;
+      border:1px solid var(--border);
+      background:#111;
+      color:var(--text);
+      cursor:pointer;
     }
 
-    .banner-img.left {
-      margin-right: 20px;
+    .list {
+      overflow:auto;
+      padding-right:6px;
     }
 
-    .banner-img.right {
-      margin-left: 20px;
+    .route-card {
+      border:1px solid rgba(255,255,255,0.03);
+      padding:10px;
+      border-radius:8px;
+      margin-bottom:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .route-card .meta {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .route-card .meta .left{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .route-card .meta .right {
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .btn {
+      padding:6px 8px;
+      font-size:13px;
+      border-radius:6px;
+      border:1px solid var(--border);
+      background:#0e0e0e;
+      color:var(--text);
+      cursor:pointer;
+    }
+    .btn.primary{
+      background:var(--accent);
+      border-color:rgba(0,0,0,0.2);
+      color:#fff;
+    }
+    .muted { color:var(--muted); font-size:13px }
+
+    .panel .footer-upcoming {
+      margin-top:auto;
+      padding-top:8px;
+      border-top:1px dashed rgba(255,255,255,0.03);
+      font-size:13px;
+      color:var(--muted);
     }
 
-    .banner-text {
-      flex: 1;
-      text-align: center;
+    /* Map container with frame */
+    .map-wrap {
+      background:linear-gradient(180deg,#0b0b0b,#070707);
+      border:1px solid var(--frame);
+      border-radius:8px;
+      padding:10px;
+      box-sizing:border-box;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      height: 100%;
+    }
+    #map { flex:1; border-radius:6px; overflow:hidden; border:2px solid var(--border); }
+
+    .map-controls {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    .map-controls .small {
+      padding:6px 8px;
+      font-size:13px;
+      border-radius:6px;
+      background:#0f0f0f;
+      border:1px solid var(--border);
+      cursor:pointer;
+      color:var(--text);
     }
 
-    .banner-text h1 {
-      margin: 5px 0;
-      font-size: 2.5rem; /* ajustat mai mic */
-    }
-
-    .banner-text h2 {
-      margin: 0;
-      font-size: 1.8rem;
-    }
-
-    .banner-text p {
-      margin: 0;
-      font-size: 1.4rem;
-    }
-
-    /* Trasee */
-    .trasee {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      padding: 20px;
-      gap: 20px;
-    }
-
-    .column {
-      flex: 1;
-      min-width: 300px;
-    }
-
-    .column h2 {
-      text-align: center;
-      margin-bottom: 10px;
-      font-size: 2rem;
-    }
-
-    .traseu {
-      display: flex;
-      background: #222;
-      padding: 10px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .traseu-info {
-      flex: 1;
-    }
-
-    .traseu-info h3 {
-      margin: 0 0 5px 0;
-      font-size: 1.5rem;
-    }
-
-    .traseu-info p {
-      margin: 3px 0;
-    }
-
-    .traseu-info a {
-      color: #0af;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    /* Imagini trasee cu zoom */
-    .traseu img {
-      width: 25%;
-      border-radius: 10px;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-      cursor: pointer;
-    }
-
-    .traseu img:hover {
-      transform: scale(1.5);
-      z-index: 10;
-      position: relative;
-    }
-
-    .traseu img.zoomed {
-      transform: scale(3);
-      z-index: 10;
-      position: relative;
-    }
-
-    a:hover {
-      text-decoration: underline;
+    /* responsive */
+    @media (max-width: 1000px) {
+      .app, .layout { grid-template-columns: 1fr; padding:10px; }
+      .map-wrap { order:1; height:60vh }
+      .panel { order:2; min-height:120px }
+      .panel.right { order:3 }
+      .site-header { position:relative }
+      .layout { margin-top:0; }
     }
   </style>
 </head>
 <body>
-
-  <!-- Banner -->
-  <header class="banner">
-    <img src="images/petru_ioana.jpeg" alt="petru_ioana" class="banner-img left">
-    <div class="banner-text">
-      <h2>Welcome to</h2>
-      <h1>Hiking and Motorcycling with Petru & Ioana</h1>
-      <p>Discover hiking trails and moto routes</p>
+  <header class="site-header">
+    <div class="title">
+      <h1>Hiking and Motorcycle with</h1>
+      <h2>Petru &amp; Ioana</h2>
     </div>
-    <img src="images/motorcycle.jpeg" alt="motorcycle" class="banner-img right">
   </header>
 
-  <!-- Trasee -->
-  <section class="trasee" id="trasee">
-    <div class="column" id="hiking-column">
-      <h2>Hiking Routes</h2>
-    </div>
-    <div class="column" id="motorcycle-column">
-      <h2>Motorcycle Routes</h2>
-    </div>
-  </section>
+  <div class="layout">
+    <!-- LEFT: Hiking -->
+    <aside class="panel left" id="hiking-panel">
+      <h3>Hiking Routes
+        <span class="muted" id="hiking-count"></span>
+      </h3>
+      <div class="search">
+        <input id="search-hiking" placeholder="Search hiking routes..." />
+        <button class="btn" id="clear-hiking">Clear</button>
+      </div>
+      <div class="list" id="hiking-list" aria-live="polite"></div>
+
+      <div class="footer-upcoming" id="hiking-upcoming">
+        <strong>Upcoming</strong>
+        <div id="hiking-upcoming-list" style="margin-top:6px;color:var(--muted)"></div>
+      </div>
+    </aside>
+
+    <!-- MAP -->
+    <main class="map-wrap">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:600">Map</div>
+        <div class="map-controls">
+          <button id="btn-tiles" class="small">Satellite</button>
+          <button id="btn-clear" class="small">Clear routes</button>
+        </div>
+      </div>
+      <div id="map"></div>
+    </main>
+
+    <!-- RIGHT: Motorcycle -->
+    <aside class="panel right" id="motor-panel">
+      <h3>Motorcycle Routes
+        <span class="muted" id="motor-count"></span>
+      </h3>
+      <div class="search">
+        <input id="search-motor" placeholder="Search motorcycle routes..." />
+        <button class="btn" id="clear-motor">Clear</button>
+      </div>
+      <div class="list" id="motor-list" aria-live="polite"></div>
+
+      <div class="footer-upcoming" id="motor-upcoming">
+        <strong>Upcoming</strong>
+        <div id="motor-upcoming-list" style="margin-top:6px;color:var(--muted)"></div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Leaflet GPX plugin -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
 
   <script>
-    // Incarcare trasee din JSON
-    fetch('./data/trasee.json')
-      .then(res => {
-        if (!res.ok) throw new Error("Failed to load JSON");
-        return res.json();
-      })
-      .then(data => {
-        // Hiking
-        const hikingContainer = document.getElementById('hiking-column');
-        data.hiking.forEach(traseu => {
-          const div = document.createElement('div');
-          div.className = 'traseu';
-          div.innerHTML = `
-            <div class="traseu-info">
-              <h3>${traseu.name}</h3>
-              <p><a href="${traseu.gpx}" download>Download GPX here</a></p>
-              <p>Distance: ${traseu.km || 'N/A'} km</p>
-              <p>Difficulty: ${traseu.difficulty}</p>
-              ${traseu.trailhead ? `<p>Trailhead: ${traseu.trailhead.name}</p>
-              <p>Coords: ${traseu.trailhead.coords}</p>` : ''}
-            </div>
-            <img src="${traseu.photo}" alt="${traseu.name}">
-          `;
-          hikingContainer.appendChild(div);
-        });
+  // --- Config ---
+  const DATA_URL = './data/trasee.json'; // must exist
+  // Esri Satellite tiles
+  const ESRI_SAT = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+  const OSM = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
-        // Motorcycle
-        const motorcycleContainer = document.getElementById('motorcycle-column');
-        data.motorcycle.forEach(traseu => {
-          const div = document.createElement('div');
-          div.className = 'traseu';
-          div.innerHTML = `
-            <div class="traseu-info">
-              <h3>${traseu.name}</h3>
-              <p><a href="${traseu.gpx}" download>Download GPX here</a></p>
-              <p>Distance: ${traseu.km || 'N/A'} km</p>
-              <p>Difficulty: ${traseu.difficulty}</p>
-              ${traseu.trailhead ? `<p>Start Point: ${traseu.trailhead.name}</p>
-              <p>Coords: ${traseu.trailhead.coords}</p>` : ''}
-            </div>
-            <img src="${traseu.photo}" alt="${traseu.name}">
-          `;
-          motorcycleContainer.appendChild(div);
-        });
+  // --- Map init ---
+  const map = L.map('map', {
+    center: [46.0, 25.0],
+    zoom: 7,
+    preferCanvas: true
+  });
 
-        // Zoom la click
-        document.querySelectorAll('.traseu img').forEach(img => {
-          img.addEventListener('click', () => {
-            img.classList.toggle('zoomed');
-          });
-        });
-      })
-      .catch(err => console.error(err));
+  const baseOSM = L.tileLayer(OSM, { attribution: '© OpenStreetMap contributors' });
+  const baseSat = L.tileLayer(ESRI_SAT, { attribution: 'Esri Satellite' });
+
+  baseOSM.addTo(map);
+
+  let currentGPX = null;
+  let parkingMarkers = [];
+
+  // toggle tiles
+  let satOn = false;
+  document.getElementById('btn-tiles').addEventListener('click', () => {
+    if (!satOn) {
+      baseSat.addTo(map);
+      baseOSM.remove();
+      document.getElementById('btn-tiles').textContent = 'Map';
+      satOn = true;
+    } else {
+      baseOSM.addTo(map);
+      baseSat.remove();
+      document.getElementById('btn-tiles').textContent = 'Satellite';
+      satOn = false;
+    }
+  });
+
+  document.getElementById('btn-clear').addEventListener('click', () => {
+    clearGPX();
+    clearParkings();
+  });
+
+  function clearGPX(){
+    if (currentGPX) {
+      try { map.removeLayer(currentGPX); } catch(e){}
+      currentGPX = null;
+    }
+  }
+  function clearParkings(){
+    parkingMarkers.forEach(m => map.removeLayer(m));
+    parkingMarkers = [];
+  }
+
+  // load JSON and render lists
+  fetch(DATA_URL)
+    .then(r => {
+      if(!r.ok) throw new Error('Failed to load JSON');
+      return r.json();
+    })
+    .then(data => {
+      window.appData = data;
+      renderLists(data);
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('hiking-list').innerText = 'Failed to load data';
+      document.getElementById('motor-list').innerText = 'Failed to load data';
+    });
+
+  function renderLists(data){
+    const hikingList = document.getElementById('hiking-list');
+    const motorList = document.getElementById('motor-list');
+    hikingList.innerHTML = '';
+    motorList.innerHTML = '';
+
+    // hiking
+    (data.hiking || []).forEach((t,i) => {
+      const card = createRouteCard(t, 'hiking', i);
+      hikingList.appendChild(card);
+    });
+
+    // upcoming hiking
+    const hUpcoming = document.getElementById('hiking-upcoming-list');
+    hUpcoming.innerHTML = '';
+    (data.hiking_upcoming || []).forEach(u => {
+      const el = document.createElement('div');
+      el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><span>${escapeHtml(u.name)}</span>
+      ${u.gpx ? `<a class="muted" href="${u.gpx}" download>Download GPX</a>` : ''}</div>`;
+      hUpcoming.appendChild(el);
+    });
+
+    // motorcycle
+    (data.motorcycle || []).forEach((t,i) => {
+      const card = createRouteCard(t, 'motorcycle', i);
+      motorList.appendChild(card);
+    });
+
+    const mUpcoming = document.getElementById('motor-upcoming-list');
+    mUpcoming.innerHTML = '';
+    (data.motorcycle_upcoming || []).forEach(u => {
+      const el = document.createElement('div');
+      el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><span>${escapeHtml(u.name)}</span>
+      ${u.gpx ? `<a class="muted" href="${u.gpx}" download>Download GPX</a>` : ''}</div>`;
+      mUpcoming.appendChild(el);
+    });
+
+    document.getElementById('hiking-count').textContent = `${(data.hiking||[]).length} routes`;
+    document.getElementById('motor-count').textContent = `${(data.motorcycle||[]).length} routes`;
+
+    // wire filters
+    document.getElementById('search-hiking').addEventListener('input', (e)=> filterList('hiking', e.target.value));
+    document.getElementById('search-motor').addEventListener('input', (e)=> filterList('motorcycle', e.target.value));
+    document.getElementById('clear-hiking').addEventListener('click', ()=> { document.getElementById('search-hiking').value=''; filterList('hiking',''); });
+    document.getElementById('clear-motor').addEventListener('click', ()=> { document.getElementById('search-motor').value=''; filterList('motorcycle',''); });
+  }
+
+  function filterList(kind, q){
+    q = (q||'').toLowerCase().trim();
+    const container = kind==='hiking' ? document.getElementById('hiking-list') : document.getElementById('motor-list');
+    Array.from(container.children).forEach(card=>{
+      const txt = (card.dataset.search||'').toLowerCase();
+      card.style.display = txt.includes(q) ? '' : 'none';
+    });
+  }
+
+  function createRouteCard(traseu, kind, index){
+    // traseu may be minimal
+    const name = traseu.name || (traseu.photo ? traseu.photo.split('/').pop().split('.')[0] : 'Route');
+    const km = traseu.km ? `${traseu.km} km` : '';
+    const difficulty = traseu.difficulty || '';
+    const gpx = traseu.gpx || null;
+
+    const card = document.createElement('div');
+    card.className = 'route-card';
+    card.dataset.search = `${name} ${km} ${difficulty}`;
+
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    meta.innerHTML = `<div class="left"><strong>${escapeHtml(name)}</strong>
+      <div class="muted">${escapeHtml(km)} ${difficulty ? ' • ' + escapeHtml(difficulty) : ''}</div>
+    </div>`;
+
+    const right = document.createElement('div');
+    right.className = 'right';
+
+    // show button
+    const btnShow = document.createElement('button');
+    btnShow.className = 'btn';
+    btnShow.textContent = 'Show GPX';
+    btnShow.disabled = !gpx;
+    btnShow.title = gpx ? 'Show this GPX on the map' : 'No GPX available';
+    btnShow.addEventListener('click', ()=> {
+      if(!gpx){ alert('No GPX available for this route'); return; }
+      loadAndShowGPX(gpx);
+    });
+    right.appendChild(btnShow);
+
+    // parking button (if coords exist)
+    const btnPark = document.createElement('button');
+    btnPark.className = 'btn';
+    btnPark.textContent = 'Parking';
+    btnPark.title = 'Show parking point on map';
+    if(traseu.trailhead && traseu.trailhead.coords){
+      btnPark.addEventListener('click', ()=> {
+        addParkingPoint(traseu.trailhead.coords, traseu.trailhead.name || name);
+      });
+    } else {
+      btnPark.disabled = true;
+    }
+    right.appendChild(btnPark);
+
+    meta.appendChild(right);
+    card.appendChild(meta);
+
+    // extra area for any detailed lines
+    const details = document.createElement('div');
+    details.className = 'details muted';
+    details.style.fontSize = '13px';
+    details.innerHTML = (traseu.trailhead && traseu.trailhead.name ? `Start: ${escapeHtml(traseu.trailhead.name)}<br/>` : '') +
+                        (traseu.trailhead && traseu.trailhead.coords ? `Coords: ${escapeHtml(traseu.trailhead.coords)}` : '');
+    if(details.innerHTML) card.appendChild(details);
+
+    return card;
+  }
+
+  // Load GPX and display
+  function loadAndShowGPX(url){
+    clearGPX(); // remove previous
+    clearParkings(); // optionally clear markers
+
+    // show loading state?
+    const gpxLayer = new L.GPX(url, {
+      async: true,
+      polyline_options: { color: varOrDefault('--accent','#e74c3c'), weight: 4, opacity: 0.9 },
+      marker_options: { startIconUrl: null, endIconUrl: null, shadowUrl: null }
+    }).on('loaded', function(e){
+      currentGPX = gpxLayer;
+      map.fitBounds(gpxLayer.getBounds(), {padding:[40,40]});
+    }).on('error', function(e){
+      alert('Failed to load GPX: ' + url);
+      console.error(e);
+    }).addTo(map);
+
+    // store
+    currentGPX = gpxLayer;
+  }
+
+  function varOrDefault(name, def){
+    try{
+      return getComputedStyle(document.documentElement).getPropertyValue(name) || def;
+    }catch(e){ return def; }
+  }
+
+  function addParkingPoint(coordsStr, title){
+    // coordsStr like "47.12, 11.54"
+    if(!coordsStr) return;
+    const parts = coordsStr.split(',').map(s=>parseFloat(s.trim()));
+    if(parts.length<2 || isNaN(parts[0]) || isNaN(parts[1])){
+      alert('Invalid coords: ' + coordsStr);
+      return;
+    }
+    const m = L.marker([parts[0], parts[1]]).addTo(map).bindPopup(`<strong>${escapeHtml(title||'Parking')}</strong><br>${escapeHtml(coordsStr)}`);
+    parkingMarkers.push(m);
+    map.panTo([parts[0], parts[1]]);
+    m.openPopup();
+  }
+
+  function escapeHtml(s){
+    if(!s) return '';
+    return String(s).replace(/[&<>"'`]/g, function(ch){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;', '`':'&#96;'})[ch];
+    });
+  }
+
+  // small helper: add keyboard support or other UI features later
   </script>
-
 </body>
 </html>
