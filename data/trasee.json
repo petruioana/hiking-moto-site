@@ -17,12 +17,12 @@
   ],
 
   "hiking_upcoming": [
-    { "name": "New Hill Trail", "gpx": "hiking/newhill.gpx" }
+    { "name": "New Hill Trail", "gpx": "hiking/Test1.gpx" }
   ],
 
   "motorcycle": [
     {
-      "name": "Sunday Ride",
+      "name": "Sunday Ride Test",
       "km": 45,
       "difficulty": "Easy",
       "gpx": "motorcycle/justtotest.gpx",
@@ -30,5 +30,6 @@
     }
   ],
 
-  "motorcycle_upcoming": []
+  "motorcycle_upcoming": [
+  { "name": "test", "gpx": "motoupcoming_gpx/Test1.gpx" }
 }
