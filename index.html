@@ -411,9 +411,27 @@
 
     /* responsive */
     @media (max-width: 1000px) {
-      .app, .layout { grid-template-columns: 1fr; padding:10px; }
-      .map-wrap { order:1; height:60vh }
-      .panel { order:2; min-height:120px }
+      html, body {
+        overflow: auto; /* Allow page scrolling on mobile */
+      }
+      .app {
+        overflow: auto; /* Allow app scrolling on mobile */
+        height: auto; /* Remove fixed height on mobile */
+      }
+      .app, .layout {
+        grid-template-columns: 1fr;
+        padding:10px;
+      }
+      .map-wrap {
+        order:1;
+        height:45vh; /* Smaller map on mobile */
+        min-height: 300px;
+      }
+      .panel {
+        order:2;
+        min-height:120px;
+        height: auto; /* Allow panels to grow naturally */
+      }
       .panel.right { order:3 }
       .site-header {
         position:relative;
@@ -436,7 +454,11 @@
         flex-basis: 100%;
         margin-top: 8px;
       }
-      .layout { margin-top:0; height:auto; }
+      .layout {
+        margin-top:0;
+        height:auto; /* Allow layout to grow naturally */
+        min-height: 100vh; /* Ensure minimum viewport height */
+      }
     }
   </style>
 </head>
