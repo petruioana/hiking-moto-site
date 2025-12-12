@@ -11,14 +11,23 @@
       --bg:#0f0f0f;
       --card:#181818;
       --muted:#999;
-      --accent:#e74c3c;
+      --accent:#e74c3c; /* red for GPX */
       --frame:#2b2b2b;
       --border:#444;
       --text:#fff;
     }
     html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,Helvetica,sans-serif}
+    .app {
+      display: grid;
+      grid-template-columns: 360px 1fr 360px;
+      gap: 18px;
+      padding: 18px;
+      box-sizing: border-box;
+      height: 100vh;
+      align-items: start;
+    }
 
-    /* ======== HEADER MODIFICAT ======== */
+    /* Banner (top, spans all columns) */
     header.site-header{
       position:fixed;
       left:0;right:0;top:0;
@@ -29,10 +38,17 @@
       justify-content:center;
       border-bottom:1px solid var(--border);
       z-index:800;
-      padding:10px 40px;
+      padding:10px 20px;
       box-sizing:border-box;
-      gap:40px;
+      gap:20px;
     }
+    .site-header .title {
+      text-align:center;
+      line-height:1;
+    }
+    .site-header h1{margin:0;font-size:22px;font-weight:700;letter-spacing:0.2px}
+    .site-header h2{margin:6px 0 0;font-size:16px;font-weight:600;color:var(--muted)}
+    .site-header h3{margin:6px 0 0;font-size:14px;font-weight:400;color:var(--muted)}
 
     .site-header img.round {
       width:110px;
@@ -40,20 +56,12 @@
       border-radius:50%;
       object-fit:cover;
       border:3px solid var(--border);
-      box-shadow:0 0 6px rgba(0,0,0,0.6);
+      box-shadow:0 6px 18px rgba(0,0,0,0.6);
     }
-
-    .site-header .title {
-      text-align:center;
-      line-height:1.2;
-    }
-    .site-header h1{margin:0;font-size:26px;font-weight:700;}
-    .site-header h2{margin:4px 0 0;font-size:18px;font-weight:500;color:var(--muted)}
-    .site-header h3{margin:6px 0 0;font-size:15px;font-weight:400;color:var(--muted)}
 
     /* container under header */
     .layout {
-      margin-top: 160px;
+      margin-top: 160px; /* header height + gap */
       height: calc(100vh - 160px);
       display: grid;
       grid-template-columns: 360px 1fr 360px;
@@ -62,7 +70,7 @@
       box-sizing: border-box;
     }
 
-    /* cards */
+    /* Column cards */
     .panel {
       background: linear-gradient(180deg,var(--card), #141414);
       border: 1px solid var(--frame);
@@ -75,6 +83,7 @@
       gap: 12px;
       overflow: hidden;
     }
+
     .panel h3 { margin:0; font-size:18px; display:flex; justify-content:space-between; align-items:center; }
 
     .search {
@@ -110,7 +119,7 @@
       padding:10px;
       border-radius:8px;
       margin-bottom:10px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
       display:flex;
       flex-direction:column;
       gap:6px;
@@ -121,7 +130,16 @@
       align-items:center;
       justify-content:space-between;
     }
-
+    .route-card .meta .left{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .route-card .meta .right {
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
     .btn {
       padding:6px 8px;
       font-size:13px;
@@ -130,6 +148,10 @@
       background:#0e0e0e;
       color:var(--text);
       cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
     }
     .btn.primary{
       background:var(--accent);
@@ -146,7 +168,7 @@
       color:var(--muted);
     }
 
-    /* Map */
+    /* Map container with frame */
     .map-wrap {
       background:linear-gradient(180deg,#0b0b0b,#070707);
       border:1px solid var(--frame);
@@ -178,191 +200,38 @@
 
     /* responsive */
     @media (max-width: 1000px) {
-      .layout { grid-template-columns: 1fr; padding:10px; }
+      .app, .layout { grid-template-columns: 1fr; padding:10px; }
       .map-wrap { order:1; height:60vh }
       .panel { order:2; min-height:120px }
       .panel.right { order:3 }
-      header.site-header { position:relative; height:auto; padding:20px; flex-wrap:wrap; gap:20px; }
-      .layout { margin-top:20px; height:auto; }
+      .site-header { position:relative; height:auto; padding:20px; flex-wrap:wrap; gap:12px; }
+      .layout { margin-top:0; }
     }
   </style>
 </head>
 <body>
-
-  <!-- ======== HEADER CU POZE ROTUNDE ======== -->
   <header class="site-header">
-    <img src="images/motorcycle.jpeg" class="round" alt="motorcycle">
-
+    <!-- POZE INVERSE: stanga = petru_ioana, dreapta = motorcycle -->
+    <img src="images/petru_ioana.jpeg" class="round" alt="Petru & Ioana">
     <div class="title">
       <h1>Hiking and Motorcycle with</h1>
       <h2>Petru &amp; Ioana</h2>
       <h3>Discover hiking trails and motorcycle routes</h3>
     </div>
-
-    <img src="images/petru_ioana.jpeg" class="round" alt="petru si ioana">
+    <img src="images/motorcycle.jpeg" class="round" alt="Motorcycle">
   </header>
 
   <div class="layout">
-
-    <!-- LEFT -->
+    <!-- LEFT: Hiking -->
     <aside class="panel left" id="hiking-panel">
-      <h3>Hiking Routes <span class="muted" id="hiking-count"></span></h3>
-
+      <h3>Hiking Routes
+        <span class="muted" id="hiking-count"></span>
+      </h3>
       <div class="search">
         <input id="search-hiking" placeholder="Search hiking routes..." />
         <button class="btn" id="clear-hiking">Clear</button>
       </div>
-
-      <div class="list" id="hiking-list"></div>
+      <div class="list" id="hiking-list" aria-live="polite"></div>
 
       <div class="footer-upcoming" id="hiking-upcoming">
         <strong>Upcoming</strong>
-        <div id="hiking-upcoming-list" style="margin-top:6px"></div>
-      </div>
-    </aside>
-
-
-    <!-- MAP -->
-    <main class="map-wrap">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-weight:600">Map</div>
-        <div class="map-controls">
-          <button id="btn-tiles" class="small">Satellite</button>
-          <button id="btn-clear" class="small">Clear routes</button>
-        </div>
-      </div>
-      <div id="map"></div>
-    </main>
-
-
-    <!-- RIGHT -->
-    <aside class="panel right" id="motor-panel">
-      <h3>Motorcycle Routes <span class="muted" id="motor-count"></span></h3>
-
-      <div class="search">
-        <input id="search-motor" placeholder="Search motorcycle routes..." />
-        <button class="btn" id="clear-motor">Clear</button>
-      </div>
-
-      <div class="list" id="motor-list"></div>
-
-      <div class="footer-upcoming" id="motor-upcoming">
-        <strong>Upcoming</strong>
-        <div id="motor-upcoming-list" style="margin-top:6px"></div>
-      </div>
-    </aside>
-
-  </div>
-
-  <!-- Leaflet JS -->
-  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
-
-  <script>
-  const DATA_URL = './data/trasee.json';
-  const ESRI_SAT = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-  const OSM = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-
-  const map = L.map('map',{center:[46,25],zoom:7});
-  const baseOSM = L.tileLayer(OSM).addTo(map);
-  const baseSat = L.tileLayer(ESRI_SAT);
-
-  let currentGPX=null;
-  let parkingMarkers=[];
-
-  document.getElementById('btn-tiles').onclick = () => {
-    if(map.hasLayer(baseOSM)){
-      map.removeLayer(baseOSM);
-      baseSat.addTo(map);
-      btn-tiles.textContent='Map';
-    } else {
-      map.removeLayer(baseSat);
-      baseOSM.addTo(map);
-      btn-tiles.textContent='Satellite';
-    }
-  };
-
-  document.getElementById('btn-clear').onclick = () => {
-    if(currentGPX) map.removeLayer(currentGPX);
-    parkingMarkers.forEach(m=>map.removeLayer(m));
-    parkingMarkers=[];
-  };
-
-  fetch(DATA_URL).then(r=>r.json()).then(data=>{
-    renderLists(data);
-  });
-
-  function renderLists(data){
-    renderCategory(data.hiking,'hiking-list','hiking','hiking-count');
-    renderCategory(data.motorcycle,'motor-list','motorcycle','motor-count');
-
-    renderUpcoming(data.hiking_upcoming,'hiking-upcoming-list');
-    renderUpcoming(data.motorcycle_upcoming,'motor-upcoming-list');
-
-    document.getElementById('search-hiking').oninput = e => filterList('hiking',e.target.value);
-    document.getElementById('search-motor').oninput = e => filterList('motorcycle',e.target.value);
-    document.getElementById('clear-hiking').onclick = ()=>{document.getElementById('search-hiking').value='';filterList('hiking','')};
-    document.getElementById('clear-motor').onclick = ()=>{document.getElementById('search-motor').value='';filterList('motorcycle','')};
-  }
-
-  function renderCategory(arr,id,kind,countId){
-    const cont=document.getElementById(id);
-    cont.innerHTML='';
-    arr.forEach(t=>cont.appendChild(createCard(t)));
-    document.getElementById(countId).textContent = arr.length + ' routes';
-  }
-
-  function renderUpcoming(arr,id){
-    const cont=document.getElementById(id);
-    cont.innerHTML='';
-    arr.forEach(u=>{
-      cont.innerHTML += `<div style="display:flex;justify-content:space-between;"><span>${u.name}</span>${u.gpx?`<a class="muted" download href="${u.gpx}">Download GPX</a>`:''}</div>`;
-    });
-  }
-
-  function filterList(kind,q){
-    q=q.toLowerCase();
-    const cont = document.getElementById(kind==='hiking'?'hiking-list':'motor-list');
-    [...cont.children].forEach(c=>{
-      c.style.display = c.dataset.search.includes(q) ? '' :'none';
-    });
-  }
-
-  function createCard(t){
-    const name=t.name||'Route';
-    const km=t.km?`${t.km} km`:'';
-    const diff=t.difficulty||'';
-    const gpx=t.gpx||null;
-
-    const card=document.createElement('div');
-    card.className='route-card';
-    card.dataset.search =(name+' '+km+' '+diff).toLowerCase();
-
-    card.innerHTML = `
-      <div class="meta">
-        <div class="left">
-          <strong>${name}</strong>
-          <div class="muted">${km}${diff?' • '+diff:''}</div>
-        </div>
-        <div class="right">
-          <button class="btn" ${!gpx?'disabled':''} onclick="loadGPX('${gpx||''}')">Show GPX</button>
-          <button class="btn" ${!gpx?'disabled':''} onclick="window.location='${gpx||''}'" download>Download</button>
-        </div>
-      </div>
-    `;
-
-    return card;
-  }
-
-  function loadGPX(url){
-    if(!url) return alert("No GPX available");
-
-    if(currentGPX) map.removeLayer(currentGPX);
-    currentGPX = new L.GPX(url,{async:true,polyline_options:{color:'#e74c3c',weight:4}}).on('loaded',e=>{
-      map.fitBounds(currentGPX.getBounds(),{padding:[40,40]});
-    }).addTo(map);
-  }
-  </script>
-
-</body>
-</html>
