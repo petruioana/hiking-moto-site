@@ -555,7 +555,7 @@
   const baseOSM = L.tileLayer(OSM, { attribution: '© OpenStreetMap contributors' });
   const baseSat = L.tileLayer(ESRI_SAT, { attribution: 'Esri Satellite' });
 
-  baseOSM.addTo(map);
+  baseSat.addTo(map); // Load satellite by default
 
   let currentGPX = null;
   let parkingMarkers = [];
@@ -566,7 +566,9 @@
   };
 
   // toggle tiles
-  let satOn = false;
+  let satOn = true; // Satellite is now active by default
+  document.getElementById('btn-tiles').textContent = 'Map'; // Button shows option to switch to map
+
   document.getElementById('btn-tiles').addEventListener('click', () => {
     if (!satOn) {
       baseSat.addTo(map);
