@@ -434,14 +434,14 @@
       }
       .panel.right { order:3 }
       .site-header {
-        position:relative;
+        position:fixed; /* Keep banner fixed on mobile */
+        left:0; right:0; top:0;
         height:auto;
-        padding:20px 14px 24px; /* Increased padding, especially bottom */
+        padding:20px 14px 24px;
         min-height:auto;
-        margin-bottom: 16px; /* Add space below banner */
-        border-bottom: 2px solid var(--border); /* Visual separator */
-        border-radius: 0 0 12px 12px; /* Rounded bottom corners */
-        background: linear-gradient(180deg, var(--bg) 0%, rgba(15,15,15,0.95) 100%);
+        z-index:800;
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(180deg, var(--bg) 0%, rgba(10,10,10,0.95) 100%);
         backdrop-filter: blur(8px);
       }
       .site-header .hero-content{
@@ -460,9 +460,15 @@
         margin-top: 8px;
       }
       .layout {
-        margin-top:0;
+        margin-top: 160px; /* Account for fixed banner height on mobile */
         height:auto; /* Allow layout to grow naturally */
-        min-height: 100vh; /* Ensure minimum viewport height */
+        min-height: calc(100vh - 160px); /* Ensure minimum viewport height minus banner */
+      }
+      .map-wrap {
+        order:1;
+        height:60vh; /* Taller, more rectangular map on mobile */
+        min-height: 350px; /* Minimum height */
+        max-height: 500px; /* Maximum height to prevent too tall */
       }
     }
   </style>
