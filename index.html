@@ -436,8 +436,13 @@
       .site-header {
         position:relative;
         height:auto;
-        padding:16px 14px;
+        padding:20px 14px 24px; /* Increased padding, especially bottom */
         min-height:auto;
+        margin-bottom: 16px; /* Add space below banner */
+        border-bottom: 2px solid var(--border); /* Visual separator */
+        border-radius: 0 0 12px 12px; /* Rounded bottom corners */
+        background: linear-gradient(180deg, var(--bg) 0%, rgba(15,15,15,0.95) 100%);
+        backdrop-filter: blur(8px);
       }
       .site-header .hero-content{
         flex-wrap: wrap;
