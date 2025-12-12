@@ -13,23 +13,180 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     :root{
-      --bg:#0f0f0f;
-      --card:#181818;
-      --muted:#999;
+      --bg:#0a0a0a;
+      --card:#151515;
+      --muted:#888;
       --accent:#e74c3c; /* red for GPX */
-      --frame:#2b2b2b;
-      --border:#444;
-      --text:#fff;
+      --accent-hover:#c0392b;
+      --frame:#1f1f1f;
+      --border:#333;
+      --border-light:#2a2a2a;
+      --text:#ffffff;
+      --text-secondary:#e0e0e0;
+      --shadow-sm:0 2px 4px rgba(0,0,0,0.3);
+      --shadow-md:0 4px 12px rgba(0,0,0,0.4);
+      --shadow-lg:0 8px 24px rgba(0,0,0,0.5);
     }
-    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,Helvetica,sans-serif}
+    .btn, .route-card, .upcoming-item, .panel, .map-wrap, .hero-photo, .toggle button, .search input, .search button, .map-controls .small {
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    .app {
+      display: grid;
+      grid-template-columns: 360px 1fr 360px;
+      gap: 18px;
+      padding: 18px;
+      box-sizing: border-box;
+      height: 100vh;
+      align-items: start;
+    }
 
+    /* Banner (top, spans all columns) */
+    header.site-header{
+      position:fixed;
+      left:0;right:0;top:0;
+      height:180px;
+      background:linear-gradient(180deg,#000 0%, #0a0a0a 50%, #0f0f0f 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-bottom:1px solid var(--border);
+      box-shadow:var(--shadow-md);
+      z-index:800;
+      padding:18px 28px;
+      box-sizing:border-box;
+      backdrop-filter:blur(10px);
+    }
+    .site-header .hero-content{
+      display:flex;
+      align-items:center;
+      gap:40px;
+    }
+    .site-header .title {
+      text-align:center;
+      line-height:1.2;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .site-header h1,
+    .site-header h2{
+      margin:0;
+      font-size:28px;
+      font-weight:700;
+      letter-spacing:0.2px;
+      color:var(--text);
+    }
+    .site-header .subtitle{font-size:16px;color:var(--muted);font-weight:500}
+    .hero-photo{
+      width:104px;
+      height:104px;
+      border-radius:50%;
+      overflow:hidden;
+      border:3px solid var(--frame);
+      box-shadow:var(--shadow-md), 0 0 0 1px rgba(255,255,255,0.05);
+      background:#0d0d0d;
+      flex-shrink:0;
+    }
+    .hero-photo:hover {
+      transform:scale(1.05);
+      box-shadow:var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.08);
+    }
+    .hero-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    /* container under header */
+    .layout {
+      margin-top: 200px; /* header height + gap */
+      height: calc(100vh - 200px);
+      display: grid;
+      grid-template-columns: 360px 1fr 360px;
+      gap: 18px;
+      padding: 0 18px 18px;
+      box-sizing: border-box;
+    }
+
+    /* Column cards */
+    .panel {
+      background: linear-gradient(180deg,var(--card), #121212);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 16px;
+      box-sizing: border-box;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow: hidden;
+      box-shadow:var(--shadow-sm);
+    }
+    .panel:hover {
+      border-color:var(--border);
+      box-shadow:var(--shadow-md);
+    }
+
+    .panel h3 { 
+      margin:0; 
+      font-size:18px; 
+      font-weight:600;
+      display:flex; 
+      justify-content:space-between; 
+      align-items:center;
+      color:var(--text);
+      letter-spacing:-0.2px;
+    }
+    .toggle-wrapper {
+      display:flex;
+      justify-content:center;
+      width:100%;
+      margin-top:8px;
+    }
+    .toggle {
+      display:inline-flex;
+      border:1px solid var(--border);
+      border-radius:999px;
+      overflow:hidden;
+      background:var(--frame);
+      box-shadow:var(--shadow-sm);
+    }
+    .toggle button{
+      border:0;
+      background:transparent;
+      color:var(--muted);
+      padding:8px 16px;
+      cursor:pointer;
+      font-size:13px;
+      font-weight:500;
+      flex:1;
+      min-width:88px;
+      text-align:center;
+    }
+    .toggle button:hover {
+      color:var(--text-secondary);
+    }
+    .toggle button.active{
+      background:var(--accent);
+      color:#fff;
+      font-weight:600;
+      box-shadow:var(--shadow-sm);
+    }
 
     .search {
       display:flex;
       gap:8px;
       margin-top:8px;
-      padding-bottom:12px;
-      border-bottom:1px solid var(--border-light);
     }
     .search input {
       flex:1;
@@ -69,30 +226,38 @@
     }
 
     .route-card {
-      border:1px solid rgba(255,255,255,0.03);
-      padding:10px;
-      border-radius:8px;
-      margin-bottom:10px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      border:1px solid var(--border-light);
+      padding:14px;
+      border-radius:10px;
+      margin-bottom:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
       display:flex;
       flex-direction:column;
-      gap:6px;
+      gap:8px;
+      box-shadow:var(--shadow-sm);
+    }
+    .route-card:hover {
+      border-color:var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      box-shadow:var(--shadow-md);
+      transform:translateY(-2px);
     }
     .route-card .meta {
-      width:100%;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:space-between;
     }
     .route-card .meta .left{
       display:flex;
       flex-direction:column;
       gap:4px;
     }
-    .route-card .actions {
+    .route-card .meta .right {
       display:flex;
-      gap:8px;
-      justify-content:center;
-      width:100%;
-      padding-top:8px;
-      border-top:1px solid var(--border-light);
+      flex-direction:column;
+      align-items:flex-end;
+      gap:6px;
     }
     .upcoming-list{
       overflow:auto;
@@ -103,45 +268,89 @@
       flex:1;
       min-height:0;
     }
-      .upcoming-item{
-        border:1px solid rgba(255,255,255,0.03);
-        border-radius:8px;
-        padding:12px;
-        display:flex;
-        flex-direction:column;
-        background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
-        gap:8px;
-        margin-bottom:8px;
-      }
-    .upcoming-item .name {
-      width:100%;
+    .upcoming-item{
+      border:1px solid var(--border-light);
+      border-radius:10px;
+      padding:14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+      gap:12px;
+      box-shadow:var(--shadow-sm);
+    }
+    .upcoming-item:hover {
+      border-color:var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      box-shadow:var(--shadow-md);
+      transform:translateY(-1px);
+    }
+    .upcoming-item .name{
       font-weight:600;
       color:var(--text);
-      margin-bottom:4px;
+      flex:1;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
     }
-    .upcoming-item .actions {
-      flex-direction: row !important;
+    .upcoming-item .actions{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      flex-shrink:0;
+      width:110px;
     }
     .btn {
-      padding:6px 8px;
+      padding:8px 14px;
       font-size:13px;
-      border-radius:6px;
+      font-weight:500;
+      border-radius:8px;
       border:1px solid var(--border);
-      background:#0e0e0e;
-      color:var(--text);
+      background:var(--card);
+      color:var(--text-secondary);
       cursor:pointer;
+      text-decoration:none;
+      text-align:center;
+      display:inline-block;
+      min-width:110px;
+      box-sizing:border-box;
+      box-shadow:var(--shadow-sm);
+    }
+    .btn:hover:not(:disabled) {
+      background:var(--frame);
+      border-color:var(--border);
+      color:var(--text);
+      transform:translateY(-1px);
+      box-shadow:var(--shadow-md);
+    }
+    .btn:active:not(:disabled) {
+      transform:translateY(0);
+    }
+    .btn:disabled {
+      opacity:0.4;
+      cursor:not-allowed;
+    }
+    .upcoming-item .actions .btn {
+      width:100%;
     }
     .btn.primary{
       background:var(--accent);
-      border-color:rgba(0,0,0,0.2);
+      border-color:var(--accent);
       color:#fff;
+      font-weight:600;
+    }
+    .btn.primary:hover:not(:disabled) {
+      background:var(--accent-hover);
+      border-color:var(--accent-hover);
+      transform:translateY(-1px);
+      box-shadow:0 4px 12px rgba(231,76,60,0.3);
     }
     .muted { color:var(--muted); font-size:13px }
 
     /* Map container with frame */
     .map-wrap {
       background:linear-gradient(180deg,var(--card), #0f0f0f);
-      border:1px solid var(--frame);
+      border:1px solid var(--border-light);
       border-radius:12px;
       padding:14px;
       box-sizing:border-box;
@@ -149,31 +358,13 @@
       flex-direction:column;
       gap:12px;
       height: 100%;
+      box-shadow:var(--shadow-sm);
     }
-    .map-controls {
-      display:flex;
-      gap:8px;
-      align-items:center;
-      justify-content:flex-end;
+    .map-wrap:hover {
+      border-color:var(--border);
+      box-shadow:var(--shadow-md);
     }
-    .map-controls .small {
-      padding:8px 14px;
-      font-size:13px;
-      font-weight:500;
-      border-radius:8px;
-      background:var(--card);
-      border:1px solid var(--border);
-      cursor:pointer;
-      color:var(--text-secondary);
-      box-shadow:0 2px 4px rgba(0,0,0,0.3);
-    }
-    .map-controls .small:hover {
-      background:var(--frame);
-      color:var(--text);
-      transform:translateY(-1px);
-      box-shadow:0 4px 12px rgba(0,0,0,0.4);
-    }
-    #map { flex:1; border-radius:10px; overflow:hidden; border:2px solid var(--border); box-shadow:0 2px 4px rgba(0,0,0,0.3); }
+    #map { flex:1; border-radius:10px; overflow:hidden; border:2px solid var(--border); box-shadow:var(--shadow-sm); }
 
     .map-controls {
       display:flex;
@@ -199,274 +390,34 @@
       box-shadow:var(--shadow-md);
     }
 
-    /* Custom scrollbar styling */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #000000;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #555;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #777;
-    }
-    ::-webkit-scrollbar-button {
-      background: #333;
-      border-radius: 2px;
-    }
-    ::-webkit-scrollbar-button:hover {
-      background: #555;
-    }
-
     /* responsive */
     @media (max-width: 1000px) {
-      html, body {
-        overflow: auto; /* Allow page scrolling on mobile */
-      }
-      .app {
-        overflow: auto; /* Allow app scrolling on mobile */
-        height: auto; /* Remove fixed height on mobile */
-      }
-      .app, .layout {
-        grid-template-columns: 1fr;
-        padding:10px;
-      }
-      .map-wrap {
-        order:1;
-        height:60vh; /* Taller map on mobile */
-        min-height: 350px;
-        max-height: 500px;
-      }
-      /* Column cards */
-      .panel {
-        background: linear-gradient(180deg,var(--card), #141414);
-        border: 1px solid var(--frame);
-        border-radius: 8px;
-        padding: 12px;
-        box-sizing: border-box;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        overflow: hidden;
-      }
-
-      .panel h3 { margin:0; font-size:18px; display:flex; justify-content:space-between; align-items:center; }
-
-      .search {
-        display:flex;
-        gap:8px;
-        margin-top:8px;
-      }
-      .search input {
-        flex:1;
-        padding:8px 10px;
-        border-radius:6px;
-        border:1px solid var(--border);
-        background:#0c0c0c;
-        color:var(--text);
-        outline:none;
-      }
-      .search button {
-        padding:8px 10px;
-        border-radius:6px;
-        border:1px solid var(--border);
-        background:#111;
-        color:var(--text);
-        cursor:pointer;
-      }
-
-      .list {
-        overflow:auto;
-        padding-right:6px;
-      }
-
-      .route-card {
-        border:1px solid rgba(255,255,255,0.03);
-        padding:10px;
-        border-radius:8px;
-        margin-bottom:10px;
-        background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
-        display:flex;
-        flex-direction:column;
-        gap:6px;
-      }
-      .route-card .meta {
-        display:flex;
-        gap:8px;
-        align-items:center;
-        justify-content:space-between;
-      }
-      .route-card .meta .left{
-        display:flex;
-        flex-direction:column;
-        gap:4px;
-      }
-      .route-card .meta .right {
-        display:flex;
-        flex-direction:column;
-        align-items:flex-end;
-        gap:6px;
-      }
-      .btn {
-        padding:6px 8px;
-        font-size:13px;
-        border-radius:6px;
-        border:1px solid var(--border);
-        background:#0e0e0e;
-        color:var(--text);
-        cursor:pointer;
-      }
-      .btn.primary{
-        background:var(--accent);
-        border-color:rgba(0,0,0,0.2);
-        color:#fff;
-      }
-      .muted { color:var(--muted); font-size:13px }
-
-      .panel .footer-upcoming {
-        margin-top:auto;
-        padding-top:8px;
-        border-top:1px dashed rgba(255,255,255,0.03);
-        font-size:13px;
-        color:var(--muted);
-      }
-
-      .toggle-wrapper {
-        display:flex;
-        justify-content:center;
-        width:100%;
-        margin:8px 0 12px 0;
-      }
-      .toggle {
-        display:inline-flex;
-        border:1px solid var(--border);
-        border-radius:999px;
-        overflow:hidden;
-        background:var(--frame);
-        box-shadow:0 2px 4px rgba(0,0,0,0.3);
-      }
-      .toggle button{
-        border:0;
-        background:transparent;
-        color:var(--muted);
-        padding:8px 16px;
-        cursor:pointer;
-        font-size:13px;
-        font-weight:500;
-        flex:1;
-        min-width:88px;
-        text-align:center;
-      }
-      .toggle button:hover {
-        color:var(--text-secondary);
-      }
-      .toggle button.active{
-        background:var(--accent);
-        color:#fff;
-        font-weight:600;
-        box-shadow:0 2px 4px rgba(231,76,60,0.3);
-      }
-
-      .upcoming-list{
-        overflow:auto;
-        padding-right:6px;
-        display:block;
-        gap:8px;
-        flex-direction:column;
-        flex:1;
-        min-height:0;
-      }
-      .upcoming-item{
-        border:1px solid rgba(255,255,255,0.03);
-        border-radius:8px;
-        padding:12px;
-        display:flex;
-        flex-direction:column;
-        background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
-        gap:8px;
-        margin-bottom:8px;
-      }
-      .upcoming-item .name {
-        font-weight:600;
-        color:var(--text);
-      }
-      .upcoming-item .actions {
-        display:flex;
-        gap:8px;
-        justify-content:flex-start;
-      }
-
-      .panel {
-        order:2;
-        min-height:120px;
-        height: auto; /* Allow panels to grow naturally */
-      }
+      .app, .layout { grid-template-columns: 1fr; padding:10px; }
+      .map-wrap { order:1; height:60vh }
+      .panel { order:2; min-height:120px }
       .panel.right { order:3 }
-      .site-header {
-        position:fixed;
-        left:0; right:0; top:0;
-        height:180px;
-        background:linear-gradient(180deg,#000 0%, #0b0b0b 100%);
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        border-bottom:1px solid var(--border);
-        z-index:800;
-        padding:18px 28px;
-        box-sizing:border-box;
+      .site-header { 
+        position:relative; 
+        height:auto; 
+        padding:16px 14px; 
+        min-height:auto;
       }
-      .site-header .hero-content{
-        display:flex;
-        align-items:center;
-        gap:40px;
+      .site-header .hero-content{ 
+        flex-wrap: wrap;
+        justify-content: center;
+        gap:12px;
+      }
+      .hero-photo{ 
+        width:70px; 
+        height:70px; 
+        order: 1;
       }
       .site-header .title {
-        text-align:center;
-        line-height:1;
-        display:flex;
-        flex-direction:column;
-        gap:6px;
+        order: 2;
+        flex-basis: 100%;
+        margin-top: 8px;
       }
-      .site-header h1,
-      .site-header h2{
-        margin:0;
-        font-size:20px;
-        font-weight:700;
-        letter-spacing:0.2px;
-        color:var(--text);
-      }
-      .site-header .subtitle{font-size:14px;color:var(--muted);font-weight:500}
-      .hero-photo{
-        width:104px;
-        height:104px;
-        border-radius:50%;
-        overflow:hidden;
-        border:3px solid var(--frame);
-        box-shadow:0 0 0 2px rgba(255,255,255,0.06);
-        background:#0d0d0d;
-        flex-shrink:0;
-      }
-      .hero-photo img{
-        width:100%;
-        height:100%;
-        object-fit:cover;
-        display:block;
-      }
-      .layout {
-        margin-top: 160px; /* Account for fixed banner height on mobile */
-        height:auto; /* Allow layout to grow naturally */
-        min-height: calc(100vh - 160px); /* Ensure minimum viewport height minus banner */
-      }
-      .map-wrap {
-        order:1;
-        height:60vh; /* Taller, more rectangular map on mobile */
-        min-height: 350px; /* Minimum height */
-        max-height: 500px; /* Maximum height to prevent too tall */
-      }
+      .layout { margin-top:0; height:auto; }
     }
   </style>
 </head>
@@ -555,7 +506,7 @@
 
   // --- Map init ---
   const map = L.map('map', {
-    center: [50.5, 4.5],  // Belgium coordinates
+    center: [46.0, 25.0],
     zoom: 7,
     preferCanvas: true
   });
@@ -563,7 +514,7 @@
   const baseOSM = L.tileLayer(OSM, { attribution: '© OpenStreetMap contributors' });
   const baseSat = L.tileLayer(ESRI_SAT, { attribution: 'Esri Satellite' });
 
-  baseSat.addTo(map); // Load satellite by default
+  baseOSM.addTo(map);
 
   let currentGPX = null;
   let parkingMarkers = [];
@@ -574,9 +525,7 @@
   };
 
   // toggle tiles
-  let satOn = true; // Satellite is now active by default
-  document.getElementById('btn-tiles').textContent = 'Map'; // Button shows option to switch to map
-
+  let satOn = false;
   document.getElementById('btn-tiles').addEventListener('click', () => {
     if (!satOn) {
       baseSat.addTo(map);
@@ -692,14 +641,14 @@
       return;
     }
     items.forEach((u, idx)=>{
-      const item = document.createElement('div');
-      item.className = 'upcoming-item';
-      item.dataset.search = u.name || '';
+      const row = document.createElement('div');
+      row.className = 'upcoming-item';
+      row.dataset.search = u.name || '';
 
       const name = document.createElement('div');
       name.className = 'name';
       name.textContent = u.name || 'Route';
-      item.appendChild(name);
+      row.appendChild(name);
 
       const actions = document.createElement('div');
       actions.className = 'actions';
@@ -729,8 +678,8 @@
       }
       actions.appendChild(dlBtn);
 
-      item.appendChild(actions);
-      container.appendChild(item);
+      row.appendChild(actions);
+      container.appendChild(row);
     });
   }
 
@@ -758,39 +707,27 @@
     card.className = 'route-card';
     card.dataset.search = `${name} ${km} ${difficulty}`;
 
-    // meta section with text info (top, left-aligned)
     const meta = document.createElement('div');
     meta.className = 'meta';
     meta.innerHTML = `<div class="left"><strong>${escapeHtml(name)}</strong>
       <div class="muted">${escapeHtml(km)} ${difficulty ? ' • ' + escapeHtml(difficulty) : ''}</div>
     </div>`;
-    card.appendChild(meta);
 
-    // extra area for any detailed lines
-    const details = document.createElement('div');
-    details.className = 'muted';
-    details.style.fontSize = '13px';
-    details.innerHTML = (traseu.trailhead && traseu.trailhead.name ? `Start: ${escapeHtml(traseu.trailhead.name)}<br/>` : '') +
-                        (traseu.trailhead && traseu.trailhead.coords ? `Coords: ${escapeHtml(traseu.trailhead.coords)}` : '');
-    if(details.innerHTML) card.appendChild(details);
-
-    // actions section with buttons (bottom, centered)
-    const actions = document.createElement('div');
-    actions.className = 'actions';
+    const right = document.createElement('div');
+    right.className = 'right';
 
     // show button
     const btnShow = document.createElement('button');
     btnShow.className = 'btn';
-    btnShow.textContent = 'Show';
+    btnShow.textContent = 'Show GPX';
     btnShow.disabled = !gpx;
     btnShow.title = gpx ? 'Show this GPX on the map' : 'No GPX available';
     btnShow.addEventListener('click', ()=> {
       if(!gpx){ alert('No GPX available for this route'); return; }
       loadAndShowGPX(gpx);
     });
-    actions.appendChild(btnShow);
+    right.appendChild(btnShow);
 
-    // parking button (only for hiking)
     if(kind !== 'motorcycle'){
       const btnPark = document.createElement('button');
       btnPark.className = 'btn';
@@ -803,7 +740,7 @@
       } else {
         btnPark.disabled = true;
       }
-      actions.appendChild(btnPark);
+      right.appendChild(btnPark);
     }
 
     // download button
@@ -821,9 +758,18 @@
       downloadBtn.style.pointerEvents = 'none';
       downloadBtn.title = 'No GPX available';
     }
-    actions.appendChild(downloadBtn);
+    right.appendChild(downloadBtn);
 
-    card.appendChild(actions);
+    meta.appendChild(right);
+    card.appendChild(meta);
+
+    // extra area for any detailed lines
+    const details = document.createElement('div');
+    details.className = 'details muted';
+    details.style.fontSize = '13px';
+    details.innerHTML = (traseu.trailhead && traseu.trailhead.name ? `Start: ${escapeHtml(traseu.trailhead.name)}<br/>` : '') +
+                        (traseu.trailhead && traseu.trailhead.coords ? `Coords: ${escapeHtml(traseu.trailhead.coords)}` : '');
+    if(details.innerHTML) card.appendChild(details);
 
     return card;
   }
@@ -881,4 +827,3 @@
   </script>
 </body>
 </html>
-
