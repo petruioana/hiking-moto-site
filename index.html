@@ -225,9 +225,27 @@
       .map-wrap { order:1; height:60vh }
       .panel { order:2; min-height:120px }
       .panel.right { order:3 }
-      .site-header { position:relative; height:auto; padding:14px 14px 18px; }
-      .site-header .hero-content{ flex-direction:column; text-align:center; }
-      .hero-photo{ width:88px; height:88px; }
+      .site-header { 
+        position:relative; 
+        height:auto; 
+        padding:16px 14px; 
+        min-height:auto;
+      }
+      .site-header .hero-content{ 
+        flex-wrap: wrap;
+        justify-content: center;
+        gap:12px;
+      }
+      .hero-photo{ 
+        width:70px; 
+        height:70px; 
+        order: 1;
+      }
+      .site-header .title {
+        order: 2;
+        flex-basis: 100%;
+        margin-top: 8px;
+      }
       .layout { margin-top:0; height:auto; }
     }
   </style>
@@ -558,3 +576,5 @@
   </script>
 </body>
 </html>
+
+
