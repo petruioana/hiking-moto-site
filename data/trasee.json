@@ -27,6 +27,13 @@
       "difficulty": "Easy",
       "gpx": "hiking/gasthuisbossen.gpx",
       "trailhead": { "name": "Gasthuisbossen", "coords": "50.823243, 2.935696" }
+    },
+    {
+      "name": "Zwin",
+      "km": 13.62,
+      "difficulty": "Easy",
+      "gpx": "hiking/zwin.gpx",
+      "trailhead": { "name": "Zwin-EXPENSIVE", "coords": "51.358816, 3.352698" }
     }
   ],
 
