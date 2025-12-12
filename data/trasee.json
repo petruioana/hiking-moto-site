@@ -9,6 +9,13 @@
     },
     {
       "name": "Rochehaut",
+      "km": 18.56,
+      "difficulty": "Medium",
+      "gpx": "hiking/heuvelland.gpx",
+      "trailhead": { "name": "Kemmel", "coords": "50.782102, 2.827117" }
+    },
+    {
+      "name": "Heuvelland",
       "km": 15.14,
       "difficulty": "Medium-Hard",
       "gpx": "hiking/buillon.gpx",
