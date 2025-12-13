@@ -337,7 +337,7 @@
     const items = state.upcoming[kind] || [];
     if(!items.length){
       const empty = document.createElement('div');
-      empty.className = 'muted';
+      empty.className = 'text-muted';
       empty.textContent = 'No upcoming routes';
       container.appendChild(empty);
       return;
@@ -495,7 +495,7 @@
     // show loading state?
     const gpxLayer = new L.GPX(url, {
       async: true,
-      polyline_options: { color: varOrDefault('--accent','#e74c3c'), weight: 4, opacity: 0.9 },
+      polyline_options: { color: '#e74c3c', weight: 4, opacity: 0.9 },
       marker_options: { startIconUrl: null, endIconUrl: null, shadowUrl: null }
     }).on('loaded', function(e){
       currentGPX = gpxLayer;
@@ -507,12 +507,6 @@
 
     // store
     currentGPX = gpxLayer;
-  }
-
-  function varOrDefault(name, def){
-    try{
-      return getComputedStyle(document.documentElement).getPropertyValue(name) || def;
-    }catch(e){ return def; }
   }
 
   function addParkingPoint(coordsStr, title){
