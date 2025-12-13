@@ -85,14 +85,14 @@
     </div>
   </header>
 
-  <div class="mt-[200px] min-h-[calc(100vh-200px)] grid grid-cols-1 gap-[18px] px-[18px] pb-[18px] box-border md:h-[calc(100vh-200px)] md:grid-cols-[320px_1fr_320px] lg:grid-cols-[360px_1fr_360px]">
+  <div class="mt-[200px] min-h-[calc(100vh-200px)] grid grid-cols-1 gap-[18px] px-[18px] pb-[18px] box-border md:h-[calc(100vh-200px)] md:grid-cols-[360px_1fr_360px]">
     <!-- LEFT: Hiking -->
     <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 box-border h-full max-h-full flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200 md:col-start-1 md:row-start-1" id="hiking-panel">
       <h3 class="text-lg font-semibold flex justify-between items-center text-text tracking-[-0.01em] mb-0">Hiking Routes
         <span class="text-muted" id="hiking-count"></span>
       </h3>
       <div class="flex justify-center w-full mt-2">
-        <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="hiking">
+        <div class="inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="hiking">
           <button class="toggle-btn px-4 py-2 text-sm font-semibold cursor-pointer bg-primary text-white transition-colors duration-200" data-view="completed">Completed</button>
           <button class="toggle-btn px-4 py-2 text-sm font-medium cursor-pointer text-muted hover:text-text-secondary transition-colors duration-200" data-view="upcoming">Upcoming</button>
         </div>
@@ -106,12 +106,12 @@
     </aside>
 
       <!-- RIGHT: Motorcycle (Desktop) -->
-      <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 box-border flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200 md:col-start-3 md:row-start-1" id="motor-panel">
+      <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 box-border flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200" id="motor-panel">
       <h3 class="text-lg font-semibold flex justify-between items-center text-text tracking-[-0.01em] mb-0">Motorcycle Routes
         <span class="text-muted" id="motor-count"></span>
       </h3>
       <div class="flex justify-center w-full mt-2">
-        <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="motorcycle">
+        <div class="inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="motorcycle">
           <button class="toggle-btn px-4 py-2 text-sm font-semibold cursor-pointer bg-primary text-white transition-colors duration-200" data-view="completed">Completed</button>
           <button class="toggle-btn px-4 py-2 text-sm font-medium cursor-pointer text-muted hover:text-text-secondary transition-colors duration-200" data-view="upcoming">Upcoming</button>
         </div>
@@ -135,7 +135,9 @@
       </div>
       <div id="map" class="flex-1 rounded-xl overflow-hidden border-2 border-border shadow-sm"></div>
     </main>
-  </div>
+
+    <!-- RIGHT: Motorcycle -->
+    <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 box-border h-full max-h-full flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200 md:col-start-3 md:row-start-1" id="motor-panel">
 
   <!-- Leaflet JS -->
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
