@@ -427,6 +427,9 @@
 
     /* responsive */
     @media (max-width: 1000px) {
+      html, body {
+        overflow: auto; /* Enable scrolling on mobile */
+      }
       .app {
         grid-template-columns: 1fr;
         padding:10px;
@@ -438,7 +441,7 @@
         padding:10px;
         margin-top: 0; /* Let natural flow work */
         height: auto;
-        min-height: calc(100vh - 160px); /* Account for taller mobile header with increased margin */
+        min-height: 100vh; /* Allow content to flow naturally with scrolling */
       }
       .map-wrap { order:1; height:60vh; max-height: 400px; }
       .panel { order:2; min-height:120px; height: auto; }
