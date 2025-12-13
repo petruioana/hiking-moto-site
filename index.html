@@ -12,7 +12,7 @@
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
 
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS - CDN version (perfect for static sites) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -42,6 +42,32 @@
       }
     }
   </script>
+
+  <!-- Custom scrollbar styling -->
+  <style>
+    /* Custom scrollbar for the entire page */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #000000; /* Black background */
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #555; /* Grey scrollbar */
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #777; /* Slightly lighter grey on hover */
+    }
+    ::-webkit-scrollbar-button {
+      background: #333; /* Grey arrows */
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar-button:hover {
+      background: #555; /* Slightly lighter grey arrows on hover */
+    }
+  </style>
+
 <body class="h-screen m-0 bg-bg text-text font-inter antialiased overflow-hidden">
   <header class="fixed inset-x-0 top-0 h-[200px] bg-gradient-to-b from-black via-bg to-[#0f0f0f] flex items-center justify-center border-b border-border shadow-md z-[800] px-7 py-[18px] box-border backdrop-blur-[10px]">
     <div class="flex items-center gap-10">
