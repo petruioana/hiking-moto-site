@@ -3,11 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hiking & Motorcycling — Petru & Ioana (Mobil)</title>
+  <title>Hiking & Motorcycling — Petru & Ioana</title>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -37,119 +43,268 @@
       }
     }
   </script>
+
+  <!-- Custom scrollbar -->
   <style>
-    html, body { background: #0a0a0a; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #777; }
+    ::-webkit-scrollbar-button { background: #333; border-radius: 2px; }
+    ::-webkit-scrollbar-button:hover { background: #555; }
+
+    html, body { margin: 0; padding: 0; background: #0a0a0a; }
     .custom-scrollbar::-webkit-scrollbar { width: 0; height: 0; background: transparent; }
     .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
     .hide-scrollbar::-webkit-scrollbar { display: none; }
   </style>
 </head>
 <body class="bg-bg text-text font-inter antialiased min-h-screen max-w-full overflow-x-hidden">
-  <div class="bg-bg min-h-screen flex flex-col">
-    <!-- Banner sticky sus -->
-    <header class="sticky top-0 z-30 h-[64px] w-full flex items-center justify-center border-b border-border shadow-sm px-1 py-0 gap-4 box-border bg-gradient-to-b from-black via-bg to-[#0f0f0f]">
-      <div class="flex items-center justify-center w-full max-w-xs mx-auto gap-2">
-        <img src="images/petru_ioana.jpeg" alt="Petru" class="w-[32px] h-[32px] rounded-full border-2 border-frame shadow bg-[#0d0d0d] object-cover" />
-        <div class="flex flex-col items-center justify-center flex-1 min-w-0">
-          <h1 class="text-[10px] font-bold text-text m-0 leading-tight truncate">GPX Routes — by Petru & Ioana</h1>
-          <h2 class="text-[9px] font-bold text-text m-0 leading-tight truncate">Hiking Trails & Motorcycle Rides</h2>
-          <div class="subtitle text-[9px] text-muted font-medium truncate">Pick a route, explore the map, and download GPX.</div>
-        </div>
-        <img src="images/motorcycle.jpeg" alt="Motorcycle" class="w-[32px] h-[32px] rounded-full border-2 border-frame shadow bg-[#0d0d0d] object-cover" />
-      </div>
-    </header>
 
-    <!-- Hartă sticky sub header -->
-    <div class="sticky top-[64px] z-10 w-full">
-      <main class="w-full aspect-[4/3] rounded-none border-b border-border bg-gradient-to-b from-card to-[#0f0f0f] px-0 flex flex-col shadow-sm">
-        <div class="flex justify-between items-center px-2 pt-1 pb-0">
-          <span class="font-semibold text-[11px]">Map</span>
-          <span class="map-controls flex gap-1 items-center">
-            <button id="btn-tiles" class="px-2 py-1 text-[10px] rounded bg-card border border-border text-text-secondary">Satellite</button>
-            <button id="btn-clear" class="px-2 py-1 text-[10px] rounded bg-card border border-border text-text-secondary">Clear</button>
-          </span>
-        </div>
-        <div id="map" class="w-full h-full min-h-[75vw] max-h-[75vw] aspect-[4/3] rounded-none overflow-hidden border-b border-border bg-bg"></div>
-      </main>
+<!-- ===========================
+     HEADER / BANNER
+=========================== -->
+<header class="fixed inset-x-0 top-0 z-30 md:z-[800] h-[64px] md:h-[200px] bg-gradient-to-b from-black via-bg to-[#0f0f0f] flex items-center justify-center border-b border-border shadow-md px-4 md:px-7 py-[14px] box-border backdrop-blur-[10px]">
+  <div class="flex flex-col md:flex-row items-center gap-4 md:gap-10 w-full max-w-[1200px]">
+    <div class="hero-photo left w-[32px] h-[32px] md:w-[104px] md:h-[104px] rounded-full overflow-hidden border-4 border-frame shadow-md shadow-black/30 hover:shadow-lg hover:shadow-black/50 transition-all duration-200 flex-shrink-0 bg-[#0d0d0d]">
+      <img src="images/petru_ioana.jpeg" alt="Petru & Ioana" loading="lazy" class="w-full h-full object-cover" />
     </div>
-
-    <!-- Butoane toggle Hiking / Moto -->
-    <div class="flex justify-between gap-4 px-4 py-2 bg-bg sticky top-[64px+75vw] z-20">
-      <button id="btn-hiking" class="flex-1 py-3 rounded-full bg-primary text-white font-semibold">Hiking</button>
-      <button id="btn-moto" class="flex-1 py-3 rounded-full bg-gray-700 text-white font-semibold">Moto</button>
+    <div class="title text-center md:text-left leading-tight flex flex-col gap-1 md:gap-2 flex-1">
+      <h1 class="text-[12px] md:text-[28px] font-bold tracking-[0.2px] text-text m-0 truncate">GPX Routes — by Petru & Ioana</h1>
+      <h2 class="text-[10px] md:text-[28px] font-bold tracking-[0.2px] text-text m-0 truncate">Hiking Trails & Motorcycle Rides</h2>
+      <div class="subtitle text-[9px] md:text-base text-muted font-medium truncate">Pick a route, explore the map, and download GPX for free.</div>
     </div>
-
-    <!-- Panouri scrollabile -->
-    <div class="flex flex-col gap-2 px-1 pb-2 pt-2 flex-1 min-h-0" style="height:calc(100vh - 64px - 75vw - 56px);">
-      <aside id="hiking-panel" class="hidden bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-2 flex flex-col gap-2 shadow-sm flex-1 min-h-0 max-h-full overflow-y-auto custom-scrollbar hide-scrollbar mb-2">
-        <h3 class="text-base font-semibold flex justify-between items-center mb-2">Hiking Routes <span class="text-muted" id="hiking-count"></span></h3>
-        <div class="flex justify-center w-full mt-2">
-          <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="hiking">
-            <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-primary text-white" data-view="completed">Completed</button>
-            <button class="toggle-btn px-3 py-1 text-xs font-medium cursor-pointer text-muted hover:text-text-secondary" data-view="upcoming">Upcoming</button>
-          </div>
-        </div>
-        <div class="flex gap-1 mt-2">
-          <input id="search-hiking" placeholder="Search hiking routes..." class="flex-1 px-2 py-1 text-xs border border-border rounded bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
-          <button class="btn px-2 py-1 text-xs font-medium rounded border border-border bg-card text-text-secondary cursor-pointer" id="clear-hiking">Clear</button>
-        </div>
-        <div class="overflow-auto pr-1 flex flex-col flex-1 min-h-0" id="hiking-list" aria-live="polite"></div>
-        <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0" id="hiking-upcoming-list" aria-live="polite"></div>
-      </aside>
-
-      <aside id="motor-panel" class="hidden bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-2 flex flex-col gap-2 shadow-sm flex-1 min-h-0 max-h-full overflow-y-auto custom-scrollbar hide-scrollbar">
-        <h3 class="text-base font-semibold flex justify-between items-center mb-2">Motorcycle Routes <span class="text-muted" id="motor-count"></span></h3>
-        <div class="flex justify-center w-full mt-2">
-          <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="motorcycle">
-            <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-primary text-white" data-view="completed">Completed</button>
-            <button class="toggle-btn px-3 py-1 text-xs font-medium cursor-pointer text-muted hover:text-text-secondary" data-view="upcoming">Upcoming</button>
-          </div>
-        </div>
-        <div class="flex gap-1 mt-2">
-          <input id="search-motor" placeholder="Search motorcycle routes..." class="flex-1 px-2 py-1 text-xs border border-border rounded bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
-          <button class="btn px-2 py-1 text-xs font-medium rounded border border-border bg-card text-text-secondary cursor-pointer" id="clear-motor">Clear</button>
-        </div>
-        <div class="overflow-auto pr-1 flex flex-col flex-1 min-h-0" id="motor-list" aria-live="polite"></div>
-        <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0" id="motor-upcoming-list" aria-live="polite"></div>
-      </aside>
+    <div class="hero-photo right w-[32px] h-[32px] md:w-[104px] md:h-[104px] rounded-full overflow-hidden border-4 border-frame shadow-md shadow-black/30 hover:shadow-lg hover:shadow-black/50 transition-all duration-200 flex-shrink-0 bg-[#0d0d0d]">
+      <img src="images/motorcycle.jpeg" alt="Motorcycle" loading="lazy" class="w-full h-full object-cover" />
     </div>
   </div>
+</header>
 
-  <!-- Leaflet JS + GPX plugin -->
-  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
+<!-- ===========================
+     MOBILE: Toggle Hiking / Moto
+=========================== -->
+<div class="md:hidden sticky top-[64px] z-20 flex gap-4 px-4 py-2 bg-bg">
+  <button id="btn-hiking" class="flex-1 py-3 rounded-full bg-primary text-white font-semibold">Hiking</button>
+  <button id="btn-moto" class="flex-1 py-3 rounded-full bg-gray-700 text-white font-semibold">Moto</button>
+</div>
 
-  <!-- JS Toggle Hiking / Moto -->
-  <script>
+<!-- ===========================
+     MAIN CONTENT
+=========================== -->
+<div class="flex flex-col md:grid md:grid-cols-[320px_1fr_320px] lg:grid-cols-[360px_1fr_360px] mt-[64px] md:mt-[200px] gap-2 px-2 md:px-7 pb-4 box-border md:min-h-[calc(100vh-200px)]">
+
+  <!-- LEFT PANEL: Hiking -->
+  <aside id="hiking-panel" class="hidden md:flex flex-col bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-2 md:p-4 shadow-sm flex-1 min-h-0 max-h-full overflow-y-auto custom-scrollbar hide-scrollbar">
+    <h3 class="text-base md:text-lg font-semibold flex justify-between items-center mb-2">Hiking Routes <span class="text-muted" id="hiking-count"></span></h3>
+    <div class="flex justify-center w-full mt-2">
+      <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="hiking">
+        <button class="toggle-btn px-3 py-1 text-xs md:text-sm font-semibold cursor-pointer bg-primary text-white" data-view="completed">Completed</button>
+        <button class="toggle-btn px-3 py-1 text-xs md:text-sm font-medium cursor-pointer text-muted hover:text-text-secondary" data-view="upcoming">Upcoming</button>
+      </div>
+    </div>
+    <div class="flex gap-1 mt-2">
+      <input id="search-hiking" placeholder="Search hiking routes..." class="flex-1 px-2 py-1 text-xs md:text-sm border border-border rounded bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
+      <button class="btn px-2 py-1 text-xs md:text-sm font-medium rounded border border-border bg-card text-text-secondary cursor-pointer" id="clear-hiking">Clear</button>
+    </div>
+    <div class="overflow-auto flex flex-col flex-1 min-h-0" id="hiking-list" aria-live="polite"></div>
+    <div class="upcoming-list overflow-auto hidden flex-col gap-2 flex-1 min-h-0" id="hiking-upcoming-list" aria-live="polite"></div>
+  </aside>
+
+  <!-- MAP -->
+  <main class="w-full md:flex-1 bg-gradient-to-b from-card to-[#0f0f0f] border border-border-light rounded-xl p-2 md:p-4 box-border flex flex-col gap-3 md:h-full shadow-sm">
+    <div class="flex justify-between items-center px-2 pt-1 pb-0 md:pb-2">
+      <span class="font-semibold text-[11px] md:text-base">Map</span>
+      <span class="map-controls flex gap-1 md:gap-2 items-center">
+        <button id="btn-tiles" class="px-2 py-1 md:px-4 md:py-2 text-[10px] md:text-sm rounded bg-card border border-border text-text-secondary">Satellite</button>
+        <button id="btn-clear" class="px-2 py-1 md:px-4 md:py-2 text-[10px] md:text-sm rounded bg-card border border-border text-text-secondary">Clear</button>
+      </span>
+    </div>
+    <div id="map" class="w-full h-[75vw] md:h-full rounded-xl overflow-hidden border-2 border-border shadow-sm"></div>
+  </main>
+
+  <!-- RIGHT PANEL: Motorcycle -->
+  <aside id="motor-panel" class="hidden md:flex flex-col bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-2 md:p-4 shadow-sm flex-1 min-h-0 max-h-full overflow-y-auto custom-scrollbar hide-scrollbar">
+    <h3 class="text-base md:text-lg font-semibold flex justify-between items-center mb-2">Motorcycle Routes <span class="text-muted" id="motor-count"></span></h3>
+    <div class="flex justify-center w-full mt-2">
+      <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="motorcycle">
+        <button class="toggle-btn px-3 py-1 text-xs md:text-sm font-semibold cursor-pointer bg-primary text-white" data-view="completed">Completed</button>
+        <button class="toggle-btn px-3 py-1 text-xs md:text-sm font-medium cursor-pointer text-muted hover:text-text-secondary" data-view="upcoming">Upcoming</button>
+      </div>
+    </div>
+    <div class="flex gap-1 mt-2">
+      <input id="search-motor" placeholder="Search motorcycle routes..." class="flex-1 px-2 py-1 text-xs md:text-sm border border-border rounded bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
+      <button class="btn px-2 py-1 text-xs md:text-sm font-medium rounded border border-border bg-card text-text-secondary cursor-pointer" id="clear-motor">Clear</button>
+    </div>
+    <div class="overflow-auto flex flex-col flex-1 min-h-0" id="motor-list" aria-live="polite"></div>
+    <div class="upcoming-list overflow-auto hidden flex-col gap-2 flex-1 min-h-0" id="motor-upcoming-list" aria-live="polite"></div>
+  </aside>
+</div>
+
+<!-- ===========================
+     Leaflet JS + GPX
+=========================== -->
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
+
+<!-- ===========================
+     JS: Desktop / Mobile toggle + GPX + Filters
+=========================== -->
+<script>
+  const isMobile = window.innerWidth < 768;
+
+  // MOBILE PANEL TOGGLE
+  if(isMobile){
     const btnHiking = document.getElementById('btn-hiking');
     const btnMoto = document.getElementById('btn-moto');
     const hikingPanel = document.getElementById('hiking-panel');
     const motorPanel = document.getElementById('motor-panel');
 
-    // Hiking activ implicit
     hikingPanel.classList.remove('hidden');
     btnHiking.classList.add('bg-primary');
     btnMoto.classList.add('bg-gray-700');
 
     btnHiking.addEventListener('click', () => {
-      const isActive = !hikingPanel.classList.contains('hidden');
-      hikingPanel.classList.toggle('hidden', isActive ? true : false);
+      hikingPanel.classList.remove('hidden');
       motorPanel.classList.add('hidden');
-      btnHiking.classList.toggle('bg-primary', !isActive);
-      btnHiking.classList.toggle('bg-gray-700', isActive);
+      btnHiking.classList.add('bg-primary');
+      btnHiking.classList.remove('bg-gray-700');
       btnMoto.classList.remove('bg-primary');
       btnMoto.classList.add('bg-gray-700');
     });
 
     btnMoto.addEventListener('click', () => {
-      const isActive = !motorPanel.classList.contains('hidden');
-      motorPanel.classList.toggle('hidden', isActive ? true : false);
+      motorPanel.classList.remove('hidden');
       hikingPanel.classList.add('hidden');
-      btnMoto.classList.toggle('bg-primary', !isActive);
-      btnMoto.classList.toggle('bg-gray-700', isActive);
+      btnMoto.classList.add('bg-primary');
+      btnMoto.classList.remove('bg-gray-700');
       btnHiking.classList.remove('bg-primary');
       btnHiking.classList.add('bg-gray-700');
     });
-  </script>
+  } else {
+    document.getElementById('hiking-panel').classList.remove('hidden');
+    document.getElementById('motor-panel').classList.remove('hidden');
+  }
+
+  // ===========================
+  // Leaflet map init
+  // ===========================
+  const DATA_URL = './data/trasee.json';
+  const HIKING_UPCOMING_URL = './data/hiking_upcoming.json';
+  const MOTO_UPCOMING_URL = './data/moto_upcoming.json';
+
+  const map = L.map('map', { center: [50.5,4.5], zoom: 7, preferCanvas:true });
+  const baseOSM = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' });
+  const baseSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Esri Satellite' });
+
+  baseSat.addTo(map);
+  let currentGPX=null, parkingMarkers=[], activeShowButton=null, activeParkingButton=null;
+  const state = { completed:null, upcoming:{ hiking:[], motorcycle:[] }, view:{ hiking:'completed', motorcycle:'completed' } };
+
+  // Tiles toggle
+  let satOn=true;
+  const btnTiles = document.getElementById('btn-tiles');
+  btnTiles.textContent='Map';
+  btnTiles.addEventListener('click', ()=>{
+    if(satOn){ baseOSM.addTo(map); baseSat.remove(); btnTiles.textContent='Satellite'; satOn=false; }
+    else{ baseSat.addTo(map); baseOSM.remove(); btnTiles.textContent='Map'; satOn=true; }
+  });
+
+  // Clear map
+  document.getElementById('btn-clear').addEventListener('click', ()=>{
+    if(currentGPX){ try{ map.removeLayer(currentGPX); }catch{} currentGPX=null; }
+    parkingMarkers.forEach(m=>map.removeLayer(m));
+    parkingMarkers=[];
+    if(activeShowButton){ activeShowButton.classList.remove('bg-primary','border-primary','text-white','font-semibold'); activeShowButton.classList.add('bg-card','border-border','text-text-secondary'); activeShowButton=null; }
+    if(activeParkingButton){ activeParkingButton.classList.remove('bg-primary','border-primary','text-white','font-semibold'); activeParkingButton.classList.add('bg-card','border-border','text-text-secondary'); activeParkingButton=null; }
+  });
+
+  // Load JSON
+  Promise.all([
+    fetch(DATA_URL).then(r=>r.ok?r.json():[]),
+    fetch(HIKING_UPCOMING_URL).then(r=>r.ok?r.json():[]),
+    fetch(MOTO_UPCOMING_URL).then(r=>r.ok?r.json():[]),
+  ])
+  .then(([completed,hikingUpcoming,motoUpcoming])=>{
+    state.completed=completed||{};
+    state.upcoming.hiking=hikingUpcoming||[];
+    state.upcoming.motorcycle=motoUpcoming||[];
+    setupToggles();
+    setupFilters();
+    renderColumn('hiking'); renderColumn('motorcycle');
+  })
+  .catch(err=>{ console.error(err); document.getElementById('hiking-list').innerText='Failed to load data'; document.getElementById('motor-list').innerText='Failed to load data'; });
+
+  function setupToggles(){
+    document.querySelectorAll('.toggle').forEach(toggle=>{
+      const kind=toggle.dataset.kind;
+      toggle.querySelectorAll('.toggle-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          toggle.querySelectorAll('.toggle-btn').forEach(b=>{ b.classList.remove('bg-primary','text-white','font-semibold'); b.classList.add('text-muted','hover:text-text-secondary'); });
+          btn.classList.remove('text-muted','hover:text-text-secondary'); btn.classList.add('bg-primary','text-white','font-semibold');
+          state.view[kind]=btn.dataset.view;
+          renderColumn(kind);
+        });
+      });
+    });
+  }
+
+  function setupFilters(){
+    document.getElementById('search-hiking').addEventListener('input', (e)=>filterList('hiking',e.target.value));
+    document.getElementById('search-motor').addEventListener('input', (e)=>filterList('motorcycle',e.target.value));
+    document.getElementById('clear-hiking').addEventListener('click', ()=>{ document.getElementById('search-hiking').value=''; filterList('hiking',''); });
+    document.getElementById('clear-motor').addEventListener('click', ()=>{ document.getElementById('search-motor').value=''; filterList('motorcycle',''); });
+  }
+
+  function renderColumn(kind){
+    const view=state.view[kind]||'completed';
+    const completedList=document.getElementById(kind==='hiking'?'hiking-list':'motor-list');
+    const upcomingList=document.getElementById(kind==='hiking'?'hiking-upcoming-list':'motor-upcoming-list');
+    if(view==='completed'){ completedList.style.display='block'; upcomingList.style.display='none'; renderCompleted(kind,completedList); updateCount(kind,(state.completed?.[kind]||[]).length,'routes'); }
+    else{ completedList.style.display='none'; upcomingList.style.display='flex'; renderUpcoming(kind,upcomingList); updateCount(kind,(state.upcoming[kind]||[]).length,'upcoming'); }
+  }
+
+  function renderCompleted(kind,container){
+    container.innerHTML=''; 
+    (state.completed?.[kind]||[]).forEach(route=>{
+      const div=document.createElement('div');
+      div.className='route-item p-2 mb-2 border border-border rounded-lg cursor-pointer hover:bg-primary/20 transition-all';
+      div.innerHTML=`<div class="flex justify-between items-center"><span class="font-semibold">${route.name}</span><span class="text-muted text-xs">${route.km} km | ${route.difficulty}</span></div>`;
+      div.addEventListener('click', ()=>{
+        if(currentGPX){ map.removeLayer(currentGPX); }
+        currentGPX=new L.GPX(route.gpx, {async:true, marker_options:{startIconUrl:'',endIconUrl:'',shadowUrl:''}}).on('loaded', e=>{ map.fitBounds(e.target.getBounds()); }).addTo(map);
+      });
+      container.appendChild(div);
+    });
+  }
+
+  function renderUpcoming(kind,container){
+    container.innerHTML='';
+    (state.upcoming[kind]||[]).forEach(route=>{
+      const div=document.createElement('div');
+      div.className='route-item p-2 mb-2 border border-border rounded-lg cursor-pointer hover:bg-primary/20 transition-all';
+      div.innerHTML=`<div class="flex justify-between items-center"><span class="font-semibold">${route.name}</span><span class="text-muted text-xs">${route.date||'TBA'}</span></div>`;
+      container.appendChild(div);
+    });
+  }
+
+  function updateCount(kind,count,txt){ document.getElementById(kind+'-count').textContent=`${count} ${txt}`; }
+
+  function filterList(kind,term){
+    term=term.toLowerCase();
+    const list=state.view[kind]==='completed'?state.completed[kind]||[]:state.upcoming[kind]||[];
+    const filtered=list.filter(r=>r.name.toLowerCase().includes(term));
+    const container=state.view[kind]==='completed'?document.getElementById(kind+'-list'):document.getElementById(kind+'-upcoming-list');
+    container.innerHTML='';
+    filtered.forEach(r=>{
+      const div=document.createElement('div');
+      div.className='route-item p-2 mb-2 border border-border rounded-lg cursor-pointer hover:bg-primary/20 transition-all';
+      div.innerHTML=`<div class="flex justify-between items-center"><span class="font-semibold">${r.name}</span><span class="text-muted text-xs">${r.km||r.date||''}</span></div>`;
+      if(state.view[kind]==='completed'){
+        div.addEventListener('click', ()=>{ if(currentGPX) map.removeLayer(currentGPX); currentGPX=new L.GPX(r.gpx,{async:true}).on('loaded', e=>map.fitBounds(e.target.getBounds())).addTo(map); });
+      }
+      container.appendChild(div);
+    });
+  }
+</script>
 </body>
 </html>
