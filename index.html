@@ -3,23 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <title>Hiking & Motorcycling — Petru & Ioana</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
-
-  <!-- Tailwind CSS - CDN version (perfect for static sites) -->
+  <!-- Tailwind CSS - CDN version -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: '#e74c3c', // red for GPX/active buttons
+            primary: '#e74c3c',
             'primary-hover': '#c0392b',
             bg: '#0a0a0a',
             card: '#151515',
@@ -42,52 +40,20 @@
       }
     }
   </script>
-
-  <!-- Custom scrollbar styling -->
   <style>
-    /* Custom scrollbar for the entire page */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #000000; /* Black background */
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #555; /* Grey scrollbar */
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #777; /* Slightly lighter grey on hover */
-    }
-    ::-webkit-scrollbar-button {
-      background: #333; /* Grey arrows */
-      border-radius: 2px;
-    }
-    ::-webkit-scrollbar-button:hover {
-      background: #555; /* Slightly lighter grey arrows on hover */
-    }
-    /* Custom scrollbar - hide on mobile for panels, show on desktop */
+    /* Custom scrollbar: hidden on mobile, show on desktop */
     .custom-scrollbar::-webkit-scrollbar { width: 0; height: 0; background: transparent; }
-    @media (min-width: 768px) {
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 8px;
-        background: #000000;
-      }
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #555;
-        border-radius: 4px;
-      }
-    }
-    /* Fallback scroll for non-webkit */
-    .hide-scrollbar {
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
+    .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
     .hide-scrollbar::-webkit-scrollbar { display: none; }
+    @media (min-width: 768px) {
+      .custom-scrollbar::-webkit-scrollbar { width: 8px; background: #0a0a0a; }
+      .custom-scrollbar::-webkit-scrollbar-thumb {background: #555; border-radius: 4px;}
+      .hide-scrollbar { scrollbar-width: thin; }
+    }
   </style>
 </head>
 <body class="bg-bg text-text font-inter antialiased h-screen m-0 overflow-y-auto md:overflow-hidden">
-  <!-- Banner/Header - always at top -->
+  <!-- HEADER: Always first -->
   <header class="fixed z-[800] inset-x-0 top-0 h-[200px] bg-gradient-to-b from-black via-bg to-[#0f0f0f] flex items-center justify-center border-b border-border shadow-md px-4 py-4 box-border backdrop-blur-[10px]">
     <div class="flex flex-col md:flex-row items-center gap-6 md:gap-10 w-full max-w-4xl mx-auto">
       <div class="hero-photo left w-[72px] h-[72px] md:w-[104px] md:h-[104px] rounded-full overflow-hidden border-4 border-frame shadow-md bg-[#0d0d0d]">
@@ -104,11 +70,10 @@
     </div>
   </header>
   <div class="pt-[200px] w-full h-full">
-    <!-- Layout TWO MODES: flex-col on mobile, grid on desktop -->
-    <div class="flex flex-col gap-4 md:grid md:grid-cols-[320px_1fr_320px] lg:grid-cols-[360px_1fr_360px] md:gap-[18px] px-[8px] md:px-[18px] pb-[18px] box-border md:h-[calc(100vh-200px)] md:min-h-[calc(100vh-200px)] md:mt-0 max-w-6xl mx-auto w-full">
-
-      <!-- MAP SECTION -->
-      <main class="order-1 md:order-2 bg-gradient-to-b from-card to-[#0f0f0f] border border-border-light rounded-xl p-2 md:p-[14px] flex flex-col gap-3 shadow-sm hover:border-border hover:shadow-md transition-all duration-200 md:col-start-2 h-auto md:h-full max-h-[400px] md:max-h-full">
+    <!-- MOBILE: flex-col, DESKTOP: grid -->
+    <div class="flex flex-col gap-4 md:grid md:grid-cols-3 md:gap-[18px] px-[8px] md:px-[18px] pb-[18px] box-border md:h-[calc(100vh-200px)] md:min-h-[calc(100vh-200px)] max-w-6xl mx-auto w-full">
+      <!-- MAP: Always 2nd on mobile, middle col on desktop -->
+      <main class="bg-gradient-to-b from-card to-[#0f0f0f] border border-border-light rounded-xl p-2 md:p-[14px] flex flex-col gap-3 shadow-sm hover:border-border hover:shadow-md transition-all duration-200 aspect-[16/9] md:aspect-auto md:col-start-2 h-auto md:h-full max-h-[400px] md:max-h-full">
         <div class="flex justify-between items-center mb-2">
           <div class="font-semibold">Map</div>
           <div class="map-controls flex gap-2 items-center justify-end">
@@ -116,11 +81,10 @@
             <button id="btn-clear" class="px-3 py-2 text-xs md:text-sm font-medium rounded-lg bg-card border border-border cursor-pointer text-text-secondary hover:bg-frame hover:text-text transition-all duration-200 shadow-sm hover:shadow-md">Clear routes</button>
           </div>
         </div>
-        <div class="w-full aspect-[16/9] md:aspect-auto md:flex-1 rounded-xl overflow-hidden border-2 border-border shadow-sm" style="min-height:140px;" id="map"></div>
+        <div class="w-full h-full flex-1 rounded-xl overflow-hidden border-2 border-border shadow-sm min-h-[140px]" id="map"></div>
       </main>
-
-      <!-- HIKING COLUMN (panel on mobile) -->
-      <aside class="order-2 md:order-1 bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200 md:col-start-1 h-auto md:h-full custom-scrollbar hide-scrollbar">
+      <!-- Hiking Panel - 3rd on mobile, 1st in grid -->
+      <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200 h-auto md:h-full md:col-start-1 custom-scrollbar hide-scrollbar">
         <h3 class="text-lg font-semibold flex justify-between items-center text-text tracking-[-0.01em] mb-0">Hiking Routes
           <span class="text-muted" id="hiking-count"></span>
         </h3>
@@ -137,9 +101,8 @@
         <div class="overflow-auto pr-1 flex flex-col flex-1 min-h-0 custom-scrollbar hide-scrollbar" id="hiking-list" aria-live="polite"></div>
         <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0 custom-scrollbar hide-scrollbar" id="hiking-upcoming-list" aria-live="polite"></div>
       </aside>
-
-      <!-- MOTORCYCLE COLUMN (panel on mobile) -->
-      <aside class="order-3 md:order-3 bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200 md:col-start-3 h-auto md:h-full custom-scrollbar hide-scrollbar">
+      <!-- Motorcycle Panel - 4th on mobile, 3rd in grid -->
+      <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200 h-auto md:h-full md:col-start-3 custom-scrollbar hide-scrollbar">
         <h3 class="text-lg font-semibold flex justify-between items-center text-text tracking-[-0.01em] mb-0">Motorcycle Routes
           <span class="text-muted" id="motor-count"></span>
         </h3>
@@ -158,11 +121,9 @@
       </aside>
     </div>
   </div>
-  <!-- Leaflet JS -->
+  <!-- Leaflet JS + GPX plugin -->
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
-  <!-- Leaflet GPX plugin -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
-
   <script>
   // --- Config ---
   const DATA_URL = './data/trasee.json'; // completed routes
