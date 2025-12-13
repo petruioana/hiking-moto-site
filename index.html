@@ -439,23 +439,25 @@
       .layout {
         grid-template-columns: 1fr;
         padding:10px;
-        margin-top: 0; /* Let natural flow work */
+        margin-top: 85px; /* Account for fixed header height + border */
         height: auto;
-        min-height: 100vh; /* Allow content to flow naturally with scrolling */
+        min-height: calc(100vh - 85px); /* Ensure content fits in remaining space */
       }
       .map-wrap { order:1; height:60vh; max-height: 400px; }
       .panel { order:2; min-height:120px; height: auto; }
       .panel.right { order:3 }
       .site-header {
-        position: relative;
+        position: fixed; /* Fixed at top on mobile */
+        left: 0;
+        right: 0;
+        top: 0;
         height: auto;
         padding: 24px 14px 28px; /* Increased padding for taller banner */
         min-height: auto;
-        margin-bottom: 20px; /* Increased space below banner */
-        border-bottom: 2px solid var(--border); /* Visual separator */
-        border-radius: 0 0 12px 12px; /* Rounded bottom corners */
-        background: linear-gradient(180deg, var(--bg) 0%, rgba(15,15,15,0.95) 100%);
-        z-index: 10; /* Ensure header stays above content */
+        border-bottom: 3px solid var(--accent); /* Prominent separating line */
+        background: linear-gradient(180deg, var(--bg) 0%, rgba(15,15,15,0.98) 100%);
+        backdrop-filter: blur(10px);
+        z-index: 100; /* High z-index for fixed positioning */
       }
       .site-header .hero-content{
         justify-content: center;
