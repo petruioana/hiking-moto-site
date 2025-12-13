@@ -605,6 +605,7 @@
   let currentGPX = null;
   let parkingMarkers = [];
   let activeShowButton = null; // Track the currently active Show button
+  let activeParkingButton = null; // Track the currently active Parking button
   const state = {
     completed: null,
     upcoming: { hiking: [], motorcycle: [] },
@@ -637,6 +638,11 @@
       activeShowButton.classList.remove('show-active');
       activeShowButton = null;
     }
+    // Deactivate any active Parking button
+    if (activeParkingButton) {
+      activeParkingButton.classList.remove('show-active');
+      activeParkingButton = null;
+    }
   });
 
   function clearGPX(){
@@ -668,6 +674,36 @@
 
     // Activate new button
     activeShowButton = newButton;
+    if (newButton) {
+      newButton.classList.add('show-active');
+    }
+
+    return true; // Indicate button was activated
+  }
+
+  // Helper function to manage active Parking button state
+  function setActiveParkingButton(newButton, coordsStr, title) {
+    // If clicking the same button that's active, deactivate it
+    if (activeParkingButton === newButton) {
+      activeParkingButton.classList.remove('show-active');
+      activeParkingButton = null;
+      clearParkings();
+      return false; // Indicate button was deactivated
+    }
+
+    // Deactivate previous button if any
+    if (activeParkingButton) {
+      activeParkingButton.classList.remove('show-active');
+    }
+
+    // Clear existing parking markers and add new one
+    clearParkings();
+    if (coordsStr && title) {
+      addParkingPoint(coordsStr, title);
+    }
+
+    // Activate new button
+    activeParkingButton = newButton;
     if (newButton) {
       newButton.classList.add('show-active');
     }
@@ -869,7 +905,7 @@
       btnPark.title = 'Show parking point on map';
       if(traseu.trailhead && traseu.trailhead.coords){
         btnPark.addEventListener('click', ()=> {
-          addParkingPoint(traseu.trailhead.coords, traseu.trailhead.name || name);
+          setActiveParkingButton(btnPark, traseu.trailhead.coords, traseu.trailhead.name || name);
         });
       } else {
         btnPark.disabled = true;
