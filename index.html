@@ -85,9 +85,9 @@
     </div>
   </header>
 
-  <div class="mt-[200px] h-[calc(100vh-200px)] grid grid-cols-1 md:grid-cols-[360px_1fr_360px] gap-[18px] px-[18px] pb-[18px] box-border">
-    <!-- MAP (shows first on mobile) -->
-    <main class="bg-gradient-to-b from-card to-[#0f0f0f] border border-border-light rounded-xl p-[14px] box-border md:col-start-2 md:row-start-1 flex flex-col gap-3 h-full max-h-full shadow-sm hover:border-border hover:shadow-md transition-all duration-200 order-1 md:order-2">
+  <div class="mt-[200px] h-[calc(100vh-200px)] px-[18px] pb-[18px] box-border">
+    <!-- MAP (full width on mobile, center on desktop) -->
+    <main class="bg-gradient-to-b from-card to-[#0f0f0f] border border-border-light rounded-xl p-[14px] box-border flex flex-col gap-3 h-full max-h-full shadow-sm hover:border-border hover:shadow-md transition-all duration-200 mb-[18px] md:mb-0">
       <div class="flex justify-between items-center">
         <div class="font-semibold">Map</div>
         <div class="map-controls flex gap-2 items-center justify-end">
@@ -98,8 +98,10 @@
       <div id="map" class="flex-1 rounded-xl overflow-hidden border-2 border-border shadow-sm"></div>
     </main>
 
-    <!-- LEFT: Hiking -->
-    <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 box-border md:col-start-1 md:row-start-1 flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200 order-2 md:order-1" id="hiking-panel">
+    <!-- DESKTOP: Three column layout -->
+    <div class="hidden md:grid md:grid-cols-[360px_1fr_360px] md:gap-[18px]">
+      <!-- LEFT: Hiking -->
+      <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 box-border flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200" id="hiking-panel">
       <h3 class="text-lg font-semibold flex justify-between items-center text-text tracking-[-0.01em] mb-0">Hiking Routes
         <span class="text-muted" id="hiking-count"></span>
       </h3>
@@ -117,18 +119,8 @@
       <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0" id="hiking-upcoming-list" aria-live="polite"></div>
     </aside>
 
-    <!-- MAP -->
-    <main class="bg-gradient-to-b from-card to-[#0f0f0f] border border-border-light rounded-xl p-[14px] box-border flex flex-col gap-3 h-full max-h-full shadow-sm hover:border-border hover:shadow-md transition-all duration-200">
-      <div class="flex justify-between items-center">
-        <div class="font-semibold">Map</div>
-        <div class="map-controls flex gap-2 items-center justify-end">
-          <button id="btn-tiles" class="px-4 py-2 text-sm font-medium rounded-lg bg-card border border-border cursor-pointer text-text-secondary hover:bg-frame hover:text-text transition-all duration-200 shadow-sm hover:shadow-md">Satellite</button>
-          <button id="btn-clear" class="px-4 py-2 text-sm font-medium rounded-lg bg-card border border-border cursor-pointer text-text-secondary hover:bg-frame hover:text-text transition-all duration-200 shadow-sm hover:shadow-md">Clear routes</button>
-        </div>
-      </div>
-      <div id="map" class="flex-1 rounded-xl overflow-hidden border-2 border-border shadow-sm"></div>
-    <!-- RIGHT: Motorcycle -->
-    <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 box-border md:col-start-3 md:row-start-1 flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200 order-3 md:order-3" id="motor-panel">
+      <!-- RIGHT: Motorcycle (Desktop) -->
+      <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 box-border flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200" id="motor-panel">
       <h3 class="text-lg font-semibold flex justify-between items-center text-text tracking-[-0.01em] mb-0">Motorcycle Routes
         <span class="text-muted" id="motor-count"></span>
       </h3>
@@ -145,7 +137,48 @@
       <div class="overflow-auto pr-1 flex flex-col flex-1 min-h-0" id="motor-list" aria-live="polite"></div>
       <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0" id="motor-upcoming-list" aria-live="polite"></div>
     </aside>
-  </div>
+    </div>
+
+    <!-- MOBILE: Two column layout below map -->
+    <div class="md:hidden grid grid-cols-2 gap-[18px]">
+      <!-- LEFT: Hiking (Mobile) -->
+      <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 box-border flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200" id="hiking-panel-mobile">
+        <h3 class="text-lg font-semibold flex justify-between items-center text-text tracking-[-0.01em] mb-0">Hiking Routes
+          <span class="text-muted" id="hiking-count-mobile"></span>
+        </h3>
+        <div class="flex justify-center w-full mt-2">
+          <div class="inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="hiking-mobile">
+            <button class="toggle-btn px-4 py-2 text-sm font-semibold cursor-pointer bg-primary text-white transition-colors duration-200" data-view="completed">Completed</button>
+            <button class="toggle-btn px-4 py-2 text-sm font-medium cursor-pointer text-muted hover:text-text-secondary transition-colors duration-200" data-view="upcoming">Upcoming</button>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-2">
+          <input id="search-hiking-mobile" placeholder="Search hiking routes..." class="flex-1 px-3 py-2 text-sm border border-border rounded-lg bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
+          <button class="btn px-3 py-2 text-sm font-medium rounded-lg border border-border bg-card text-text-secondary cursor-pointer shadow-sm hover:bg-frame hover:text-text hover:-translate-y-0.5 hover:shadow-md transition-all duration-200" id="clear-hiking-mobile">Clear</button>
+        </div>
+        <div class="overflow-auto pr-1 flex flex-col flex-1 min-h-0" id="hiking-list-mobile" aria-live="polite"></div>
+        <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0" id="hiking-upcoming-list-mobile" aria-live="polite"></div>
+      </aside>
+
+      <!-- RIGHT: Motorcycle (Mobile) -->
+      <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 box-border flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200" id="motor-panel-mobile">
+        <h3 class="text-lg font-semibold flex justify-between items-center text-text tracking-[-0.01em] mb-0">Motorcycle Routes
+          <span class="text-muted" id="motor-count-mobile"></span>
+        </h3>
+        <div class="flex justify-center w-full mt-2">
+          <div class="inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="motorcycle-mobile">
+            <button class="toggle-btn px-4 py-2 text-sm font-semibold cursor-pointer bg-primary text-white transition-colors duration-200" data-view="completed">Completed</button>
+            <button class="toggle-btn px-4 py-2 text-sm font-medium cursor-pointer text-muted hover:text-text-secondary transition-colors duration-200" data-view="upcoming">Upcoming</button>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-2">
+          <input id="search-motor-mobile" placeholder="Search motorcycle routes..." class="flex-1 px-3 py-2 text-sm border border-border rounded-lg bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
+          <button class="btn px-3 py-2 text-sm font-medium rounded-lg border border-border bg-card text-text-secondary cursor-pointer shadow-sm hover:bg-frame hover:text-text hover:-translate-y-0.5 hover:shadow-md transition-all duration-200" id="clear-motor-mobile">Clear</button>
+        </div>
+        <div class="overflow-auto pr-1 flex flex-col flex-1 min-h-0" id="motor-list-mobile" aria-live="polite"></div>
+        <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0" id="motor-upcoming-list-mobile" aria-live="polite"></div>
+      </aside>
+    </div>
 
   <!-- Leaflet JS -->
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -330,34 +363,64 @@
   }
 
   function setupFilters(){
+    // Desktop filters
     document.getElementById('search-hiking').addEventListener('input', (e)=> filterList('hiking', e.target.value));
     document.getElementById('search-motor').addEventListener('input', (e)=> filterList('motorcycle', e.target.value));
     document.getElementById('clear-hiking').addEventListener('click', ()=> { document.getElementById('search-hiking').value=''; filterList('hiking',''); });
     document.getElementById('clear-motor').addEventListener('click', ()=> { document.getElementById('search-motor').value=''; filterList('motorcycle',''); });
+
+    // Mobile filters
+    document.getElementById('search-hiking-mobile').addEventListener('input', (e)=> filterList('hiking', e.target.value));
+    document.getElementById('search-motor-mobile').addEventListener('input', (e)=> filterList('motorcycle', e.target.value));
+    document.getElementById('clear-hiking-mobile').addEventListener('click', ()=> { document.getElementById('search-hiking-mobile').value=''; filterList('hiking',''); });
+    document.getElementById('clear-motor-mobile').addEventListener('click', ()=> { document.getElementById('search-motor-mobile').value=''; filterList('motorcycle',''); });
   }
 
   function renderColumn(kind){
     const view = state.view[kind] || 'completed';
+
+    // Desktop panels
     const completedList = document.getElementById(kind==='hiking' ? 'hiking-list' : 'motor-list');
     const upcomingList = document.getElementById(kind==='hiking' ? 'hiking-upcoming-list' : 'motor-upcoming-list');
 
+    // Mobile panels
+    const completedListMobile = document.getElementById(kind==='hiking' ? 'hiking-list-mobile' : 'motor-list-mobile');
+    const upcomingListMobile = document.getElementById(kind==='hiking' ? 'hiking-upcoming-list-mobile' : 'motor-upcoming-list-mobile');
+
     if(view === 'completed'){
+      // Desktop
       completedList.style.display = 'block';
       upcomingList.style.display = 'none';
+      // Mobile
+      if (completedListMobile) completedListMobile.style.display = 'block';
+      if (upcomingListMobile) upcomingListMobile.style.display = 'none';
+
       renderCompleted(kind, completedList);
+      if (completedListMobile) renderCompleted(kind, completedListMobile);
       updateCount(kind, (state.completed?.[kind] || []).length, 'routes');
     }else{
+      // Desktop
       completedList.style.display = 'none';
       upcomingList.style.display = 'flex';
+      // Mobile
+      if (completedListMobile) completedListMobile.style.display = 'none';
+      if (upcomingListMobile) upcomingListMobile.style.display = 'flex';
+
       renderUpcoming(kind, upcomingList);
+      if (upcomingListMobile) renderUpcoming(kind, upcomingListMobile);
       updateCount(kind, (state.upcoming[kind] || []).length, 'upcoming');
     }
     filterList(kind, (document.getElementById(kind==='hiking'?'search-hiking':'search-motor').value||'')); // respect current search
   }
 
   function updateCount(kind, count, label){
+    // Desktop count
     const el = document.getElementById(kind==='hiking' ? 'hiking-count' : 'motor-count');
     if(el) el.textContent = `${count} ${label}`;
+
+    // Mobile count
+    const elMobile = document.getElementById(kind==='hiking' ? 'hiking-count-mobile' : 'motor-count-mobile');
+    if(elMobile) elMobile.textContent = `${count} ${label}`;
   }
 
   function renderCompleted(kind, container){
@@ -433,14 +496,32 @@
   function filterList(kind, q){
     q = (q||'').toLowerCase().trim();
     const view = state.view[kind] || 'completed';
+
+    // Desktop container
     const container = view === 'completed'
       ? (kind==='hiking' ? document.getElementById('hiking-list') : document.getElementById('motor-list'))
       : (kind==='hiking' ? document.getElementById('hiking-upcoming-list') : document.getElementById('motor-upcoming-list'));
 
-    Array.from(container.children).forEach(card=>{
-      const txt = (card.dataset.search||'').toLowerCase();
-      card.style.display = txt.includes(q) ? '' : 'none';
-    });
+    // Mobile container
+    const containerMobile = view === 'completed'
+      ? (kind==='hiking' ? document.getElementById('hiking-list-mobile') : document.getElementById('motor-list-mobile'))
+      : (kind==='hiking' ? document.getElementById('hiking-upcoming-list-mobile') : document.getElementById('motor-upcoming-list-mobile'));
+
+    // Filter desktop
+    if (container) {
+      Array.from(container.children).forEach(card=>{
+        const txt = (card.dataset.search||'').toLowerCase();
+        card.style.display = txt.includes(q) ? '' : 'none';
+      });
+    }
+
+    // Filter mobile
+    if (containerMobile) {
+      Array.from(containerMobile.children).forEach(card=>{
+        const txt = (card.dataset.search||'').toLowerCase();
+        card.style.display = txt.includes(q) ? '' : 'none';
+      });
+    }
   }
 
   function createRouteCard(traseu, kind, index){
