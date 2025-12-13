@@ -357,6 +357,18 @@
       transform:translateY(-1px);
       box-shadow:0 4px 12px rgba(231,76,60,0.3);
     }
+    .btn.show-active{
+      background:var(--accent);
+      border-color:var(--accent);
+      color:#fff;
+      font-weight:600;
+    }
+    .btn.show-active:hover:not(:disabled) {
+      background:var(--accent-hover);
+      border-color:var(--accent-hover);
+      transform:translateY(-1px);
+      box-shadow:0 4px 12px rgba(231,76,60,0.3);
+    }
     .muted { color:var(--muted); font-size:13px }
 
     /* Map container with frame */
@@ -592,6 +604,7 @@
 
   let currentGPX = null;
   let parkingMarkers = [];
+  let activeShowButton = null; // Track the currently active Show button
   const state = {
     completed: null,
     upcoming: { hiking: [], motorcycle: [] },
@@ -619,6 +632,11 @@
   document.getElementById('btn-clear').addEventListener('click', () => {
     clearGPX();
     clearParkings();
+    // Deactivate any active Show button
+    if (activeShowButton) {
+      activeShowButton.classList.remove('show-active');
+      activeShowButton = null;
+    }
   });
 
   function clearGPX(){
@@ -630,6 +648,31 @@
   function clearParkings(){
     parkingMarkers.forEach(m => map.removeLayer(m));
     parkingMarkers = [];
+  }
+
+  // Helper function to manage active Show button state
+  function setActiveShowButton(newButton) {
+    // If clicking the same button that's active, deactivate it
+    if (activeShowButton === newButton) {
+      activeShowButton.classList.remove('show-active');
+      activeShowButton = null;
+      clearGPX();
+      clearParkings();
+      return false; // Indicate button was deactivated
+    }
+
+    // Deactivate previous button if any
+    if (activeShowButton) {
+      activeShowButton.classList.remove('show-active');
+    }
+
+    // Activate new button
+    activeShowButton = newButton;
+    if (newButton) {
+      newButton.classList.add('show-active');
+    }
+
+    return true; // Indicate button was activated
   }
 
   // load JSON and render lists
@@ -736,7 +779,9 @@
       showBtn.title = u.gpx ? 'Show this GPX on the map' : 'No GPX available';
       showBtn.addEventListener('click', ()=> {
         if(!u.gpx){ alert('No GPX available for this route'); return; }
-        loadAndShowGPX(u.gpx);
+        if (setActiveShowButton(showBtn)) {
+          loadAndShowGPX(u.gpx);
+        }
       });
       actions.appendChild(showBtn);
 
@@ -811,7 +856,9 @@
     btnShow.title = gpx ? 'Show this GPX on the map' : 'No GPX available';
     btnShow.addEventListener('click', ()=> {
       if(!gpx){ alert('No GPX available for this route'); return; }
-      loadAndShowGPX(gpx);
+      if (setActiveShowButton(btnShow)) {
+        loadAndShowGPX(gpx);
+      }
     });
     actions.appendChild(btnShow);
 
