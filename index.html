@@ -3,18 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hiking & Motorcycling — Petru & Ioana (Mobil)</title>
+  <title>Hiking & Motorcycling — Petru & Ioana</title>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Tailwind CSS - CDN version (perfect for static sites) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: '#e74c3c',
+            primary: '#e74c3c', // red for GPX/active buttons
             'primary-hover': '#c0392b',
             bg: '#0a0a0a',
             card: '#151515',
@@ -37,16 +43,121 @@
       }
     }
   </script>
+
+  <!-- Custom scrollbar styling -->
   <style>
-    html, body { background: #0a0a0a; }
-    .custom-scrollbar::-webkit-scrollbar { width: 0; height: 0; background: transparent; }
+    /* Custom scrollbar for the entire page */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #000000; /* Black background */
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #555; /* Grey scrollbar */
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #777; /* Slightly lighter grey on hover */
+    }
+    ::-webkit-scrollbar-button {
+      background: #333; /* Grey arrows */
+      border-radius: 2px;
+    }
+    ::-webkit-scrollbar-button:hover {
+      background: #555; /* Slightly lighter grey arrows on hover */
+    }
+
+    /* Hide scrollbar for mobile */
     .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
     .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+    /* Desktop layout */
+    #desktop-layout { display: block; }
+    #mobile-layout { display: none; }
+
+    /* Mobile layout */
+    @media (max-width: 768px) {
+      #desktop-layout { display: none; }
+      #mobile-layout { display: block; }
+    }
   </style>
-</head>
-<body class="bg-bg text-text font-inter antialiased min-h-screen max-w-full overflow-x-hidden">
-  <div class="bg-bg min-h-screen flex flex-col">
-    <!-- Banner sticky sus, poze spre centru lângă titlu -->
+
+<body class="m-0 bg-bg text-text font-inter antialiased">
+  <!-- DESKTOP LAYOUT -->
+  <div id="desktop-layout" class="h-screen flex flex-col overflow-hidden">
+    <header class="fixed inset-x-0 top-0 h-[200px] bg-gradient-to-b from-black via-bg to-[#0f0f0f] flex items-center justify-center border-b border-border shadow-md z-[800] px-7 py-[18px] box-border backdrop-blur-[10px]">
+    <div class="flex flex-col items-center gap-6">
+      <div class="hero-photo left w-[85px] h-[85px] rounded-full overflow-hidden border-4 border-frame shadow-md shadow-black/30 hover:shadow-lg hover:shadow-black/50 transition-all duration-200 flex-shrink-0 bg-[#0d0d0d]">
+        <img src="images/petru_ioana.jpeg" alt="Petru and Ioana" loading="lazy" class="w-full h-full object-cover" />
+      </div>
+      <div class="title text-center leading-tight flex flex-col gap-2">
+        <h1 class="text-[28px] font-bold tracking-[0.2px] text-text m-0">GPX Routes — by Petru & Ioana</h1>
+        <h2 class="text-[28px] font-bold tracking-[0.2px] text-text m-0">Hiking Trails & Motorcycle Rides</h2>
+        <div class="subtitle text-base text-muted font-medium">Pick a route, explore the map, and download GPX for free.</div>
+      </div>
+      <div class="hero-photo right w-[85px] h-[85px] rounded-full overflow-hidden border-4 border-frame shadow-md shadow-black/30 hover:shadow-lg hover:shadow-black/50 transition-all duration-200 flex-shrink-0 bg-[#0d0d0d]">
+        <img src="images/motorcycle.jpeg" alt="Motorcycle" loading="lazy" class="w-full h-full object-cover" />
+      </div>
+    </div>
+  </header>
+
+  <div class="mt-[200px] h-[calc(100vh-200px)] grid grid-cols-[360px_1fr_360px] gap-[18px] px-[18px] pb-[18px] box-border">
+    <!-- LEFT: Hiking -->
+    <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 box-border h-full max-h-full flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200" id="hiking-panel-desktop">
+      <h3 class="text-lg font-semibold flex justify-between items-center text-text tracking-[-0.01em] mb-0">Hiking Routes
+        <span class="text-muted" id="hiking-count"></span>
+      </h3>
+      <div class="flex justify-center w-full mt-2">
+        <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="hiking">
+          <button class="toggle-btn px-4 py-2 text-sm font-semibold cursor-pointer bg-primary text-white transition-colors duration-200" data-view="completed">Completed</button>
+          <button class="toggle-btn px-4 py-2 text-sm font-medium cursor-pointer text-muted hover:text-text-secondary transition-colors duration-200" data-view="upcoming">Upcoming</button>
+        </div>
+      </div>
+      <div class="flex gap-2 mt-2">
+        <input id="search-hiking" placeholder="Search hiking routes..." class="flex-1 px-3 py-2 text-sm border border-border rounded-lg bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
+        <button class="btn px-3 py-2 text-sm font-medium rounded-lg border border-border bg-card text-text-secondary cursor-pointer shadow-sm hover:bg-frame hover:text-text hover:-translate-y-0.5 hover:shadow-md transition-all duration-200" id="clear-hiking">Clear</button>
+      </div>
+      <div class="overflow-auto pr-1 flex flex-col flex-1 min-h-0" id="hiking-list-desktop" aria-live="polite"></div>
+      <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0" id="hiking-upcoming-list-desktop" aria-live="polite"></div>
+    </aside>
+
+      <!-- RIGHT: Motorcycle (Desktop) -->
+      <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 box-border flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200" id="motor-panel-desktop">
+      <h3 class="text-lg font-semibold flex justify-between items-center text-text tracking-[-0.01em] mb-0">Motorcycle Routes
+        <span class="text-muted" id="motor-count"></span>
+      </h3>
+      <div class="flex justify-center w-full mt-2">
+        <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="motorcycle">
+          <button class="toggle-btn px-4 py-2 text-sm font-semibold cursor-pointer bg-primary text-white transition-colors duration-200" data-view="completed">Completed</button>
+          <button class="toggle-btn px-4 py-2 text-sm font-medium cursor-pointer text-muted hover:text-text-secondary transition-colors duration-200" data-view="upcoming">Upcoming</button>
+        </div>
+      </div>
+      <div class="flex gap-2 mt-2">
+        <input id="search-motor" placeholder="Search motorcycle routes..." class="flex-1 px-3 py-2 text-sm border border-border rounded-lg bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
+        <button class="btn px-3 py-2 text-sm font-medium rounded-lg border border-border bg-card text-text-secondary cursor-pointer shadow-sm hover:bg-frame hover:text-text hover:-translate-y-0.5 hover:shadow-md transition-all duration-200" id="clear-motor">Clear</button>
+      </div>
+      <div class="overflow-auto pr-1 flex flex-col flex-1 min-h-0" id="motor-list-desktop" aria-live="polite"></div>
+      <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0" id="motor-upcoming-list-desktop" aria-live="polite"></div>
+    </aside>
+
+    <!-- MAP -->
+    <main class="bg-gradient-to-b from-card to-[#0f0f0f] border border-border-light rounded-xl p-[14px] box-border flex flex-col gap-3 h-full max-h-full shadow-sm hover:border-border hover:shadow-md transition-all duration-200">
+      <div class="flex justify-between items-center">
+        <div class="font-semibold">Map</div>
+        <div class="map-controls flex gap-2 items-center justify-end">
+          <button id="btn-tiles-desktop" class="px-4 py-2 text-sm font-medium rounded-lg bg-card border border-border cursor-pointer text-text-secondary hover:bg-frame hover:text-text transition-all duration-200 shadow-sm hover:shadow-md">Satellite</button>
+          <button id="btn-clear-desktop" class="px-4 py-2 text-sm font-medium rounded-lg bg-card border border-border cursor-pointer text-text-secondary hover:bg-frame hover:text-text transition-all duration-200 shadow-sm hover:shadow-md">Clear routes</button>
+        </div>
+      </div>
+      <div id="map-desktop" class="flex-1 rounded-xl overflow-hidden border-2 border-border shadow-sm"></div>
+    </main>
+  </div>
+  </div>
+
+  <!-- MOBILE LAYOUT -->
+  <div id="mobile-layout" class="bg-bg min-h-screen flex flex-col">
+    <!-- Banner sticky sus -->
     <header class="sticky top-0 z-30 h-[64px] w-full flex items-center justify-center border-b border-border shadow-sm px-1 py-0 gap-4 box-border bg-gradient-to-b from-black via-bg to-[#0f0f0f]">
       <div class="flex items-center justify-center w-full max-w-xs mx-auto gap-2">
         <img src="images/petru_ioana.jpeg" alt="Petru" class="w-[32px] h-[32px] rounded-full border-2 border-frame shadow bg-[#0d0d0d] object-cover" />
@@ -58,23 +169,31 @@
         <img src="images/motorcycle.jpeg" alt="Motorcycle" class="w-[32px] h-[32px] rounded-full border-2 border-frame shadow bg-[#0d0d0d] object-cover" />
       </div>
     </header>
-    <!-- Hartă sticky sub header aspect 4:3 -->
-    <div class="sticky top-[64px] z-10 w-full bg-bg">
+
+    <!-- Hartă sticky sub header -->
+    <div class="sticky top-[64px] z-10 w-full">
       <main class="w-full aspect-[4/3] rounded-none border-b border-border bg-gradient-to-b from-card to-[#0f0f0f] px-0 flex flex-col shadow-sm">
         <div class="flex justify-between items-center px-2 pt-1 pb-0">
           <span class="font-semibold text-[11px]">Map</span>
           <span class="map-controls flex gap-1 items-center">
-            <button id="btn-tiles" class="px-2 py-1 text-[10px] rounded bg-card border border-border text-text-secondary">Satellite</button>
-            <button id="btn-clear" class="px-2 py-1 text-[10px] rounded bg-card border border-border text-text-secondary">Clear</button>
+            <button id="btn-tiles-mobile" class="px-2 py-1 text-[10px] rounded bg-card border border-border text-text-secondary">Satellite</button>
+            <button id="btn-clear-mobile" class="px-2 py-1 text-[10px] rounded bg-card border border-border text-text-secondary">Clear</button>
           </span>
         </div>
-        <div id="map" class="w-full h-full min-h-[75vw] max-h-[75vw] aspect-[4/3] rounded-none overflow-hidden border-b border-border bg-bg"></div>
+        <div id="map-mobile" class="w-full h-full min-h-[75vw] max-h-[75vw] aspect-[4/3] rounded-none overflow-hidden border-b border-border bg-bg"></div>
       </main>
     </div>
-    <!-- Panouri scrollabile, block -->
-    <div class="flex flex-col gap-2 px-1 pb-2 pt-2" style="height:calc(100vh - 64px - 75vw);">
-      <aside id="hiking-panel" class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-2 flex flex-col gap-2 shadow-sm flex-1 min-h-0 max-h-full overflow-y-auto custom-scrollbar hide-scrollbar mb-2">
-        <h3 class="text-base font-semibold flex justify-between items-center mb-2">Hiking Routes <span class="text-muted" id="hiking-count"></span></h3>
+
+    <!-- Butoane toggle Hiking / Moto -->
+    <div class="flex justify-between gap-4 px-4 py-2 bg-bg sticky top-[calc(64px+75vw)] z-20">
+      <button id="btn-hiking-mobile" class="flex-1 py-3 rounded-full bg-primary text-white font-semibold">Hiking</button>
+      <button id="btn-moto-mobile" class="flex-1 py-3 rounded-full bg-gray-700 text-white font-semibold">Moto</button>
+    </div>
+
+    <!-- Panouri scrollabile -->
+    <div class="flex flex-col gap-2 px-1 pb-2 pt-2 flex-1 min-h-0" style="height:calc(100vh - 64px - 75vw - 56px);">
+      <aside id="hiking-panel-mobile" class="hidden bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-2 flex flex-col gap-2 shadow-sm flex-1 min-h-0 max-h-full overflow-y-auto hide-scrollbar mb-2">
+        <h3 class="text-base font-semibold flex justify-between items-center mb-2">Hiking Routes <span class="text-muted" id="hiking-count-mobile"></span></h3>
         <div class="flex justify-center w-full mt-2">
           <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="hiking">
             <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-primary text-white" data-view="completed">Completed</button>
@@ -82,14 +201,15 @@
           </div>
         </div>
         <div class="flex gap-1 mt-2">
-          <input id="search-hiking" placeholder="Search hiking routes..." class="flex-1 px-2 py-1 text-xs border border-border rounded bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
-          <button class="btn px-2 py-1 text-xs font-medium rounded border border-border bg-card text-text-secondary cursor-pointer" id="clear-hiking">Clear</button>
+          <input id="search-hiking-mobile" placeholder="Search hiking routes..." class="flex-1 px-2 py-1 text-xs border border-border rounded bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
+          <button class="btn px-2 py-1 text-xs font-medium rounded border border-border bg-card text-text-secondary cursor-pointer" id="clear-hiking-mobile">Clear</button>
         </div>
-        <div class="overflow-auto pr-1 flex flex-col flex-1 min-h-0" id="hiking-list" aria-live="polite"></div>
-        <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0" id="hiking-upcoming-list" aria-live="polite"></div>
+        <div class="overflow-auto pr-1 flex flex-col flex-1 min-h-0" id="hiking-list-mobile" aria-live="polite"></div>
+        <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0" id="hiking-upcoming-list-mobile" aria-live="polite"></div>
       </aside>
-      <aside id="motor-panel" class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-2 flex flex-col gap-2 shadow-sm flex-1 min-h-0 max-h-full overflow-y-auto custom-scrollbar hide-scrollbar">
-        <h3 class="text-base font-semibold flex justify-between items-center mb-2">Motorcycle Routes <span class="text-muted" id="motor-count"></span></h3>
+
+      <aside id="motor-panel-mobile" class="hidden bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-2 flex flex-col gap-2 shadow-sm flex-1 min-h-0 max-h-full overflow-y-auto hide-scrollbar">
+        <h3 class="text-base font-semibold flex justify-between items-center mb-2">Motorcycle Routes <span class="text-muted" id="motor-count-mobile"></span></h3>
         <div class="flex justify-center w-full mt-2">
           <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="motorcycle">
             <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-primary text-white" data-view="completed">Completed</button>
@@ -97,21 +217,549 @@
           </div>
         </div>
         <div class="flex gap-1 mt-2">
-          <input id="search-motor" placeholder="Search motorcycle routes..." class="flex-1 px-2 py-1 text-xs border border-border rounded bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
-          <button class="btn px-2 py-1 text-xs font-medium rounded border border-border bg-card text-text-secondary cursor-pointer" id="clear-motor">Clear</button>
+          <input id="search-motor-mobile" placeholder="Search motorcycle routes..." class="flex-1 px-2 py-1 text-xs border border-border rounded bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
+          <button class="btn px-2 py-1 text-xs font-medium rounded border border-border bg-card text-text-secondary cursor-pointer" id="clear-motor-mobile">Clear</button>
         </div>
-        <div class="overflow-auto pr-1 flex flex-col flex-1 min-h-0" id="motor-list" aria-live="polite"></div>
-        <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0" id="motor-upcoming-list" aria-live="polite"></div>
+        <div class="overflow-auto pr-1 flex flex-col flex-1 min-h-0" id="motor-list-mobile" aria-live="polite"></div>
+        <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0" id="motor-upcoming-list-mobile" aria-live="polite"></div>
       </aside>
     </div>
   </div>
-  <!-- Leaflet JS + GPX plugin -->
+
+  <!-- Leaflet JS -->
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Leaflet GPX plugin -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
+
   <script>
-  // JS identic cu fișierul tău original (Hiking Moto Site), id-urile și structura panelurilor păstrate
-  // Poți copia ici codul JS din "cea mai buna forma" fără nicio problemă.  
-  // ... aici vine JS-ul de la <script>...</script> din fișierul tău original ...
+  // --- Config ---
+  const DATA_URL = './data/trasee.json'; // completed routes
+  const HIKING_UPCOMING_URL = './data/hiking_upcoming.json';
+  const MOTO_UPCOMING_URL = './data/moto_upcoming.json';
+  // Esri Satellite tiles
+  const ESRI_SAT = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+  const OSM = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+  // Global state
+  const state = {
+    completed: null,
+    upcoming: { hiking: [], motorcycle: [] },
+    view: { hiking: 'completed', motorcycle: 'completed' }
+  };
+
+  // Map instances for both desktop and mobile
+  let mapDesktop = null, mapMobile = null;
+  let currentGPXDesktop = null, currentGPXMobile = null;
+  let parkingMarkersDesktop = [], parkingMarkersMobile = [];
+  let activeShowButtonDesktop = null, activeShowButtonMobile = null;
+  let activeParkingButtonDesktop = null, activeParkingButtonMobile = null;
+  let satOnDesktop = true, satOnMobile = true;
+
+  // Initialize maps
+  function initMaps() {
+    // Desktop map
+    mapDesktop = L.map('map-desktop', {
+      center: [50.5, 4.5],
+      zoom: 7,
+      preferCanvas: true
+    });
+    const baseOSMDesktop = L.tileLayer(OSM, { attribution: '© OpenStreetMap contributors' });
+    const baseSatDesktop = L.tileLayer(ESRI_SAT, { attribution: 'Esri Satellite' });
+    baseSatDesktop.addTo(mapDesktop);
+
+    // Mobile map
+    mapMobile = L.map('map-mobile', {
+      center: [50.5, 4.5],
+      zoom: 7,
+      preferCanvas: true
+    });
+    const baseOSMMobile = L.tileLayer(OSM, { attribution: '© OpenStreetMap contributors' });
+    const baseSatMobile = L.tileLayer(ESRI_SAT, { attribution: 'Esri Satellite' });
+    baseSatMobile.addTo(mapMobile);
+
+    // Desktop tile toggle
+    document.getElementById('btn-tiles-desktop').textContent = 'Map';
+    document.getElementById('btn-tiles-desktop').addEventListener('click', () => {
+      if (!satOnDesktop) {
+        baseSatDesktop.addTo(mapDesktop);
+        baseOSMDesktop.remove();
+        document.getElementById('btn-tiles-desktop').textContent = 'Map';
+        satOnDesktop = true;
+      } else {
+        baseOSMDesktop.addTo(mapDesktop);
+        baseSatDesktop.remove();
+        document.getElementById('btn-tiles-desktop').textContent = 'Satellite';
+        satOnDesktop = false;
+      }
+    });
+
+    // Mobile tile toggle
+    document.getElementById('btn-tiles-mobile').textContent = 'Satellite';
+    document.getElementById('btn-tiles-mobile').addEventListener('click', () => {
+      if (!satOnMobile) {
+        baseSatMobile.addTo(mapMobile);
+        baseOSMMobile.remove();
+        document.getElementById('btn-tiles-mobile').textContent = 'Map';
+        satOnMobile = true;
+      } else {
+        baseOSMMobile.addTo(mapMobile);
+        baseSatMobile.remove();
+        document.getElementById('btn-tiles-mobile').textContent = 'Satellite';
+        satOnMobile = false;
+      }
+    });
+
+    // Desktop clear
+    document.getElementById('btn-clear-desktop').addEventListener('click', () => {
+      clearGPX('desktop');
+      clearParkings('desktop');
+      if (activeShowButtonDesktop) {
+        activeShowButtonDesktop.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+        activeShowButtonDesktop.classList.add('bg-card', 'border-border', 'text-text-secondary');
+        activeShowButtonDesktop = null;
+      }
+      if (activeParkingButtonDesktop) {
+        activeParkingButtonDesktop.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+        activeParkingButtonDesktop.classList.add('bg-card', 'border-border', 'text-text-secondary');
+        activeParkingButtonDesktop = null;
+      }
+    });
+
+    // Mobile clear
+    document.getElementById('btn-clear-mobile').addEventListener('click', () => {
+      clearGPX('mobile');
+      clearParkings('mobile');
+      if (activeShowButtonMobile) {
+        activeShowButtonMobile.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+        activeShowButtonMobile.classList.add('bg-card', 'border-border', 'text-text-secondary');
+        activeShowButtonMobile = null;
+      }
+      if (activeParkingButtonMobile) {
+        activeParkingButtonMobile.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+        activeParkingButtonMobile.classList.add('bg-card', 'border-border', 'text-text-secondary');
+        activeParkingButtonMobile = null;
+      }
+    });
+
+    // Mobile hiking/moto toggle
+    const btnHikingMobile = document.getElementById('btn-hiking-mobile');
+    const btnMotoMobile = document.getElementById('btn-moto-mobile');
+    const hikingPanelMobile = document.getElementById('hiking-panel-mobile');
+    const motorPanelMobile = document.getElementById('motor-panel-mobile');
+
+    hikingPanelMobile.classList.remove('hidden');
+
+    btnHikingMobile.addEventListener('click', () => {
+      const isActive = !hikingPanelMobile.classList.contains('hidden');
+      hikingPanelMobile.classList.toggle('hidden', isActive ? true : false);
+      motorPanelMobile.classList.add('hidden');
+      btnHikingMobile.classList.toggle('bg-primary', !isActive);
+      btnHikingMobile.classList.toggle('bg-gray-700', isActive);
+      btnMotoMobile.classList.remove('bg-primary');
+      btnMotoMobile.classList.add('bg-gray-700');
+    });
+
+    btnMotoMobile.addEventListener('click', () => {
+      const isActive = !motorPanelMobile.classList.contains('hidden');
+      motorPanelMobile.classList.toggle('hidden', isActive ? true : false);
+      hikingPanelMobile.classList.add('hidden');
+      btnMotoMobile.classList.toggle('bg-primary', !isActive);
+      btnMotoMobile.classList.toggle('bg-gray-700', isActive);
+      btnHikingMobile.classList.remove('bg-primary');
+      btnHikingMobile.classList.add('bg-gray-700');
+    });
+  }
+
+  function clearGPX(layout) {
+    let currentGPX = layout === 'desktop' ? currentGPXDesktop : currentGPXMobile;
+    let map = layout === 'desktop' ? mapDesktop : mapMobile;
+    if (currentGPX) {
+      try { map.removeLayer(currentGPX); } catch(e){}
+    }
+    if (layout === 'desktop') {
+      currentGPXDesktop = null;
+    } else {
+      currentGPXMobile = null;
+    }
+  }
+
+  function clearParkings(layout) {
+    let parkingMarkers = layout === 'desktop' ? parkingMarkersDesktop : parkingMarkersMobile;
+    let map = layout === 'desktop' ? mapDesktop : mapMobile;
+    parkingMarkers.forEach(m => map.removeLayer(m));
+    if (layout === 'desktop') {
+      parkingMarkersDesktop = [];
+    } else {
+      parkingMarkersMobile = [];
+    }
+  }
+
+  function setActiveShowButton(layout, newButton) {
+    let activeShowButton = layout === 'desktop' ? activeShowButtonDesktop : activeShowButtonMobile;
+    
+    if (activeShowButton === newButton) {
+      activeShowButton.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+      activeShowButton.classList.add('bg-card', 'border-border', 'text-text-secondary');
+      if (layout === 'desktop') {
+        activeShowButtonDesktop = null;
+      } else {
+        activeShowButtonMobile = null;
+      }
+      clearGPX(layout);
+      clearParkings(layout);
+      return false;
+    }
+
+    if (activeShowButton) {
+      activeShowButton.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+      activeShowButton.classList.add('bg-card', 'border-border', 'text-text-secondary');
+    }
+
+    if (layout === 'desktop') {
+      activeShowButtonDesktop = newButton;
+    } else {
+      activeShowButtonMobile = newButton;
+    }
+    
+    if (newButton) {
+      newButton.classList.remove('bg-card', 'border-border', 'text-text-secondary');
+      newButton.classList.add('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+    }
+
+    return true;
+  }
+
+  function setActiveParkingButton(layout, newButton, coordsStr, title) {
+    let activeParkingButton = layout === 'desktop' ? activeParkingButtonDesktop : activeParkingButtonMobile;
+    
+    if (activeParkingButton === newButton) {
+      activeParkingButton.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+      activeParkingButton.classList.add('bg-card', 'border-border', 'text-text-secondary');
+      if (layout === 'desktop') {
+        activeParkingButtonDesktop = null;
+      } else {
+        activeParkingButtonMobile = null;
+      }
+      clearParkings(layout);
+      return false;
+    }
+
+    if (activeParkingButton) {
+      activeParkingButton.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+      activeParkingButton.classList.add('bg-card', 'border-border', 'text-text-secondary');
+    }
+
+    clearParkings(layout);
+    if (coordsStr && title) {
+      addParkingPoint(layout, coordsStr, title);
+    }
+
+    if (layout === 'desktop') {
+      activeParkingButtonDesktop = newButton;
+    } else {
+      activeParkingButtonMobile = newButton;
+    }
+    
+    if (newButton) {
+      newButton.classList.remove('bg-card', 'border-border', 'text-text-secondary');
+      newButton.classList.add('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+    }
+
+    return true;
+  }
+
+  // Load JSON and render
+  Promise.all([
+    fetch(DATA_URL).then(r => { if(!r.ok) throw new Error('Failed to load JSON'); return r.json(); }),
+    fetch(HIKING_UPCOMING_URL).then(r => r.ok ? r.json() : []),
+    fetch(MOTO_UPCOMING_URL).then(r => r.ok ? r.json() : []),
+  ])
+  .then(([completed, hikingUpcoming, motoUpcoming]) => {
+    state.completed = completed || {};
+    state.upcoming.hiking = hikingUpcoming || [];
+    state.upcoming.motorcycle = motoUpcoming || [];
+    initMaps();
+    setupToggles();
+    setupFilters();
+    renderColumn('hiking', 'desktop');
+    renderColumn('hiking', 'mobile');
+    renderColumn('motorcycle', 'desktop');
+    renderColumn('motorcycle', 'mobile');
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById('hiking-list-desktop').innerText = 'Failed to load data';
+    document.getElementById('motor-list-desktop').innerText = 'Failed to load data';
+    document.getElementById('hiking-list-mobile').innerText = 'Failed to load data';
+    document.getElementById('motor-list-mobile').innerText = 'Failed to load data';
+  });
+
+  function setupToggles() {
+    document.querySelectorAll('.toggle').forEach(toggle => {
+      const kind = toggle.dataset.kind;
+      toggle.querySelectorAll('.toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          toggle.querySelectorAll('.toggle-btn').forEach(b => {
+            b.classList.remove('bg-primary', 'text-white', 'font-semibold');
+            b.classList.add('text-muted', 'hover:text-text-secondary');
+          });
+          btn.classList.remove('text-muted', 'hover:text-text-secondary');
+          btn.classList.add('bg-primary', 'text-white', 'font-semibold');
+          state.view[kind] = btn.dataset.view;
+          
+          // Detect if this is mobile or desktop based on the button's parent
+          const layout = btn.closest('#mobile-layout') ? 'mobile' : 'desktop';
+          renderColumn(kind, layout);
+        });
+      });
+    });
+  }
+
+  function setupFilters() {
+    // Desktop
+    document.getElementById('search-hiking-mobile').addEventListener('input', (e) => filterList('hiking', 'mobile', e.target.value));
+    document.getElementById('search-motor-mobile').addEventListener('input', (e) => filterList('motorcycle', 'mobile', e.target.value));
+    document.getElementById('clear-hiking-mobile').addEventListener('click', () => { document.getElementById('search-hiking-mobile').value = ''; filterList('hiking', 'mobile', ''); });
+    document.getElementById('clear-motor-mobile').addEventListener('click', () => { document.getElementById('search-motor-mobile').value = ''; filterList('motorcycle', 'mobile', ''); });
+    
+    // Mobile
+    document.getElementById('search-hiking-mobile').addEventListener('input', (e) => filterList('hiking', 'mobile', e.target.value));
+    document.getElementById('search-motor-mobile').addEventListener('input', (e) => filterList('motorcycle', 'mobile', e.target.value));
+    document.getElementById('clear-hiking-mobile').addEventListener('click', () => { document.getElementById('search-hiking-mobile').value = ''; filterList('hiking', 'mobile', ''); });
+    document.getElementById('clear-motor-mobile').addEventListener('click', () => { document.getElementById('search-motor-mobile').value = ''; filterList('motorcycle', 'mobile', ''); });
+  }
+
+  function renderColumn(kind, layout) {
+    const view = state.view[kind] || 'completed';
+    const listSuffix = layout === 'desktop' ? '-desktop' : '-mobile';
+    const completedList = document.getElementById(kind === 'hiking' ? 'hiking-list' + listSuffix : 'motor-list' + listSuffix);
+    const upcomingList = document.getElementById(kind === 'hiking' ? 'hiking-upcoming-list' + listSuffix : 'motor-upcoming-list' + listSuffix);
+
+    if (view === 'completed') {
+      completedList.style.display = 'block';
+      upcomingList.style.display = 'none';
+      renderCompleted(kind, layout, completedList);
+      updateCount(kind, layout, (state.completed?.[kind] || []).length, 'routes');
+    } else {
+      completedList.style.display = 'none';
+      upcomingList.style.display = 'flex';
+      renderUpcoming(kind, layout, upcomingList);
+      updateCount(kind, layout, (state.upcoming[kind] || []).length, 'upcoming');
+    }
+    filterList(kind, layout, (document.getElementById(kind === 'hiking' ? 'search-hiking' + listSuffix : 'search-motor' + listSuffix).value || ''));
+  }
+
+  function updateCount(kind, layout, count, label) {
+    const suffix = layout === 'desktop' ? '-desktop' : '-mobile';
+    const el = document.getElementById(kind === 'hiking' ? 'hiking-count' + suffix : 'motor-count' + suffix);
+    if (el) el.textContent = `${count} ${label}`;
+  }
+
+  function renderCompleted(kind, layout, container) {
+    container.innerHTML = '';
+    (state.completed?.[kind] || []).forEach((t, i) => {
+      const card = createRouteCard(t, kind, i, layout);
+      container.appendChild(card);
+    });
+  }
+
+  function renderUpcoming(kind, layout, container) {
+    container.innerHTML = '';
+    const items = state.upcoming[kind] || [];
+    if (!items.length) {
+      const empty = document.createElement('div');
+      empty.className = 'text-muted';
+      empty.textContent = 'No upcoming routes';
+      container.appendChild(empty);
+      return;
+    }
+    items.forEach((u, idx) => {
+      const item = document.createElement('div');
+      item.className = 'border border-border-light rounded-xl p-4 mb-3 bg-gradient-to-b from-white/2 to-white/0.5 shadow-sm hover:border-border hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col gap-3';
+      item.dataset.search = u.name || '';
+
+      const name = document.createElement('div');
+      name.className = 'font-semibold text-text flex-1 overflow-hidden text-ellipsis whitespace-nowrap';
+      name.textContent = u.name || 'Route';
+      item.appendChild(name);
+
+      if (u.description || u.notes) {
+        const description = document.createElement('div');
+        description.className = 'route-description text-muted text-sm mt-2 mb-3 px-1';
+        description.textContent = u.description || u.notes;
+        item.appendChild(description);
+      }
+
+      const actions = document.createElement('div');
+      actions.className = 'flex gap-2 justify-center w-full pt-2 border-t border-border-light mt-auto';
+
+      const showBtn = document.createElement('button');
+      showBtn.className = 'px-4 py-2 text-sm font-medium rounded-lg border border-border bg-card text-text-secondary cursor-pointer shadow-sm hover:bg-frame hover:text-text hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
+      showBtn.textContent = 'Show';
+      showBtn.disabled = !u.gpx;
+      showBtn.title = u.gpx ? 'Show this GPX on the map' : 'No GPX available';
+      showBtn.addEventListener('click', () => {
+        if (!u.gpx) { alert('No GPX available for this route'); return; }
+        if (setActiveShowButton(layout, showBtn)) {
+          loadAndShowGPX(layout, u.gpx);
+        }
+      });
+      actions.appendChild(showBtn);
+
+      const dlBtn = document.createElement('a');
+      dlBtn.className = 'px-4 py-2 text-sm font-semibold rounded-lg bg-primary border border-primary text-white cursor-pointer shadow-sm hover:bg-primary-hover hover:border-primary-hover hover:-translate-y-0.5 hover:shadow-md transition-all duration-200';
+      dlBtn.textContent = 'Download GPX';
+      dlBtn.setAttribute('download', '');
+      if (u.gpx) {
+        dlBtn.href = u.gpx;
+      } else {
+        dlBtn.href = 'javascript:void(0)';
+        dlBtn.setAttribute('aria-disabled', 'true');
+        dlBtn.className += ' opacity-40 cursor-not-allowed pointer-events-none';
+      }
+      actions.appendChild(dlBtn);
+
+      item.appendChild(actions);
+      container.appendChild(item);
+    });
+  }
+
+  function filterList(kind, layout, q) {
+    q = (q || '').toLowerCase().trim();
+    const view = state.view[kind] || 'completed';
+    const suffix = layout === 'desktop' ? '-desktop' : '-mobile';
+    const container = view === 'completed'
+      ? (kind === 'hiking' ? document.getElementById('hiking-list' + suffix) : document.getElementById('motor-list' + suffix))
+      : (kind === 'hiking' ? document.getElementById('hiking-upcoming-list' + suffix) : document.getElementById('motor-upcoming-list' + suffix));
+
+    Array.from(container.children).forEach(card => {
+      const txt = (card.dataset.search || '').toLowerCase();
+      card.style.display = txt.includes(q) ? '' : 'none';
+    });
+  }
+
+  function createRouteCard(traseu, kind, index, layout) {
+    const name = traseu.name || (traseu.photo ? traseu.photo.split('/').pop().split('.')[0] : 'Route');
+    const km = traseu.km ? `${traseu.km} km` : '';
+    const difficulty = traseu.difficulty || '';
+    const gpx = traseu.gpx || null;
+
+    const card = document.createElement('div');
+    card.className = 'border border-border-light rounded-xl p-4 mb-3 bg-gradient-to-b from-white/2 to-white/0.5 shadow-sm hover:border-border hover:shadow-md hover:-translate-y-1 transition-all duration-200';
+    card.dataset.search = `${name} ${km} ${difficulty}`;
+
+    const meta = document.createElement('div');
+    meta.className = 'mb-2';
+    meta.innerHTML = `<div class="flex flex-col gap-1"><strong class="text-text">${escapeHtml(name)}</strong>
+      <div class="text-muted text-sm">${escapeHtml(km)} ${difficulty ? ' • ' + escapeHtml(difficulty) : ''}</div>
+    </div>`;
+    card.appendChild(meta);
+
+    const details = document.createElement('div');
+    details.className = 'text-muted text-sm mb-2 px-1';
+    details.innerHTML = (traseu.trailhead && traseu.trailhead.name ? `Start: ${escapeHtml(traseu.trailhead.name)}<br/>` : '') +
+      (traseu.trailhead && traseu.trailhead.coords ? `Coords: ${escapeHtml(traseu.trailhead.coords)}` : '');
+    if (details.innerHTML) card.appendChild(details);
+
+    const actions = document.createElement('div');
+    actions.className = 'flex gap-2 justify-center w-full pt-2 border-t border-border-light mt-2';
+
+    const btnShow = document.createElement('button');
+    btnShow.className = 'px-4 py-2 text-sm font-medium rounded-lg border border-border bg-card text-text-secondary cursor-pointer shadow-sm hover:bg-frame hover:text-text hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
+    btnShow.textContent = 'Show GPX';
+    btnShow.disabled = !gpx;
+    btnShow.title = gpx ? 'Show this GPX on the map' : 'No GPX available';
+    btnShow.addEventListener('click', () => {
+      if (!gpx) { alert('No GPX available for this route'); return; }
+      if (setActiveShowButton(layout, btnShow)) {
+        loadAndShowGPX(layout, gpx);
+      }
+    });
+    actions.appendChild(btnShow);
+
+    if (kind !== 'motorcycle') {
+      const btnPark = document.createElement('button');
+      btnPark.className = 'px-4 py-2 text-sm font-medium rounded-lg border border-border bg-card text-text-secondary cursor-pointer shadow-sm hover:bg-frame hover:text-text hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
+      btnPark.textContent = 'Parking';
+      btnPark.title = 'Show parking point on map';
+      if (traseu.trailhead && traseu.trailhead.coords) {
+        btnPark.addEventListener('click', () => {
+          setActiveParkingButton(layout, btnPark, traseu.trailhead.coords, traseu.trailhead.name || name);
+        });
+      } else {
+        btnPark.disabled = true;
+      }
+      actions.appendChild(btnPark);
+    }
+
+    const downloadBtn = document.createElement('a');
+    downloadBtn.className = 'px-4 py-2 text-sm font-semibold rounded-lg bg-primary border border-primary text-white cursor-pointer shadow-sm hover:bg-primary-hover hover:border-primary-hover hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
+    downloadBtn.textContent = 'Download GPX';
+    downloadBtn.setAttribute('download', '');
+    if (gpx) {
+      downloadBtn.href = gpx;
+      downloadBtn.title = 'Download this GPX file';
+    } else {
+      downloadBtn.href = 'javascript:void(0)';
+      downloadBtn.setAttribute('aria-disabled', 'true');
+      downloadBtn.className += ' opacity-40 cursor-not-allowed pointer-events-none';
+      downloadBtn.title = 'No GPX available';
+    }
+    actions.appendChild(downloadBtn);
+
+    card.appendChild(actions);
+
+    return card;
+  }
+
+  function loadAndShowGPX(layout, url) {
+    clearGPX(layout);
+    clearParkings(layout);
+
+    const map = layout === 'desktop' ? mapDesktop : mapMobile;
+    const gpxLayer = new L.GPX(url, {
+      async: true,
+      polyline_options: { color: '#e74c3c', weight: 4, opacity: 0.9 },
+      marker_options: { startIconUrl: null, endIconUrl: null, shadowUrl: null }
+    }).on('loaded', function(e) {
+      if (layout === 'desktop') {
+        currentGPXDesktop = gpxLayer;
+      } else {
+        currentGPXMobile = gpxLayer;
+      }
+      map.fitBounds(gpxLayer.getBounds(), { padding: [40, 40] });
+    }).on('error', function(e) {
+      alert('Failed to load GPX: ' + url);
+      console.error(e);
+    }).addTo(map);
+  }
+
+  function addParkingPoint(layout, coordsStr, title) {
+    if (!coordsStr) return;
+    const parts = coordsStr.split(',').map(s => parseFloat(s.trim()));
+    if (parts.length < 2 || isNaN(parts[0]) || isNaN(parts[1])) {
+      alert('Invalid coords: ' + coordsStr);
+      return;
+    }
+    const map = layout === 'desktop' ? mapDesktop : mapMobile;
+    const m = L.marker([parts[0], parts[1]]).addTo(map).bindPopup(`<strong>${escapeHtml(title || 'Parking')}</strong><br>${escapeHtml(coordsStr)}`);
+    
+    if (layout === 'desktop') {
+      parkingMarkersDesktop.push(m);
+    } else {
+      parkingMarkersMobile.push(m);
+    }
+    
+    map.panTo([parts[0], parts[1]]);
+    m.openPopup();
+  }
+
+  function escapeHtml(s) {
+    if (!s) return '';
+    return String(s).replace(/[&<>"'`]/g, function(ch) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' })[ch];
+    });
+  }
   </script>
 </body>
 </html>
