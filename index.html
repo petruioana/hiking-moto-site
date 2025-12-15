@@ -233,13 +233,10 @@
       <!-- Weather Widget Mobile -->
       <div id="weather-widget-mobile" class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border border-gray-700/60 rounded-xl p-1 w-[65px] h-[50px] flex flex-col justify-center items-center flex-shrink-0 shadow-lg">
         <div id="weather-content-mobile" class="text-center w-full">
-          <div class="flex flex-col gap-0 items-center justify-center">
-            <div class="text-[6px] font-bold text-white leading-tight">Press</div>
-            <div class="text-[6px] font-bold text-white leading-tight">Show</div>
-            <div class="text-[6px] font-bold text-white leading-tight">GPX</div>
-            <div class="text-[5px] text-gray-400 leading-tight mt-0.5">to see</div>
-            <div class="text-[5px] text-gray-400 leading-tight">trail</div>
-            <div class="text-[5px] text-gray-400 leading-tight">weather</div>
+          <div class="flex flex-col gap-0.5 items-center justify-center text-white text-[6px] leading-tight mt-0.5">
+            <div>Press Show GPX</div>
+            <div>to see trail</div>
+            <div>weather</div>
           </div>
         </div>
       </div>
@@ -460,13 +457,10 @@
       const weatherContentMobile = document.getElementById('weather-content-mobile');
       if (weatherContentMobile) {
         weatherContentMobile.innerHTML = `
-          <div class="flex flex-col gap-0 items-center justify-center">
-            <div class="text-[6px] font-bold text-white leading-tight">Press</div>
-            <div class="text-[6px] font-bold text-white leading-tight">Show</div>
-            <div class="text-[6px] font-bold text-white leading-tight">GPX</div>
-            <div class="text-[5px] text-gray-400 leading-tight mt-0.5">to see</div>
-            <div class="text-[5px] text-gray-400 leading-tight">trail</div>
-            <div class="text-[5px] text-gray-400 leading-tight">weather</div>
+          <div class="flex flex-col gap-0.5 items-center justify-center text-white text-[6px] leading-tight mt-0.5">
+            <div>Press Show GPX</div>
+            <div>to see trail</div>
+            <div>weather</div>
           </div>
         `;
       }
