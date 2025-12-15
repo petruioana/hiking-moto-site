@@ -271,14 +271,10 @@
         <!-- Fixed header section at top of panel -->
         <div class="bg-gradient-to-b from-card to-[#121212] p-2 flex flex-col gap-2 border-b border-border-light flex-shrink-0">
           <h3 class="text-base font-semibold relative text-center">Hiking Routes<span class="absolute right-0 top-0 text-muted" id="hiking-count-mobile"></span></h3>
-          <div class="flex justify-center items-center">
+          <div class="toggle flex flex-row items-center justify-center gap-2" data-kind="hiking">
+            <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-primary text-white rounded-2xl border border-border bg-frame" data-view="completed">Completed</button>
             <img src="images/peisaj.jpg" alt="Hiking" class="w-32 h-auto rounded-lg object-cover border border-border-light shadow-sm" />
-          </div>
-          <div class="flex justify-center w-full">
-            <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="hiking">
-              <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-primary text-white" data-view="completed">Completed</button>
-              <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-blue/20 text-white" data-view="upcoming">Upcoming</button>
-            </div>
+            <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-blue/20 text-white rounded-2xl border border-border bg-frame" data-view="upcoming">Upcoming</button>
           </div>
           <div class="flex gap-1">
             <input id="search-hiking-mobile" placeholder="Search hiking routes..." class="flex-1 px-2 py-1 text-xs border border-border rounded bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
@@ -294,14 +290,10 @@
         <!-- Fixed header section at top of panel -->
         <div class="bg-gradient-to-b from-card to-[#121212] p-2 flex flex-col gap-2 border-b border-border-light flex-shrink-0">
           <h3 class="text-base font-semibold relative text-center">Motorcycle Routes<span class="absolute right-0 top-0 text-muted" id="motor-count-mobile"></span></h3>
-          <div class="flex justify-center items-center">
+          <div class="toggle flex flex-row items-center justify-center gap-2" data-kind="motorcycle">
+            <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-primary text-white rounded-2xl border border-border bg-frame" data-view="completed">Completed</button>
             <img src="images/moto.jpg" alt="Motorcycle" class="w-32 h-auto rounded-lg object-cover border border-border-light shadow-sm" />
-          </div>
-          <div class="flex justify-center w-full">
-            <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="motorcycle">
-              <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-primary text-white" data-view="completed">Completed</button>
-              <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-blue/20 text-white" data-view="upcoming">Upcoming</button>
-            </div>
+            <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-blue/20 text-white rounded-2xl border border-border bg-frame" data-view="upcoming">Upcoming</button>
           </div>
           <div class="flex gap-1">
             <input id="search-motor-mobile" placeholder="Search motorcycle routes..." class="flex-1 px-2 py-1 text-xs border border-border rounded bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
