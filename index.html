@@ -123,7 +123,7 @@
       <div class="flex justify-center w-full mt-2">
         <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="hiking">
           <button class="toggle-btn px-4 py-2 text-sm font-semibold cursor-pointer bg-primary text-white transition-colors duration-200" data-view="completed">Completed</button>
-          <button class="toggle-btn px-4 py-2 text-sm font-medium cursor-pointer text-muted hover:text-text-secondary transition-colors duration-200" data-view="upcoming">Upcoming</button>
+          <button class="toggle-btn px-4 py-2 text-sm font-semibold cursor-pointer bg-blue/20 text-white transition-colors duration-200" data-view="upcoming">Upcoming</button>
         </div>
       </div>
       <div class="flex gap-2 mt-2">
@@ -154,7 +154,7 @@
       <div class="flex justify-center w-full mt-2">
         <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="motorcycle">
           <button class="toggle-btn px-4 py-2 text-sm font-semibold cursor-pointer bg-primary text-white transition-colors duration-200" data-view="completed">Completed</button>
-          <button class="toggle-btn px-4 py-2 text-sm font-medium cursor-pointer text-muted hover:text-text-secondary transition-colors duration-200" data-view="upcoming">Upcoming</button>
+          <button class="toggle-btn px-4 py-2 text-sm font-semibold cursor-pointer bg-blue/20 text-white transition-colors duration-200" data-view="upcoming">Upcoming</button>
         </div>
       </div>
       <div class="flex gap-2 mt-2">
@@ -192,24 +192,24 @@
             <button id="btn-clear-mobile" class="px-2 py-1 text-[10px] rounded bg-card border border-border text-text-secondary">Clear</button>
           </span>
         </div>
-        <div id="map-mobile" class="w-full h-full min-h-[75vw] max-h-[75vw] aspect-[4/3] rounded-none overflow-hidden border-b border-border bg-bg"></div>
+        <div id="map-mobile" class="w-full h-full min-h-[60vw] max-h-[60vw] aspect-[4/3] rounded-none overflow-hidden border-b border-border bg-bg"></div>
       </main>
     </div>
 
     <!-- Butoane toggle Hiking / Moto -->
-    <div class="flex justify-between gap-4 px-4 py-2 bg-bg sticky top-[calc(64px+75vw)] z-20">
+    <div class="flex justify-between gap-4 px-4 py-2 bg-bg sticky top-[calc(64px+60vw)] z-20">
       <button id="btn-hiking-mobile" class="flex-1 py-3 rounded-full bg-primary text-white font-semibold">Hiking</button>
       <button id="btn-moto-mobile" class="flex-1 py-3 rounded-full bg-gray-700 text-white font-semibold">Moto</button>
     </div>
 
     <!-- Panouri scrollabile -->
-    <div class="flex flex-col gap-2 px-1 pb-2 pt-2 flex-1 min-h-0" style="height:calc(100vh - 64px - 75vw - 56px);">
+    <div class="flex flex-col gap-2 px-1 pb-2 pt-2 flex-1 min-h-0" style="height:calc(100vh - 64px - 60vw- 56px);">
       <aside id="hiking-panel-mobile" class="hidden bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-2 flex flex-col gap-2 shadow-sm flex-1 min-h-0 max-h-full overflow-y-auto hide-scrollbar mb-2">
         <h3 class="text-base font-semibold flex justify-between items-center mb-2">Hiking Routes <span class="text-muted" id="hiking-count-mobile"></span></h3>
         <div class="flex justify-center w-full mt-2">
           <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="hiking">
             <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-primary text-white" data-view="completed">Completed</button>
-            <button class="toggle-btn px-3 py-1 text-xs font-medium cursor-pointer text-muted hover:text-text-secondary" data-view="upcoming">Upcoming</button>
+            <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-blue/20 text-white" data-view="upcoming">Upcoming</button>
           </div>
         </div>
         <div class="flex gap-1 mt-2">
@@ -225,7 +225,7 @@
         <div class="flex justify-center w-full mt-2">
           <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="motorcycle">
             <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-primary text-white" data-view="completed">Completed</button>
-            <button class="toggle-btn px-3 py-1 text-xs font-medium cursor-pointer text-muted hover:text-text-secondary" data-view="upcoming">Upcoming</button>
+            <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-blue/20 text-white" data-view="upcoming">Upcoming</button>
           </div>
         </div>
         <div class="flex gap-1 mt-2">
