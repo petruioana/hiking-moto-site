@@ -206,19 +206,19 @@
     <!-- Banner sticky sus -->
     <header class="sticky top-0 z-30 h-[70px] w-full flex items-center justify-center border-b border-border shadow-sm px-2 py-2 gap-2 box-border bg-gradient-to-b from-black via-bg to-[#0f0f0f]">
       <!-- YouTube Button -->
-      <a href="https://www.youtube.com/@Petru_Ioana" target="_blank" rel="noopener noreferrer" class="group relative flex flex-col justify-center items-center px-2 py-1.5 rounded-xl bg-gradient-to-br from-primary via-primary to-primary-hover border border-primary/40 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex-shrink-0 overflow-hidden w-[60px] h-[52px]" title="Visit our YouTube channel">
+      <a href="https://www.youtube.com/@Petru_Ioana" target="_blank" rel="noopener noreferrer" class="group relative flex flex-col justify-center items-center px-2 py-1 rounded-xl bg-gradient-to-br from-primary via-primary to-primary-hover border border-primary/40 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex-shrink-0 overflow-hidden w-[65px] h-[50px]" title="Visit our YouTube channel">
         <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
         <div class="flex flex-col items-center gap-0.5 relative z-10">
           <svg class="w-6 h-6 text-white group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
           </svg>
-          <span class="text-white font-bold text-[7px] leading-tight text-center">YouTube</span>
+          <span class="text-white font-bold text-[6px] leading-tight text-center">YouTube</span>
         </div>
       </a>
       
       <!-- Center: Photos + Text -->
-      <div class="flex items-center justify-center gap-0.5 flex-1 min-w-0">
-        <img src="images/petru_ioana.jpeg" alt="Petru" class="w-[26px] h-[26px] rounded-full border-2 border-frame shadow bg-[#0d0d0d] object-cover flex-shrink-0" />
+      <div class="flex items-center justify-center gap-px flex-1 min-w-0">
+        <img src="images/petru_ioana.jpeg" alt="Petru" class="w-[30px] h-[30px] rounded-full border-2 border-frame shadow bg-[#0d0d0d] object-cover flex-shrink-0" />
         <div class="flex flex-col items-center justify-center flex-1 min-w-0">
           <h1 class="text-[9px] font-bold text-text m-0 leading-tight truncate w-full text-center">GPX Routes — by Petru & Ioana</h1>
           <h2 class="text-[8px] font-bold text-text m-0 leading-tight truncate w-full text-center">Hiking Trails & Motorcycle Rides</h2>
@@ -227,19 +227,19 @@
             <div>and download GPX free</div>
           </div>
         </div>
-        <img src="images/motorcycle.jpeg" alt="Motorcycle" class="w-[26px] h-[26px] rounded-full border-2 border-frame shadow bg-[#0d0d0d] object-cover flex-shrink-0" />
+        <img src="images/motorcycle.jpeg" alt="Motorcycle" class="w-[30px] h-[30px] rounded-full border-2 border-frame shadow bg-[#0d0d0d] object-cover flex-shrink-0" />
       </div>
       
       <!-- Weather Widget Mobile -->
-      <div id="weather-widget-mobile" class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border border-gray-700/60 rounded-xl p-1.5 w-[60px] h-[52px] flex flex-col justify-center items-center flex-shrink-0 shadow-lg">
-        <div id="weather-content-mobile" class="text-center">
-          <div class="flex flex-col gap-0.5 items-center">
-            <div class="text-[7px] font-bold text-white leading-tight">Press</div>
-            <div class="text-[7px] font-bold text-white leading-tight">Show</div>
-            <div class="text-[7px] font-bold text-white leading-tight">GPX</div>
-            <div class="text-[6px] text-gray-400 leading-tight mt-0.5">to see</div>
-            <div class="text-[6px] text-gray-400 leading-tight">trail</div>
-            <div class="text-[6px] text-gray-400 leading-tight">weather</div>
+      <div id="weather-widget-mobile" class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border border-gray-700/60 rounded-xl p-1 w-[65px] h-[50px] flex flex-col justify-center items-center flex-shrink-0 shadow-lg">
+        <div id="weather-content-mobile" class="text-center w-full">
+          <div class="flex flex-col gap-0 items-center justify-center">
+            <div class="text-[6px] font-bold text-white leading-tight">Press</div>
+            <div class="text-[6px] font-bold text-white leading-tight">Show</div>
+            <div class="text-[6px] font-bold text-white leading-tight">GPX</div>
+            <div class="text-[5px] text-gray-400 leading-tight mt-0.5">to see</div>
+            <div class="text-[5px] text-gray-400 leading-tight">trail</div>
+            <div class="text-[5px] text-gray-400 leading-tight">weather</div>
           </div>
         </div>
       </div>
@@ -462,13 +462,13 @@
       const weatherContentMobile = document.getElementById('weather-content-mobile');
       if (weatherContentMobile) {
         weatherContentMobile.innerHTML = `
-          <div class="flex flex-col gap-0.5 items-center">
-            <div class="text-[7px] font-bold text-white leading-tight">Press</div>
-            <div class="text-[7px] font-bold text-white leading-tight">Show</div>
-            <div class="text-[7px] font-bold text-white leading-tight">GPX</div>
-            <div class="text-[6px] text-gray-400 leading-tight mt-0.5">to see</div>
-            <div class="text-[6px] text-gray-400 leading-tight">trail</div>
-            <div class="text-[6px] text-gray-400 leading-tight">weather</div>
+          <div class="flex flex-col gap-0 items-center justify-center">
+            <div class="text-[6px] font-bold text-white leading-tight">Press</div>
+            <div class="text-[6px] font-bold text-white leading-tight">Show</div>
+            <div class="text-[6px] font-bold text-white leading-tight">GPX</div>
+            <div class="text-[5px] text-gray-400 leading-tight mt-0.5">to see</div>
+            <div class="text-[5px] text-gray-400 leading-tight">trail</div>
+            <div class="text-[5px] text-gray-400 leading-tight">weather</div>
           </div>
         `;
       }
@@ -961,7 +961,7 @@
   function fetchAndShowWeatherMobile(lat, lng) {
     const weatherContent = document.getElementById('weather-content-mobile');
     
-    weatherContent.innerHTML = '<div class="text-gray-400 text-[7px]">Loading...</div>';
+    weatherContent.innerHTML = '<div class="text-gray-400 text-[6px]">Loading...</div>';
     
     // Use Open-Meteo API (free, no key required)
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m,precipitation&temperature_unit=celsius&timezone=auto`;
@@ -976,18 +976,18 @@
         const weather = getWeatherDescription(current.weather_code);
         
         let html = `
-          <div class="flex flex-col gap-0.5 items-center">
-            <div class="text-[10px] font-bold text-white">${Math.round(current.temperature_2m)}°C</div>
-            <div class="text-[6px] text-gray-300 leading-tight text-center">${weather}</div>
-            <div class="text-[6px] text-white leading-tight">💨 ${Math.round(current.wind_speed_10m)}</div>
-            <div class="text-[6px] text-white leading-tight">🌧️ ${current.precipitation || 0}mm</div>
+          <div class="flex flex-col gap-0 items-center justify-center">
+            <div class="text-[10px] font-bold text-white leading-tight">${Math.round(current.temperature_2m)}°C</div>
+            <div class="text-[5px] text-gray-300 leading-tight text-center">${weather}</div>
+            <div class="text-[5px] text-white leading-tight mt-0.5">💨 ${Math.round(current.wind_speed_10m)}</div>
+            <div class="text-[5px] text-white leading-tight">🌧️ ${current.precipitation || 0}mm</div>
           </div>
         `;
         weatherContent.innerHTML = html;
       })
       .catch(err => {
         console.error('Weather fetch error:', err);
-        weatherContent.innerHTML = '<div class="text-gray-400 text-[7px]">No weather</div>';
+        weatherContent.innerHTML = '<div class="text-gray-400 text-[6px]">No weather</div>';
       });
   }
 
