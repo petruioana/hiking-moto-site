@@ -326,13 +326,13 @@
       clearGPX('desktop');
       clearParkings('desktop');
       if (activeShowButtonDesktop) {
-        activeShowButtonDesktop.classList.remove('bg-blue', 'border-blue', 'text-white', 'font-semibold');
-        activeShowButtonDesktop.classList.add('bg-blue/20', 'border-blue', 'text-blue');
+        activeShowButtonDesktop.classList.remove('bg-blue', 'border-border', 'text-white', 'font-semibold');
+        activeShowButtonDesktop.classList.add('bg-blue/20', 'border-border', 'text-white');
         activeShowButtonDesktop = null;
       }
       if (activeParkingButtonDesktop) {
-        activeParkingButtonDesktop.classList.remove('bg-blue', 'border-blue', 'text-white', 'font-semibold');
-        activeParkingButtonDesktop.classList.add('bg-blue/20', 'border-blue', 'text-blue');
+        activeParkingButtonDesktop.classList.remove('bg-blue', 'border-border', 'text-white', 'font-semibold');
+        activeParkingButtonDesktop.classList.add('bg-blue/20', 'border-border', 'text-white');
         activeParkingButtonDesktop = null;
       }
       // Reset weather widget
@@ -344,13 +344,13 @@
       clearGPX('mobile');
       clearParkings('mobile');
       if (activeShowButtonMobile) {
-        activeShowButtonMobile.classList.remove('bg-blue', 'border-blue', 'text-white', 'font-semibold');
-        activeShowButtonMobile.classList.add('bg-blue/20', 'border-blue', 'text-blue');
+        activeShowButtonMobile.classList.remove('bg-blue', 'border-border', 'text-white', 'font-semibold');
+        activeShowButtonMobile.classList.add('bg-blue/20', 'border-border', 'text-white');
         activeShowButtonMobile = null;
       }
       if (activeParkingButtonMobile) {
-        activeParkingButtonMobile.classList.remove('bg-blue', 'border-blue', 'text-white', 'font-semibold');
-        activeParkingButtonMobile.classList.add('bg-blue/20', 'border-blue', 'text-blue');
+        activeParkingButtonMobile.classList.remove('bg-blue', 'border-border', 'text-white', 'font-semibold');
+        activeParkingButtonMobile.classList.add('bg-blue/20', 'border-border', 'text-white');
         activeParkingButtonMobile = null;
       }
     });
@@ -412,8 +412,8 @@
     let activeShowButton = layout === 'desktop' ? activeShowButtonDesktop : activeShowButtonMobile;
     
     if (activeShowButton === newButton) {
-      activeShowButton.classList.remove('bg-blue', 'border-blue', 'text-white', 'font-semibold');
-      activeShowButton.classList.add('bg-blue/20', 'border-blue', 'text-blue');
+      activeShowButton.classList.remove('bg-blue', 'border-border', 'text-white', 'font-semibold');
+      activeShowButton.classList.add('bg-blue/20', 'border-border', 'text-white');
       if (layout === 'desktop') {
         activeShowButtonDesktop = null;
       } else {
@@ -425,8 +425,8 @@
     }
 
     if (activeShowButton) {
-      activeShowButton.classList.remove('bg-blue', 'border-blue', 'text-white', 'font-semibold');
-      activeShowButton.classList.add('bg-blue/20', 'border-blue', 'text-blue');
+      activeShowButton.classList.remove('bg-blue', 'border-border', 'text-white', 'font-semibold');
+      activeShowButton.classList.add('bg-blue/20', 'border-border', 'text-white');
     }
 
     if (layout === 'desktop') {
@@ -436,8 +436,8 @@
     }
     
     if (newButton) {
-      newButton.classList.remove('bg-blue/20', 'border-blue', 'text-blue');
-      newButton.classList.add('bg-blue', 'border-blue', 'text-white', 'font-semibold');
+      newButton.classList.remove('bg-blue/20', 'border-border', 'text-white');
+      newButton.classList.add('bg-blue', 'border-border', 'text-white', 'font-semibold');
     }
 
     return true;
@@ -447,8 +447,8 @@
     let activeParkingButton = layout === 'desktop' ? activeParkingButtonDesktop : activeParkingButtonMobile;
     
     if (activeParkingButton === newButton) {
-      activeParkingButton.classList.remove('bg-blue', 'border-blue', 'text-white', 'font-semibold');
-      activeParkingButton.classList.add('bg-blue/20', 'border-blue', 'text-blue');
+      activeParkingButton.classList.remove('bg-blue', 'border-border', 'text-white', 'font-semibold');
+      activeParkingButton.classList.add('bg-blue/20', 'border-border', 'text-white');
       if (layout === 'desktop') {
         activeParkingButtonDesktop = null;
       } else {
@@ -459,8 +459,8 @@
     }
 
     if (activeParkingButton) {
-      activeParkingButton.classList.remove('bg-blue', 'border-blue', 'text-white', 'font-semibold');
-      activeParkingButton.classList.add('bg-blue/20', 'border-blue', 'text-blue');
+      activeParkingButton.classList.remove('bg-blue', 'border-border', 'text-white', 'font-semibold');
+      activeParkingButton.classList.add('bg-blue/20', 'border-border', 'text-white');
     }
 
     clearParkings(layout);
@@ -475,8 +475,8 @@
     }
     
     if (newButton) {
-      newButton.classList.remove('bg-blue/20', 'border-blue', 'text-blue');
-      newButton.classList.add('bg-blue', 'border-blue', 'text-white', 'font-semibold');
+      newButton.classList.remove('bg-blue/20', 'border-border', 'text-white');
+      newButton.classList.add('bg-blue', 'border-border', 'text-white', 'font-semibold');
     }
 
     return true;
@@ -613,7 +613,7 @@
       actions.className = 'flex gap-2 justify-center w-full pt-2 border-t border-border-light mt-auto';
 
       const showBtn = document.createElement('button');
-      showBtn.className = 'px-4 py-2 text-sm font-semibold rounded-lg border border-blue bg-blue/20 text-blue cursor-pointer shadow-sm hover:bg-blue hover:text-white hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
+      showBtn.className = 'px-4 py-2 text-sm font-semibold rounded-lg border border-border bg-blue/20 text-white cursor-pointer shadow-sm hover:bg-blue hover:text-white hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
       showBtn.textContent = 'Show';
       showBtn.disabled = !u.gpx;
       showBtn.title = u.gpx ? 'Show this GPX on the map' : 'No GPX available';
@@ -684,7 +684,7 @@
     actions.className = 'flex gap-2 justify-center w-full pt-2 border-t border-border-light mt-2';
 
     const btnShow = document.createElement('button');
-    btnShow.className = 'px-4 py-2 text-sm font-semibold rounded-lg border border-blue bg-blue/20 text-blue cursor-pointer shadow-sm hover:bg-blue hover:text-white hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
+    btnShow.className = 'px-4 py-2 text-sm font-semibold rounded-lg border border-border bg-blue/20 text-white cursor-pointer shadow-sm hover:bg-blue hover:text-white hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
     btnShow.textContent = 'Show GPX';
     btnShow.disabled = !gpx;
     btnShow.title = gpx ? 'Show this GPX on the map' : 'No GPX available';
@@ -698,7 +698,7 @@
 
     if (kind !== 'motorcycle') {
       const btnPark = document.createElement('button');
-      btnPark.className = 'px-4 py-2 text-sm font-semibold rounded-lg border border-blue bg-blue/20 text-blue cursor-pointer shadow-sm hover:bg-blue hover:text-white hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
+      btnPark.className = 'px-4 py-2 text-sm font-semibold rounded-lg border border-border bg-blue/20 text-white cursor-pointer shadow-sm hover:bg-blue hover:text-white hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
       btnPark.textContent = 'Parking';
       btnPark.title = 'Show parking point on map';
       if (traseu.trailhead && traseu.trailhead.coords) {
