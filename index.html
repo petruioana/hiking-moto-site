@@ -212,8 +212,8 @@
     <!-- Panouri scrollabile -->
     <div class="flex flex-col gap-2 px-1 pb-2 pt-2 flex-1 min-h-0" style="height:calc(100vh - 64px - 60vw- 56px);">
       <aside id="hiking-panel-mobile" class="hidden bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl flex flex-col shadow-sm flex-1 min-h-0 max-h-full overflow-hidden mb-2">
-        <!-- Sticky header section -->
-        <div class="sticky top-[calc(64px+60vw+56px)] z-10 bg-gradient-to-b from-card to-[#121212] p-2 flex flex-col gap-2 border-b border-border-light">
+        <!-- Fixed header section at top of panel -->
+        <div class="bg-gradient-to-b from-card to-[#121212] p-2 flex flex-col gap-2 border-b border-border-light flex-shrink-0">
           <h3 class="text-base font-semibold flex justify-between items-center">Hiking Routes <span class="text-muted" id="hiking-count-mobile"></span></h3>
           <div class="flex justify-center w-full">
             <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="hiking">
@@ -232,8 +232,8 @@
       </aside>
 
       <aside id="motor-panel-mobile" class="hidden bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl flex flex-col shadow-sm flex-1 min-h-0 max-h-full overflow-hidden">
-        <!-- Sticky header section -->
-        <div class="sticky top-[calc(64px+60vw+56px)] z-10 bg-gradient-to-b from-card to-[#121212] p-2 flex flex-col gap-2 border-b border-border-light">
+        <!-- Fixed header section at top of panel -->
+        <div class="bg-gradient-to-b from-card to-[#121212] p-2 flex flex-col gap-2 border-b border-border-light flex-shrink-0">
           <h3 class="text-base font-semibold flex justify-between items-center">Motorcycle Routes <span class="text-muted" id="motor-count-mobile"></span></h3>
           <div class="flex justify-center w-full">
             <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="motorcycle">
