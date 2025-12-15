@@ -126,12 +126,12 @@
             <img src="images/motorcycle.jpeg" alt="Motorcycle" loading="lazy" class="w-full h-full object-cover" />
           </div>
           <!-- Weather Widget (close to right picture) -->
-          <div id="weather-widget-desktop" class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border-2 border-gray-700/60 rounded-2xl p-4 w-[160px] h-[120px] flex flex-col justify-between flex-shrink-0 shadow-xl backdrop-blur-sm">
+          <div id="weather-widget-desktop" class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border-2 border-gray-700/60 rounded-2xl p-4 w-[220px] h-[120px] flex flex-col justify-between flex-shrink-0 shadow-xl backdrop-blur-sm">
             <div class="flex flex-col gap-0.5">
               <h4 class="text-sm font-bold text-white tracking-wide">Weather</h4>
               <p class="text-[10px] font-medium text-gray-400 leading-tight">Check the Trail Conditions</p>
             </div>
-            <div id="weather-content-desktop" class="text-xs space-y-1 mt-2">
+            <div id="weather-content-desktop" class="text-xs mt-2">
               <div class="text-gray-400 text-[11px]">Select a route</div>
             </div>
           </div>
@@ -871,16 +871,18 @@
         const weather = getWeatherDescription(current.weather_code);
         
         let html = `
-          <div class="space-y-1">
-            <div class="flex justify-between items-start">
-              <div>
-                <div class="text-base font-bold text-gray-900">${Math.round(current.temperature_2m)}°C</div>
-                <div class="text-xs text-gray-700">${weather}</div>
-              </div>
+          <div class="flex justify-between items-center">
+            <div class="flex flex-col gap-1">
+              <div class="text-xs text-white">💨 Wind</div>
+              <div class="text-xs text-white">💧 Humidity</div>
             </div>
-            <div class="text-xs text-gray-600 space-y-0.5">
-              <div>💨 ${Math.round(current.wind_speed_10m)} km/h</div>
-              <div>💧 ${current.relative_humidity_2m}%</div>
+            <div class="flex flex-col gap-1 text-right">
+              <div class="text-lg font-bold text-white">${Math.round(current.temperature_2m)}°C</div>
+              <div class="text-[10px] text-gray-300">${weather}</div>
+            </div>
+            <div class="flex flex-col gap-1 text-right">
+              <div class="text-xs font-semibold text-white">${Math.round(current.wind_speed_10m)} km/h</div>
+              <div class="text-xs font-semibold text-white">${current.relative_humidity_2m}%</div>
             </div>
           </div>
         `;
