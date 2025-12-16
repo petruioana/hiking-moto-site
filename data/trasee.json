@@ -39,11 +39,11 @@
 
   "motorcycle": [
     {
-      "name": "Sunday Ride",
-      "km": 45,
-      "difficulty": "Easy",
-      "gpx": "motorcycle/justtotest.gpx",
-      "trailhead": { "name": "Start Point", "coords": "47.54321, 11.98765" }
+      "name": "Test",
+      "km": 1001,
+      "difficulty": "test",
+      "gpx": "motorcycle/moto test.gpx",
+      "trailhead": { "name": "test", "coords": "47.54321, 11.98765" }
     }
   ]
 }
