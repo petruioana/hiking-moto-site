@@ -876,7 +876,7 @@
 
     const btnShow = document.createElement('button');
     const btnPadding = layout === 'desktop' ? 'py-1' : 'py-2';
-    const btnTextSize = layout === 'desktop' ? 'text-xs' : 'text-sm';
+    const btnTextSize = 'text-sm';
     btnShow.className = `px-4 ${btnPadding} ${btnTextSize} font-semibold rounded-lg border border-border bg-blue/20 text-white cursor-pointer shadow-sm hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm`;
     btnShow.textContent = 'Show GPX';
     btnShow.disabled = !gpx;
