@@ -132,8 +132,8 @@
                 <div class="text-base font-bold text-white">Weather</div>
                 <div class="text-xs text-gray-400">Check the Trail Conditions</div>
                 <div class="text-xs text-gray-500 mt-2 leading-tight">
-                  <div>Press Show GPX</div>
-                  <div>to see trail weather</div>
+                  <div>Press Show GPX to see</div>
+                  <div>live trail weather</div>
                 </div>
               </div>
             </div>
@@ -233,13 +233,10 @@
       <!-- Weather Widget Mobile -->
       <div id="weather-widget-mobile" class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border border-gray-700/60 rounded-xl p-1 w-[65px] h-[50px] flex flex-col justify-center items-center flex-shrink-0 shadow-lg">
         <div id="weather-content-mobile" class="text-center w-full">
-          <div class="flex flex-col gap-0 items-center justify-center">
-            <div class="text-[6px] font-bold text-white leading-tight">Press</div>
-            <div class="text-[6px] font-bold text-white leading-tight">Show</div>
-            <div class="text-[6px] font-bold text-white leading-tight">GPX</div>
-            <div class="text-[5px] text-gray-400 leading-tight mt-0.5">to see</div>
-            <div class="text-[5px] text-gray-400 leading-tight">trail</div>
-            <div class="text-[5px] text-gray-400 leading-tight">weather</div>
+          <div class="flex flex-col gap-0.5 items-center justify-center text-white text-[6px] leading-tight mt-0.5">
+            <div>Press Show GPX</div>
+            <div>to see live</div>
+            <div>trail weather</div>
           </div>
         </div>
       </div>
@@ -261,8 +258,8 @@
 
     <!-- Butoane toggle Hiking / Moto -->
     <div class="flex justify-between gap-4 px-4 py-2 bg-bg sticky top-[calc(65px+60vw)] z-20">
-      <button id="btn-hiking-mobile" class="flex-1 py-3 rounded-full bg-primary text-white font-semibold">Hiking</button>
-      <button id="btn-moto-mobile" class="flex-1 py-3 rounded-full bg-gray-700 text-white font-semibold">Moto</button>
+      <button id="btn-hiking-mobile" class="flex-1 py-2 text-sm rounded-full bg-primary text-white font-semibold">Hiking</button>
+      <button id="btn-moto-mobile" class="flex-1 py-2 text-sm rounded-full bg-gray-700 text-white font-semibold">Moto</button>
     </div>
 
     <!-- Panouri scrollabile -->
@@ -424,8 +421,8 @@
           <div class="text-base font-bold text-white">Weather</div>
           <div class="text-xs text-gray-400">Check the Trail Conditions</div>
           <div class="text-xs text-gray-500 mt-2 leading-tight">
-            <div>Press Show GPX</div>
-            <div>to see trail weather</div>
+            <div>Press Show GPX to see</div>
+            <div>live trail weather</div>
           </div>
         </div>
       `;
@@ -460,13 +457,10 @@
       const weatherContentMobile = document.getElementById('weather-content-mobile');
       if (weatherContentMobile) {
         weatherContentMobile.innerHTML = `
-          <div class="flex flex-col gap-0 items-center justify-center">
-            <div class="text-[6px] font-bold text-white leading-tight">Press</div>
-            <div class="text-[6px] font-bold text-white leading-tight">Show</div>
-            <div class="text-[6px] font-bold text-white leading-tight">GPX</div>
-            <div class="text-[5px] text-gray-400 leading-tight mt-0.5">to see</div>
-            <div class="text-[5px] text-gray-400 leading-tight">trail</div>
-            <div class="text-[5px] text-gray-400 leading-tight">weather</div>
+          <div class="flex flex-col gap-0.5 items-center justify-center text-white text-[6px] leading-tight mt-0.5">
+            <div>Press Show GPX</div>
+            <div>to see live</div>
+            <div>trail weather</div>
           </div>
         `;
       }
@@ -562,8 +556,30 @@
       newButton.classList.add('bg-blue/20');
       if (layout === 'desktop') {
         activeGpxRouteIdDesktop = null;
+        // Reset desktop weather widget
+        document.getElementById('weather-content-desktop').innerHTML = `
+          <div class="flex flex-col gap-1 items-center">
+            <div class="text-base font-bold text-white">Weather</div>
+            <div class="text-xs text-gray-400">Check the Trail Conditions</div>
+            <div class="text-xs text-gray-500 mt-2 leading-tight">
+              <div>Press Show GPX to see</div>
+              <div>live trail weather</div>
+            </div>
+          </div>
+        `;
       } else {
         activeGpxRouteIdMobile = null;
+        // Reset mobile weather widget
+        const weatherContentMobile = document.getElementById('weather-content-mobile');
+        if (weatherContentMobile) {
+          weatherContentMobile.innerHTML = `
+            <div class="flex flex-col gap-0.5 items-center justify-center text-white text-[6px] leading-tight mt-0.5">
+              <div>Press Show GPX</div>
+              <div>to see live</div>
+              <div>trail weather</div>
+            </div>
+          `;
+        }
       }
       clearGPX(layout);
       return false;
