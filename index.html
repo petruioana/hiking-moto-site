@@ -22,8 +22,6 @@
           colors: {
             primary: '#e74c3c', // red for GPX/active buttons
             'primary-hover': '#c0392b',
-            blue: '#3b82f6', // blue for Show/Parking buttons
-            'blue-hover': '#2563eb',
             bg: '#0a0a0a',
             card: '#151515',
             muted: '#888',
@@ -87,68 +85,24 @@
 
 <body class="m-0 bg-bg text-text font-inter antialiased">
   <!-- DESKTOP LAYOUT -->
-  <div id="desktop-layout" class="h-screen flex flex-col">
-    <header class="fixed inset-x-0 top-0 h-[200px] bg-gradient-to-b from-black via-bg to-[#0f0f0f] flex items-center justify-center border-b border-border shadow-md z-[800] px-[18px] py-[18px] box-border backdrop-blur-[10px]">
-    <div class="grid grid-cols-[360px_1fr_360px] gap-[18px] w-full items-center">
-      <!-- LEFT: Landscape Image Peisaj aligned with hiking column -->
-      <div class="w-full h-[140px] rounded-2xl overflow-hidden border-2 border-border-light shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex-shrink-0">
-        <img src="images/peisaj.jpg" alt="Hiking Landscape" loading="lazy" class="w-full h-full object-cover brightness-75" />
+  <div id="desktop-layout" class="h-screen flex flex-col overflow-hidden">
+    <header class="fixed inset-x-0 top-0 h-[200px] bg-gradient-to-b from-black via-bg to-[#0f0f0f] flex items-center justify-center border-b border-border shadow-md z-[800] px-7 py-[18px] box-border backdrop-blur-[10px]">
+    <div class="flex flex-row items-center justify-center gap-8">
+      <div class="hero-photo left w-[104px] h-[104px] rounded-full overflow-hidden border-4 border-frame shadow-md shadow-black/30 hover:shadow-lg hover:shadow-black/50 transition-all duration-200 flex-shrink-0 bg-[#0d0d0d]">
+        <img src="images/petru_ioana.jpeg" alt="Petru and Ioana" loading="lazy" class="w-full h-full object-cover" />
       </div>
-      
-      <!-- CENTER: YouTube Button + Title Group + Weather -->
-      <div class="flex flex-row items-center justify-center gap-6">
-        <!-- YouTube Button -->
-        <a href="https://www.youtube.com/@Petru_Ioana" target="_blank" rel="noopener noreferrer" class="group relative flex flex-col justify-between px-4 py-4 rounded-2xl bg-gradient-to-br from-primary via-primary to-primary-hover border-2 border-primary/40 shadow-xl hover:shadow-2xl hover:shadow-primary/30 hover:scale-[1.02] hover:border-primary transition-all duration-300 ease-out flex-shrink-0 overflow-hidden w-[160px] h-[120px]" title="Visit our YouTube channel">
-          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
-          <div class="flex flex-col gap-1 relative z-10">
-            <span class="text-white font-bold text-base tracking-wide leading-tight">See Our</span>
-            <span class="text-white font-bold text-base tracking-wide leading-tight">Adventures</span>
-            <span class="text-white/90 font-semibold text-sm tracking-wide leading-tight">on YouTube</span>
-          </div>
-          <div class="flex justify-end relative z-10">
-            <svg class="w-9 h-9 text-white group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
-          </div>
-        </a>
-        
-        <!-- Center group: picture | title | picture | weather -->
-        <div class="flex flex-row items-center justify-center gap-8">
-          <div class="hero-photo left w-[104px] h-[104px] rounded-full overflow-hidden border-4 border-frame shadow-md shadow-black/30 hover:shadow-lg hover:shadow-black/50 transition-all duration-200 flex-shrink-0 bg-[#0d0d0d]">
-            <img src="images/petru_ioana.jpeg" alt="Petru and Ioana" loading="lazy" class="w-full h-full object-cover" />
-          </div>
-          <div class="title text-center leading-tight flex flex-col gap-2 min-w-[400px] flex-shrink-0">
-            <h1 class="text-[28px] font-bold tracking-[0.2px] text-text m-0">GPX Routes — by Petru & Ioana</h1>
-            <h2 class="text-[28px] font-bold tracking-[0.2px] text-text m-0">Hiking Trails & Motorcycle Rides</h2>
-            <div class="subtitle text-base text-muted font-medium">Pick a route, explore the map, and download GPX for free.</div>
-          </div>
-          <div class="hero-photo right w-[104px] h-[104px] rounded-full overflow-hidden border-4 border-frame shadow-md shadow-black/30 hover:shadow-lg hover:shadow-black/50 transition-all duration-200 flex-shrink-0 bg-[#0d0d0d]">
-            <img src="images/motorcycle.jpeg" alt="Motorcycle" loading="lazy" class="w-full h-full object-cover" />
-          </div>
-          <!-- Weather Widget (close to right picture) -->
-          <div id="weather-widget-desktop" class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border-2 border-gray-700/60 rounded-2xl p-4 w-[180px] h-[120px] flex flex-col justify-center items-center flex-shrink-0 shadow-xl backdrop-blur-sm">
-            <div id="weather-content-desktop" class="text-center">
-              <div class="flex flex-col gap-1 items-center">
-                <div class="text-base font-bold text-white">Weather</div>
-                <div class="text-xs text-gray-400">Check the Trail Conditions</div>
-                <div class="text-xs text-gray-500 mt-2 leading-tight">
-                  <div>Press Show GPX</div>
-                  <div>to see trail weather</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="title text-center leading-tight flex flex-col gap-2 flex-1">
+        <h1 class="text-[28px] font-bold tracking-[0.2px] text-text m-0">GPX Routes — by Petru & Ioana</h1>
+        <h2 class="text-[28px] font-bold tracking-[0.2px] text-text m-0">Hiking Trails & Motorcycle Rides</h2>
+        <div class="subtitle text-base text-muted font-medium">Pick a route, explore the map, and download GPX for free.</div>
       </div>
-      
-      <!-- RIGHT: Landscape Image Moto aligned with motorcycle column -->
-      <div class="w-full h-[140px] rounded-2xl overflow-hidden border-2 border-border-light shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex-shrink-0">
-        <img src="images/moto.jpg" alt="Motorcycle Landscape" loading="lazy" class="w-full h-full object-cover brightness-75" />
+      <div class="hero-photo right w-[104px] h-[104px] rounded-full overflow-hidden border-4 border-frame shadow-md shadow-black/30 hover:shadow-lg hover:shadow-black/50 transition-all duration-200 flex-shrink-0 bg-[#0d0d0d]">
+        <img src="images/motorcycle.jpeg" alt="Motorcycle" loading="lazy" class="w-full h-full object-cover" />
       </div>
     </div>
   </header>
 
-  <div class="pt-[200px] flex-1 grid grid-cols-[360px_1fr_360px] gap-[18px] px-[18px] pb-[18px] box-border min-h-0">
+  <div class="mt-[200px] h-[calc(100vh-200px)] grid grid-cols-[360px_1fr_360px] gap-[18px] px-[18px] pb-[18px] box-border">
     <!-- LEFT: Hiking -->
     <aside class="bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-4 box-border h-full max-h-full flex flex-col gap-3 overflow-hidden shadow-sm hover:border-border hover:shadow-md transition-all duration-200" id="hiking-panel-desktop">
       <h3 class="text-lg font-semibold flex justify-between items-center text-text tracking-[-0.01em] mb-0">Hiking Routes
@@ -157,7 +111,7 @@
       <div class="flex justify-center w-full mt-2">
         <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="hiking">
           <button class="toggle-btn px-4 py-2 text-sm font-semibold cursor-pointer bg-primary text-white transition-colors duration-200" data-view="completed">Completed</button>
-          <button class="toggle-btn px-4 py-2 text-sm font-semibold cursor-pointer bg-blue/20 text-white transition-colors duration-200" data-view="upcoming">Upcoming</button>
+          <button class="toggle-btn px-4 py-2 text-sm font-medium cursor-pointer text-muted hover:text-text-secondary transition-colors duration-200" data-view="upcoming">Upcoming</button>
         </div>
       </div>
       <div class="flex gap-2 mt-2">
@@ -188,7 +142,7 @@
       <div class="flex justify-center w-full mt-2">
         <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="motorcycle">
           <button class="toggle-btn px-4 py-2 text-sm font-semibold cursor-pointer bg-primary text-white transition-colors duration-200" data-view="completed">Completed</button>
-          <button class="toggle-btn px-4 py-2 text-sm font-semibold cursor-pointer bg-blue/20 text-white transition-colors duration-200" data-view="upcoming">Upcoming</button>
+          <button class="toggle-btn px-4 py-2 text-sm font-medium cursor-pointer text-muted hover:text-text-secondary transition-colors duration-200" data-view="upcoming">Upcoming</button>
         </div>
       </div>
       <div class="flex gap-2 mt-2">
@@ -204,46 +158,20 @@
   <!-- MOBILE LAYOUT -->
   <div id="mobile-layout" class="bg-bg min-h-screen flex flex-col">
     <!-- Banner sticky sus -->
-    <header class="sticky top-0 z-30 h-[65px] w-full flex items-center justify-center border-b border-border shadow-sm px-2 py-2 gap-2 box-border bg-gradient-to-b from-black via-bg to-[#0f0f0f]">
-      <!-- YouTube Button -->
-      <a href="https://www.youtube.com/@Petru_Ioana" target="_blank" rel="noopener noreferrer" class="group relative flex flex-col justify-center items-center px-2 py-1 rounded-xl bg-gradient-to-br from-primary via-primary to-primary-hover border border-primary/40 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex-shrink-0 overflow-hidden w-[65px] h-[50px]" title="Visit our YouTube channel">
-        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
-        <div class="flex flex-col items-center gap-0.5 relative z-10">
-          <svg class="w-6 h-6 text-white group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-          </svg>
-          <span class="text-white font-bold text-[6px] leading-tight text-center">YouTube</span>
-        </div>
-      </a>
-      
-      <!-- Center: Photos + Text -->
-      <div class="flex items-center justify-center gap-0 flex-1 min-w-0">
-        <img src="images/petru_ioana.jpeg" alt="Petru" class="w-[40px] h-[40px] rounded-full border-2 border-frame shadow bg-[#0d0d0d] object-cover flex-shrink-0" />
+    <header class="sticky top-0 z-30 h-[64px] w-full flex items-center justify-center border-b border-border shadow-sm px-1 py-0 gap-4 box-border bg-gradient-to-b from-black via-bg to-[#0f0f0f]">
+      <div class="flex items-center justify-center w-full max-w-xs mx-auto gap-2">
+        <img src="images/petru_ioana.jpeg" alt="Petru" class="w-[32px] h-[32px] rounded-full border-2 border-frame shadow bg-[#0d0d0d] object-cover" />
         <div class="flex flex-col items-center justify-center flex-1 min-w-0">
-          <h1 class="text-[9px] font-bold text-text m-0 leading-tight truncate w-full text-center">GPX Routes — by Petru & Ioana</h1>
-          <h2 class="text-[8px] font-bold text-text m-0 leading-tight truncate w-full text-center">Hiking Trails & Motorcycle Rides</h2>
-          <div class="subtitle text-[8px] text-muted font-medium text-center leading-tight mt-0.5">
-            <div>Pick a route, explore the map,</div>
-            <div>and download GPX free</div>
-          </div>
+          <h1 class="text-[10px] font-bold text-text m-0 leading-tight truncate">GPX Routes — by Petru & Ioana</h1>
+          <h2 class="text-[9px] font-bold text-text m-0 leading-tight truncate">Hiking Trails & Motorcycle Rides</h2>
+          <div class="subtitle text-[9px] text-muted font-medium truncate">Pick a route, explore the map, and download GPX.</div>
         </div>
-        <img src="images/motorcycle.jpeg" alt="Motorcycle" class="w-[40px] h-[40px] rounded-full border-2 border-frame shadow bg-[#0d0d0d] object-cover flex-shrink-0" />
-      </div>
-      
-      <!-- Weather Widget Mobile -->
-      <div id="weather-widget-mobile" class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border border-gray-700/60 rounded-xl p-1 w-[65px] h-[50px] flex flex-col justify-center items-center flex-shrink-0 shadow-lg">
-        <div id="weather-content-mobile" class="text-center w-full">
-          <div class="flex flex-col gap-0.5 items-center justify-center text-white text-[6px] leading-tight mt-0.5">
-            <div>Press Show GPX</div>
-            <div>to see trail</div>
-            <div>weather</div>
-          </div>
-        </div>
+        <img src="images/motorcycle.jpeg" alt="Motorcycle" class="w-[32px] h-[32px] rounded-full border-2 border-frame shadow bg-[#0d0d0d] object-cover" />
       </div>
     </header>
 
     <!-- Hartă sticky sub header -->
-    <div class="sticky top-[65px] z-10 w-full">
+    <div class="sticky top-[64px] z-10 w-full">
       <main class="w-full aspect-[4/3] rounded-none border-b border-border bg-gradient-to-b from-card to-[#0f0f0f] px-0 flex flex-col shadow-sm">
         <div class="flex justify-between items-center px-2 pt-1 pb-0">
           <span class="font-semibold text-[11px]">Map</span>
@@ -252,54 +180,48 @@
             <button id="btn-clear-mobile" class="px-2 py-1 text-[10px] rounded bg-card border border-border text-text-secondary">Clear</button>
           </span>
         </div>
-        <div id="map-mobile" class="w-full h-full min-h-[60vw] max-h-[60vw] aspect-[4/3] rounded-none overflow-hidden border-b border-border bg-bg"></div>
+        <div id="map-mobile" class="w-full h-full min-h-[75vw] max-h-[75vw] aspect-[4/3] rounded-none overflow-hidden border-b border-border bg-bg"></div>
       </main>
     </div>
 
     <!-- Butoane toggle Hiking / Moto -->
-    <div class="flex justify-between gap-4 px-4 py-2 bg-bg sticky top-[calc(65px+60vw)] z-20">
+    <div class="flex justify-between gap-4 px-4 py-2 bg-bg sticky top-[calc(64px+75vw)] z-20">
       <button id="btn-hiking-mobile" class="flex-1 py-3 rounded-full bg-primary text-white font-semibold">Hiking</button>
       <button id="btn-moto-mobile" class="flex-1 py-3 rounded-full bg-gray-700 text-white font-semibold">Moto</button>
     </div>
 
     <!-- Panouri scrollabile -->
-    <div class="flex flex-col gap-2 px-1 pb-2 pt-2 flex-1 min-h-0">
-      <aside id="hiking-panel-mobile" class="hidden bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl flex flex-col shadow-sm flex-1 min-h-0 max-h-full overflow-hidden mb-2">
-        <!-- Fixed header section at top of panel -->
-        <div class="bg-gradient-to-b from-card to-[#121212] p-2 flex flex-col gap-2 border-b border-border-light flex-shrink-0">
-          <h3 class="text-base font-semibold relative text-center">Hiking Routes<span class="absolute right-0 top-0 text-muted" id="hiking-count-mobile"></span></h3>
-          <div class="toggle flex flex-row items-center justify-center gap-4" data-kind="hiking">
-            <button class="toggle-btn px-4 py-2 text-xs font-semibold cursor-pointer bg-primary text-white rounded-2xl border border-border bg-frame" data-view="completed">Completed</button>
-            <img src="images/peisaj.jpg" alt="Hiking" id="hiking-image-mobile" class="w-32 h-auto rounded-lg object-cover border border-border-light shadow-sm cursor-pointer transition-all duration-300 ease-in-out" />
-            <button class="toggle-btn px-4 py-2 text-xs font-semibold cursor-pointer bg-blue/20 text-white rounded-2xl border border-border bg-frame" data-view="upcoming">Upcoming</button>
-          </div>
-          <div class="flex gap-1">
-            <input id="search-hiking-mobile" placeholder="Search hiking routes..." class="flex-1 px-2 py-1 text-xs border border-border rounded bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
-            <button class="btn px-2 py-1 text-xs font-medium rounded border border-border bg-card text-text-secondary cursor-pointer" id="clear-hiking-mobile">Clear</button>
+    <div class="flex flex-col gap-2 px-1 pb-2 pt-2 flex-1 min-h-0" style="height:calc(100vh - 64px - 75vw - 56px);">
+      <aside id="hiking-panel-mobile" class="hidden bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-2 flex flex-col gap-2 shadow-sm flex-1 min-h-0 max-h-full overflow-y-auto hide-scrollbar mb-2">
+        <h3 class="text-base font-semibold flex justify-between items-center mb-2">Hiking Routes <span class="text-muted" id="hiking-count-mobile"></span></h3>
+        <div class="flex justify-center w-full mt-2">
+          <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="hiking">
+            <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-primary text-white" data-view="completed">Completed</button>
+            <button class="toggle-btn px-3 py-1 text-xs font-medium cursor-pointer text-muted hover:text-text-secondary" data-view="upcoming">Upcoming</button>
           </div>
         </div>
-        <!-- Scrollable content -->
-        <div class="overflow-y-auto pr-1 flex flex-col flex-1 min-h-0 p-2" id="hiking-list-mobile" aria-live="polite"></div>
-        <div class="upcoming-list overflow-y-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0 p-2" id="hiking-upcoming-list-mobile" aria-live="polite"></div>
+        <div class="flex gap-1 mt-2">
+          <input id="search-hiking-mobile" placeholder="Search hiking routes..." class="flex-1 px-2 py-1 text-xs border border-border rounded bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
+          <button class="btn px-2 py-1 text-xs font-medium rounded border border-border bg-card text-text-secondary cursor-pointer" id="clear-hiking-mobile">Clear</button>
+        </div>
+        <div class="overflow-auto pr-1 flex flex-col flex-1 min-h-0" id="hiking-list-mobile" aria-live="polite"></div>
+        <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0" id="hiking-upcoming-list-mobile" aria-live="polite"></div>
       </aside>
 
-      <aside id="motor-panel-mobile" class="hidden bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl flex flex-col shadow-sm flex-1 min-h-0 max-h-full overflow-hidden">
-        <!-- Fixed header section at top of panel -->
-        <div class="bg-gradient-to-b from-card to-[#121212] p-2 flex flex-col gap-2 border-b border-border-light flex-shrink-0">
-          <h3 class="text-base font-semibold relative text-center">Motorcycle Routes<span class="absolute right-0 top-0 text-muted" id="motor-count-mobile"></span></h3>
-          <div class="toggle flex flex-row items-center justify-center gap-4" data-kind="motorcycle">
-            <button class="toggle-btn px-4 py-2 text-xs font-semibold cursor-pointer bg-primary text-white rounded-2xl border border-border bg-frame" data-view="completed">Completed</button>
-            <img src="images/moto.jpg" alt="Motorcycle" id="moto-image-mobile" class="w-32 h-auto rounded-lg object-cover border border-border-light shadow-sm cursor-pointer transition-all duration-300 ease-in-out" />
-            <button class="toggle-btn px-4 py-2 text-xs font-semibold cursor-pointer bg-blue/20 text-white rounded-2xl border border-border bg-frame" data-view="upcoming">Upcoming</button>
-          </div>
-          <div class="flex gap-1">
-            <input id="search-motor-mobile" placeholder="Search motorcycle routes..." class="flex-1 px-2 py-1 text-xs border border-border rounded bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
-            <button class="btn px-2 py-1 text-xs font-medium rounded border border-border bg-card text-text-secondary cursor-pointer" id="clear-motor-mobile">Clear</button>
+      <aside id="motor-panel-mobile" class="hidden bg-gradient-to-b from-card to-[#121212] border border-border-light rounded-xl p-2 flex flex-col gap-2 shadow-sm flex-1 min-h-0 max-h-full overflow-y-auto hide-scrollbar">
+        <h3 class="text-base font-semibold flex justify-between items-center mb-2">Motorcycle Routes <span class="text-muted" id="motor-count-mobile"></span></h3>
+        <div class="flex justify-center w-full mt-2">
+          <div class="toggle inline-flex border border-border rounded-2xl overflow-hidden bg-frame shadow-sm" data-kind="motorcycle">
+            <button class="toggle-btn px-3 py-1 text-xs font-semibold cursor-pointer bg-primary text-white" data-view="completed">Completed</button>
+            <button class="toggle-btn px-3 py-1 text-xs font-medium cursor-pointer text-muted hover:text-text-secondary" data-view="upcoming">Upcoming</button>
           </div>
         </div>
-        <!-- Scrollable content -->
-        <div class="overflow-y-auto pr-1 flex flex-col flex-1 min-h-0 p-2" id="motor-list-mobile" aria-live="polite"></div>
-        <div class="upcoming-list overflow-y-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0 p-2" id="motor-upcoming-list-mobile" aria-live="polite"></div>
+        <div class="flex gap-1 mt-2">
+          <input id="search-motor-mobile" placeholder="Search motorcycle routes..." class="flex-1 px-2 py-1 text-xs border border-border rounded bg-frame text-text outline-none focus:border-primary focus:bg-card focus:ring-1 focus:ring-primary/10" />
+          <button class="btn px-2 py-1 text-xs font-medium rounded border border-border bg-card text-text-secondary cursor-pointer" id="clear-motor-mobile">Clear</button>
+        </div>
+        <div class="overflow-auto pr-1 flex flex-col flex-1 min-h-0" id="motor-list-mobile" aria-live="polite"></div>
+        <div class="upcoming-list overflow-auto pr-1 hidden flex-col gap-2 flex-1 min-h-0" id="motor-upcoming-list-mobile" aria-live="polite"></div>
       </aside>
     </div>
   </div>
@@ -329,11 +251,8 @@
   let mapDesktop = null, mapMobile = null;
   let currentGPXDesktop = null, currentGPXMobile = null;
   let parkingMarkersDesktop = [], parkingMarkersMobile = [];
-  
-  // Independent state tracking by route ID
-  let activeGpxRouteIdDesktop = null, activeGpxRouteIdMobile = null;
-  let activeParkingRouteIdDesktop = null, activeParkingRouteIdMobile = null;
-  
+  let activeShowButtonDesktop = null, activeShowButtonMobile = null;
+  let activeParkingButtonDesktop = null, activeParkingButtonMobile = null;
   let satOnDesktop = true, satOnMobile = true;
 
   // Initialize maps
@@ -394,75 +313,31 @@
     document.getElementById('btn-clear-desktop').addEventListener('click', () => {
       clearGPX('desktop');
       clearParkings('desktop');
-      
-      // Reset GPX button state
-      if (activeGpxRouteIdDesktop !== null) {
-        const btn = document.querySelector(`[data-gpx-route-id="${activeGpxRouteIdDesktop}"][data-layout="desktop"]`);
-        if (btn) {
-          btn.classList.remove('bg-blue');
-          btn.classList.add('bg-blue/20');
-        }
-        activeGpxRouteIdDesktop = null;
+      if (activeShowButtonDesktop) {
+        activeShowButtonDesktop.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+        activeShowButtonDesktop.classList.add('bg-card', 'border-border', 'text-text-secondary');
+        activeShowButtonDesktop = null;
       }
-      
-      // Reset Parking button state
-      if (activeParkingRouteIdDesktop !== null) {
-        const btn = document.querySelector(`[data-parking-route-id="${activeParkingRouteIdDesktop}"][data-layout="desktop"]`);
-        if (btn) {
-          btn.classList.remove('bg-blue');
-          btn.classList.add('bg-blue/20');
-        }
-        activeParkingRouteIdDesktop = null;
+      if (activeParkingButtonDesktop) {
+        activeParkingButtonDesktop.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+        activeParkingButtonDesktop.classList.add('bg-card', 'border-border', 'text-text-secondary');
+        activeParkingButtonDesktop = null;
       }
-      
-      // Reset weather widget
-      document.getElementById('weather-content-desktop').innerHTML = `
-        <div class="flex flex-col gap-1 items-center">
-          <div class="text-base font-bold text-white">Weather</div>
-          <div class="text-xs text-gray-400">Check the Trail Conditions</div>
-          <div class="text-xs text-gray-500 mt-2 leading-tight">
-            <div>Press Show GPX</div>
-            <div>to see trail weather</div>
-          </div>
-        </div>
-      `;
     });
 
     // Mobile clear
     document.getElementById('btn-clear-mobile').addEventListener('click', () => {
       clearGPX('mobile');
       clearParkings('mobile');
-      
-      // Reset GPX button state
-      if (activeGpxRouteIdMobile !== null) {
-        const btn = document.querySelector(`[data-gpx-route-id="${activeGpxRouteIdMobile}"][data-layout="mobile"]`);
-        if (btn) {
-          btn.classList.remove('bg-blue');
-          btn.classList.add('bg-blue/20');
-        }
-        activeGpxRouteIdMobile = null;
+      if (activeShowButtonMobile) {
+        activeShowButtonMobile.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+        activeShowButtonMobile.classList.add('bg-card', 'border-border', 'text-text-secondary');
+        activeShowButtonMobile = null;
       }
-      
-      // Reset Parking button state
-      if (activeParkingRouteIdMobile !== null) {
-        const btn = document.querySelector(`[data-parking-route-id="${activeParkingRouteIdMobile}"][data-layout="mobile"]`);
-        if (btn) {
-          btn.classList.remove('bg-blue');
-          btn.classList.add('bg-blue/20');
-        }
-        activeParkingRouteIdMobile = null;
-      }
-      
-      // Reset mobile weather widget
-      const weatherContentMobile = document.getElementById('weather-content-mobile');
-      if (weatherContentMobile) {
-        weatherContentMobile.innerHTML = `
-          <div class="flex flex-col gap-0.5 items-center justify-center text-white text-[6px] leading-tight mt-0.5">
-            <div>Press Show GPX</div>
-            <div>to see trail</div>
-            <div>weather</div>
-          </div>
-        `;
+      if (activeParkingButtonMobile) {
+        activeParkingButtonMobile.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+        activeParkingButtonMobile.classList.add('bg-card', 'border-border', 'text-text-secondary');
+        activeParkingButtonMobile = null;
       }
     });
 
@@ -493,34 +368,6 @@
       btnHikingMobile.classList.remove('bg-primary');
       btnHikingMobile.classList.add('bg-gray-700');
     });
-
-    // Mobile image tap-to-expand functionality
-    const hikingImageMobile = document.getElementById('hiking-image-mobile');
-    const motoImageMobile = document.getElementById('moto-image-mobile');
-
-    if (hikingImageMobile) {
-      hikingImageMobile.addEventListener('click', () => {
-        if (hikingImageMobile.classList.contains('w-32')) {
-          hikingImageMobile.classList.remove('w-32');
-          hikingImageMobile.classList.add('w-64');
-        } else {
-          hikingImageMobile.classList.remove('w-64');
-          hikingImageMobile.classList.add('w-32');
-        }
-      });
-    }
-
-    if (motoImageMobile) {
-      motoImageMobile.addEventListener('click', () => {
-        if (motoImageMobile.classList.contains('w-32')) {
-          motoImageMobile.classList.remove('w-32');
-          motoImageMobile.classList.add('w-64');
-        } else {
-          motoImageMobile.classList.remove('w-64');
-          motoImageMobile.classList.add('w-32');
-        }
-      });
-    }
   }
 
   function clearGPX(layout) {
@@ -547,82 +394,75 @@
     }
   }
 
-  function setActiveShowButton(layout, newButton, routeId) {
-    const activeGpxRouteId = layout === 'desktop' ? activeGpxRouteIdDesktop : activeGpxRouteIdMobile;
+  function setActiveShowButton(layout, newButton) {
+    let activeShowButton = layout === 'desktop' ? activeShowButtonDesktop : activeShowButtonMobile;
     
-    if (activeGpxRouteId === routeId) {
-      // Toggle off - same route clicked again
-      newButton.classList.remove('bg-blue');
-      newButton.classList.add('bg-blue/20');
+    if (activeShowButton === newButton) {
+      activeShowButton.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+      activeShowButton.classList.add('bg-card', 'border-border', 'text-text-secondary');
       if (layout === 'desktop') {
-        activeGpxRouteIdDesktop = null;
+        activeShowButtonDesktop = null;
       } else {
-        activeGpxRouteIdMobile = null;
+        activeShowButtonMobile = null;
       }
       clearGPX(layout);
-      return false;
-    }
-
-    // Deactivate previous button if any
-    if (activeGpxRouteId !== null) {
-      const prevButton = document.querySelector(`[data-gpx-route-id="${activeGpxRouteId}"][data-layout="${layout}"]`);
-      if (prevButton) {
-        prevButton.classList.remove('bg-blue');
-        prevButton.classList.add('bg-blue/20');
-      }
-    }
-
-    // Activate new button and set route ID
-    if (layout === 'desktop') {
-      activeGpxRouteIdDesktop = routeId;
-    } else {
-      activeGpxRouteIdMobile = routeId;
-    }
-    
-    newButton.classList.remove('bg-blue/20');
-    newButton.classList.add('bg-blue');
-
-    return true;
-  }
-
-  function setActiveParkingButton(layout, newButton, routeId, coordsStr, title) {
-    const activeParkingRouteId = layout === 'desktop' ? activeParkingRouteIdDesktop : activeParkingRouteIdMobile;
-    
-    if (activeParkingRouteId === routeId) {
-      // Toggle off - same route clicked again
-      if (layout === 'desktop') {
-        activeParkingRouteIdDesktop = null;
-      } else {
-        activeParkingRouteIdMobile = null;
-      }
-      newButton.classList.remove('bg-blue');
-      newButton.classList.add('bg-blue/20');
       clearParkings(layout);
       return false;
     }
 
-    // Deactivate previous button if any
-    if (activeParkingRouteId !== null) {
-      const prevButton = document.querySelector(`[data-parking-route-id="${activeParkingRouteId}"][data-layout="${layout}"]`);
-      if (prevButton) {
-        prevButton.classList.remove('bg-blue');
-        prevButton.classList.add('bg-blue/20');
-      }
+    if (activeShowButton) {
+      activeShowButton.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+      activeShowButton.classList.add('bg-card', 'border-border', 'text-text-secondary');
     }
 
-    // Activate new button and set route ID
     if (layout === 'desktop') {
-      activeParkingRouteIdDesktop = routeId;
+      activeShowButtonDesktop = newButton;
     } else {
-      activeParkingRouteIdMobile = routeId;
+      activeShowButtonMobile = newButton;
     }
     
-    newButton.classList.remove('bg-blue/20');
-    newButton.classList.add('bg-blue');
+    if (newButton) {
+      newButton.classList.remove('bg-card', 'border-border', 'text-text-secondary');
+      newButton.classList.add('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+    }
+
+    return true;
+  }
+
+  function setActiveParkingButton(layout, newButton, coordsStr, title) {
+    let activeParkingButton = layout === 'desktop' ? activeParkingButtonDesktop : activeParkingButtonMobile;
+    
+    if (activeParkingButton === newButton) {
+      activeParkingButton.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+      activeParkingButton.classList.add('bg-card', 'border-border', 'text-text-secondary');
+      if (layout === 'desktop') {
+        activeParkingButtonDesktop = null;
+      } else {
+        activeParkingButtonMobile = null;
+      }
+      clearParkings(layout);
+      return false;
+    }
+
+    if (activeParkingButton) {
+      activeParkingButton.classList.remove('bg-primary', 'border-primary', 'text-white', 'font-semibold');
+      activeParkingButton.classList.add('bg-card', 'border-border', 'text-text-secondary');
+    }
 
     clearParkings(layout);
     if (coordsStr && title) {
       addParkingPoint(layout, coordsStr, title);
+    }
+
+    if (layout === 'desktop') {
+      activeParkingButtonDesktop = newButton;
+    } else {
+      activeParkingButtonMobile = newButton;
+    }
+    
+    if (newButton) {
+      newButton.classList.remove('bg-card', 'border-border', 'text-text-secondary');
+      newButton.classList.add('bg-primary', 'border-primary', 'text-white', 'font-semibold');
     }
 
     return true;
@@ -660,25 +500,11 @@
       toggle.querySelectorAll('.toggle-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           toggle.querySelectorAll('.toggle-btn').forEach(b => {
-            const view = b.dataset.view;
-            if (view === 'upcoming') {
-              b.classList.remove('bg-blue', 'text-white', 'font-semibold');
-              b.classList.add('bg-blue/20', 'text-white');
-            } else {
-              b.classList.remove('bg-primary', 'text-white', 'font-semibold');
-              b.classList.add('text-muted', 'hover:text-text-secondary');
-            }
+            b.classList.remove('bg-primary', 'text-white', 'font-semibold');
+            b.classList.add('text-muted', 'hover:text-text-secondary');
           });
-          
-          const view = btn.dataset.view;
-          if (view === 'upcoming') {
-            btn.classList.remove('bg-blue/20', 'text-white');
-            btn.classList.add('bg-blue', 'text-white', 'font-semibold');
-          } else {
-            btn.classList.remove('text-muted', 'hover:text-text-secondary');
-            btn.classList.add('bg-primary', 'text-white', 'font-semibold');
-          }
-          
+          btn.classList.remove('text-muted', 'hover:text-text-secondary');
+          btn.classList.add('bg-primary', 'text-white', 'font-semibold');
           state.view[kind] = btn.dataset.view;
           
           // Detect if this is mobile or desktop based on the button's parent
@@ -753,9 +579,6 @@
       return;
     }
     items.forEach((u, idx) => {
-      // Create unique route ID for upcoming routes
-      const routeId = `${kind}-upcoming-${idx}`;
-      
       const item = document.createElement('div');
       item.className = 'border border-border-light rounded-xl p-4 mb-3 bg-gradient-to-b from-white/2 to-white/0.5 shadow-sm hover:border-border hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col gap-3';
       item.dataset.search = u.name || '';
@@ -776,15 +599,13 @@
       actions.className = 'flex gap-2 justify-center w-full pt-2 border-t border-border-light mt-auto';
 
       const showBtn = document.createElement('button');
-      showBtn.className = 'px-4 py-2 text-sm font-semibold rounded-lg border border-border bg-blue/20 text-white cursor-pointer shadow-sm hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
+      showBtn.className = 'px-4 py-2 text-sm font-medium rounded-lg border border-border bg-card text-text-secondary cursor-pointer shadow-sm hover:bg-frame hover:text-text hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
       showBtn.textContent = 'Show';
       showBtn.disabled = !u.gpx;
       showBtn.title = u.gpx ? 'Show this GPX on the map' : 'No GPX available';
-      showBtn.setAttribute('data-gpx-route-id', routeId);
-      showBtn.setAttribute('data-layout', layout);
       showBtn.addEventListener('click', () => {
         if (!u.gpx) { alert('No GPX available for this route'); return; }
-        if (setActiveShowButton(layout, showBtn, routeId)) {
+        if (setActiveShowButton(layout, showBtn)) {
           loadAndShowGPX(layout, u.gpx);
         }
       });
@@ -827,9 +648,6 @@
     const km = traseu.km ? `${traseu.km} km` : '';
     const difficulty = traseu.difficulty || '';
     const gpx = traseu.gpx || null;
-    
-    // Create unique route ID
-    const routeId = `${kind}-${index}`;
 
     const card = document.createElement('div');
     card.className = 'border border-border-light rounded-xl p-4 mb-3 bg-gradient-to-b from-white/2 to-white/0.5 shadow-sm hover:border-border hover:shadow-md hover:-translate-y-1 transition-all duration-200';
@@ -852,15 +670,13 @@
     actions.className = 'flex gap-2 justify-center w-full pt-2 border-t border-border-light mt-2';
 
     const btnShow = document.createElement('button');
-    btnShow.className = 'px-4 py-2 text-sm font-semibold rounded-lg border border-border bg-blue/20 text-white cursor-pointer shadow-sm hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
+    btnShow.className = 'px-4 py-2 text-sm font-medium rounded-lg border border-border bg-card text-text-secondary cursor-pointer shadow-sm hover:bg-frame hover:text-text hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
     btnShow.textContent = 'Show GPX';
     btnShow.disabled = !gpx;
     btnShow.title = gpx ? 'Show this GPX on the map' : 'No GPX available';
-    btnShow.setAttribute('data-gpx-route-id', routeId);
-    btnShow.setAttribute('data-layout', layout);
     btnShow.addEventListener('click', () => {
       if (!gpx) { alert('No GPX available for this route'); return; }
-      if (setActiveShowButton(layout, btnShow, routeId)) {
+      if (setActiveShowButton(layout, btnShow)) {
         loadAndShowGPX(layout, gpx);
       }
     });
@@ -868,14 +684,12 @@
 
     if (kind !== 'motorcycle') {
       const btnPark = document.createElement('button');
-      btnPark.className = 'px-4 py-2 text-sm font-semibold rounded-lg border border-border bg-blue/20 text-white cursor-pointer shadow-sm hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
+      btnPark.className = 'px-4 py-2 text-sm font-medium rounded-lg border border-border bg-card text-text-secondary cursor-pointer shadow-sm hover:bg-frame hover:text-text hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-sm';
       btnPark.textContent = 'Parking';
       btnPark.title = 'Show parking point on map';
-      btnPark.setAttribute('data-parking-route-id', routeId);
-      btnPark.setAttribute('data-layout', layout);
       if (traseu.trailhead && traseu.trailhead.coords) {
         btnPark.addEventListener('click', () => {
-          setActiveParkingButton(layout, btnPark, routeId, traseu.trailhead.coords, traseu.trailhead.name || name);
+          setActiveParkingButton(layout, btnPark, traseu.trailhead.coords, traseu.trailhead.name || name);
         });
       } else {
         btnPark.disabled = true;
@@ -905,6 +719,7 @@
 
   function loadAndShowGPX(layout, url) {
     clearGPX(layout);
+    clearParkings(layout);
 
     const map = layout === 'desktop' ? mapDesktop : mapMobile;
     const gpxLayer = new L.GPX(url, {
@@ -914,132 +729,14 @@
     }).on('loaded', function(e) {
       if (layout === 'desktop') {
         currentGPXDesktop = gpxLayer;
-        // Fetch weather for this GPX location (use center of bounds) - works for both hiking and motorcycle
-        const bounds = gpxLayer.getBounds();
-        const center = bounds.getCenter();
-        fetchAndShowWeather(center.lat, center.lng);
       } else {
         currentGPXMobile = gpxLayer;
-        // Fetch weather for mobile
-        const bounds = gpxLayer.getBounds();
-        const center = bounds.getCenter();
-        fetchAndShowWeatherMobile(center.lat, center.lng);
       }
       map.fitBounds(gpxLayer.getBounds(), { padding: [40, 40] });
     }).on('error', function(e) {
       alert('Failed to load GPX: ' + url);
       console.error(e);
     }).addTo(map);
-  }
-
-  function fetchAndShowWeather(lat, lng) {
-    const weatherWidget = document.getElementById('weather-widget-desktop');
-    const weatherContent = document.getElementById('weather-content-desktop');
-    
-    weatherContent.innerHTML = '<div class="text-gray-600 text-xs">Loading...</div>';
-    
-    // Use Open-Meteo API (free, no key required)
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m,precipitation&temperature_unit=celsius&timezone=auto`;
-    
-    fetch(url)
-      .then(r => {
-        if (!r.ok) throw new Error('Weather fetch failed');
-        return r.json();
-      })
-      .then(data => {
-        const current = data.current;
-        const weather = getWeatherDescription(current.weather_code);
-        
-        let html = `
-          <div class="flex flex-col gap-1.5 justify-center">
-            <div class="flex justify-between items-center">
-              <div class="text-[11px] text-gray-300">${weather}</div>
-              <div class="text-2xl font-bold text-white">${Math.round(current.temperature_2m)}°C</div>
-            </div>
-            <div class="flex justify-between items-center">
-              <div class="text-xs text-white">💨 Wind</div>
-              <div class="text-xs font-semibold text-white">${Math.round(current.wind_speed_10m)} km/h</div>
-            </div>
-            <div class="flex justify-between items-center">
-              <div class="text-xs text-white">💧 Humidity</div>
-              <div class="text-xs font-semibold text-white">${current.relative_humidity_2m}%</div>
-            </div>
-            <div class="flex justify-between items-center">
-              <div class="text-xs text-white">🌧️ Rain</div>
-              <div class="text-xs font-semibold text-white">${current.precipitation || 0} mm</div>
-            </div>
-          </div>
-        `;
-        weatherContent.innerHTML = html;
-      })
-      .catch(err => {
-        console.error('Weather fetch error:', err);
-        weatherContent.innerHTML = '<div class="text-gray-600 text-xs">No weather</div>';
-      });
-  }
-
-  function fetchAndShowWeatherMobile(lat, lng) {
-    const weatherContent = document.getElementById('weather-content-mobile');
-    
-    weatherContent.innerHTML = '<div class="text-gray-400 text-[6px]">Loading...</div>';
-    
-    // Use Open-Meteo API (free, no key required)
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m,precipitation&temperature_unit=celsius&timezone=auto`;
-    
-    fetch(url)
-      .then(r => {
-        if (!r.ok) throw new Error('Weather fetch failed');
-        return r.json();
-      })
-      .then(data => {
-        const current = data.current;
-        const weather = getWeatherDescription(current.weather_code);
-        
-        let html = `
-          <div class="flex flex-col gap-0 items-center justify-center">
-            <div class="text-[10px] font-bold text-white leading-tight">${Math.round(current.temperature_2m)}°C</div>
-            <div class="text-[5px] text-gray-300 leading-tight text-center">${weather}</div>
-            <div class="text-[5px] text-white leading-tight mt-0.5">💨 ${Math.round(current.wind_speed_10m)}</div>
-            <div class="text-[5px] text-white leading-tight">🌧️ ${current.precipitation || 0}mm</div>
-          </div>
-        `;
-        weatherContent.innerHTML = html;
-      })
-      .catch(err => {
-        console.error('Weather fetch error:', err);
-        weatherContent.innerHTML = '<div class="text-gray-400 text-[6px]">No weather</div>';
-      });
-  }
-
-  function getWeatherDescription(code) {
-    // WMO Weather interpretation codes
-    const descriptions = {
-      0: '☀️ Clear',
-      1: '🌤️ Mostly Clear',
-      2: '⛅ Partly Cloudy',
-      3: '☁️ Overcast',
-      45: '🌫️ Foggy',
-      48: '🌫️ Frost Fog',
-      51: '🌧️ Light Drizzle',
-      53: '🌧️ Drizzle',
-      55: '🌧️ Heavy Drizzle',
-      61: '🌧️ Light Rain',
-      63: '🌧️ Rain',
-      65: '🌧️ Heavy Rain',
-      71: '❄️ Light Snow',
-      73: '❄️ Snow',
-      75: '❄️ Heavy Snow',
-      77: '❄️ Snow Grains',
-      80: '🌧️ Light Showers',
-      81: '🌧️ Showers',
-      82: '🌧️ Heavy Showers',
-      85: '❄️ Light Snow Showers',
-      86: '❄️ Snow Showers',
-      95: '⛈️ Thunderstorm',
-      96: '⛈️ Thunderstorm w/ Hail',
-      99: '⛈️ Thunderstorm w/ Hail'
-    };
-    return descriptions[code] || 'Unknown';
   }
 
   function addParkingPoint(layout, coordsStr, title) {
