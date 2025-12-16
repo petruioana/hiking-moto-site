@@ -78,14 +78,8 @@
     #desktop-layout { display: block; }
     #mobile-layout { display: none; }
 
-    /* Mobile layout - phones by width */
+    /* Mobile layout - phones in any orientation */
     @media (max-width: 768px) {
-      #desktop-layout { display: none; }
-      #mobile-layout { display: block; }
-    }
-
-    /* Mobile layout - landscape phones by height (insufficient vertical space) */
-    @media (max-height: 600px) {
       #desktop-layout { display: none; }
       #mobile-layout { display: block; }
     }
