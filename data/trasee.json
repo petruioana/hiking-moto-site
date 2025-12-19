@@ -35,6 +35,13 @@
       "gpx": "hiking/zwin.gpx",
       "trailhead": { "name": "Zwin-EXPENSIVE", "coords": "51.358816, 3.352698" }
     }
+     {
+      "name": "Test",
+      "km": 9.67,
+      "difficulty": "Easy",
+      "gpx": "hiking/Test.gpx",
+      "trailhead": { "name": "Palingbeek", "coords": "50.813895, 2.920541" }
+    },
   ],
 
   "motorcycle": [
